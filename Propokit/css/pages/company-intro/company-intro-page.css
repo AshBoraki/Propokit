@@ -1,0 +1,664 @@
+﻿/* ==================================================
+   COMPANY INTRO PAGE STYLES
+   ==================================================
+
+   This file contains styles specific to the Company Intro page.
+   It includes page layout, text editing features, and page-specific
+   styling that extends the base styles from shared CSS files.
+
+   IMPORTANT: This file works WITH shared styles, not instead of them!
+
+   Features:
+   - Company intro page layout and structure
+   - Text editing interface styling
+   - Footer editing functionality
+   - Floating Action Button (FAB) positioning
+   - Page-specific responsive design
+   - Professional typography and spacing
+
+   Last Updated: [Current Date]
+   ================================================== */
+
+/* ==================================================
+   1. COMPANY INTRO PAGE LAYOUT
+   ================================================== */
+
+/* Company Intro Page Container */
+.company-intro-page {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+/* A4 Container for Company Intro */
+.company-intro-page .a4-container {
+    background: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 210mm;
+    min-height: 297mm;
+    position: relative;
+}
+
+/* ==================================================
+   2. COMPANY INTRO CONTENT STYLING
+   ================================================== */
+
+/* Company Intro Header */
+.company-intro-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #667eea;
+    position: relative;
+}
+
+.company-intro-header::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.company-intro-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.company-intro-subtitle {
+    font-size: 1.2rem;
+    color: #667eea;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+/* Company Intro Content Sections */
+.company-intro-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.08);
+    transition: all 0.3s ease;
+}
+
+.company-intro-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.company-intro-section h3 {
+    color: #2d3748;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.company-intro-section h3 i {
+    color: #667eea;
+    width: 24px;
+}
+
+.company-intro-section p {
+    color: #4a5568;
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.company-intro-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================================================
+   3. EDITABLE CONTENT STYLING
+   ================================================== */
+
+/* Editable Text Areas */
+.editable-content {
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    padding: 10px;
+    margin: -10px;
+}
+
+.editable-content:hover {
+    background: rgba(102, 126, 234, 0.05);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.editable-content.editing {
+    background: rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+/* Edit Indicator */
+.edit-indicator {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #667eea;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.editable-content:hover .edit-indicator {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* ==================================================
+   4. FLOATING ACTION BUTTONS (FAB) STYLING
+   ================================================== */
+
+/* FAB Container for Company Intro */
+.company-intro-fabs {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Individual FAB Button */
+.company-intro-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.company-intro-fab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.company-intro-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+}
+
+.company-intro-fab:hover::before {
+    left: 100%;
+}
+
+.company-intro-fab:active {
+    transform: scale(0.95);
+}
+
+/* FAB Tooltip */
+.company-intro-fab .fab-tooltip {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.company-intro-fab .fab-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+.company-intro-fab:hover .fab-tooltip {
+    opacity: 1;
+    visibility: visible;
+    right: 65px;
+}
+
+/* ==================================================
+   5. TEXT EDITING MODAL INTEGRATION
+   ================================================== */
+
+/* Text editing highlight */
+.text-edit-highlight {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 2px dashed #667eea;
+    border-radius: 6px;
+    padding: 10px;
+    margin: -10px;
+    position: relative;
+    animation: pulse-highlight 2s infinite;
+}
+
+@keyframes pulse-highlight {
+    0%, 100% {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+    }
+    50% {
+        border-color: #764ba2;
+        background: rgba(118, 75, 162, 0.1);
+    }
+}
+
+/* ==================================================
+   6. FOOTER EDITING STYLING
+   ================================================== */
+
+/* Company Intro Footer */
+.company-intro-footer {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+    position: relative;
+}
+
+.company-intro-footer::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    text-align: left;
+}
+
+.footer-section h4 {
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-section h4 i {
+    color: #667eea;
+    width: 16px;
+}
+
+.footer-section p {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.footer-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================================================
+   7. IMAGE INTEGRATION
+   ================================================== */
+
+/* Company Image Container */
+.company-image-container {
+    text-align: center;
+    margin: 30px 0;
+    position: relative;
+}
+
+.company-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+}
+
+.company-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Image Placeholder */
+.image-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #f8faff 0%, #e6f0fa 100%);
+    color: #667eea;
+}
+
+.image-placeholder i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+.image-placeholder p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ==================================================
+   8. RESPONSIVE DESIGN
+   ================================================== */
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+    .company-intro-page .a4-container {
+        margin: 0 20px;
+        padding: 30px 20px;
+    }
+
+    .company-intro-title {
+        font-size: 2rem;
+    }
+
+    .company-intro-subtitle {
+        font-size: 1rem;
+    }
+
+    .company-intro-section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .company-intro-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .company-intro-fabs {
+        right: 15px;
+        gap: 10px;
+    }
+
+    .company-intro-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section {
+        text-align: center;
+        min-width: auto;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .company-intro-page {
+        padding: 10px 0;
+    }
+
+    .company-intro-page .a4-container {
+        margin: 0 10px;
+        padding: 20px 15px;
+        border-radius: 0;
+    }
+
+    .company-intro-header {
+        margin-bottom: 25px;
+    }
+
+    .company-intro-title {
+        font-size: 1.8rem;
+    }
+
+    .company-intro-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .company-intro-section {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    .company-intro-section h3 {
+        font-size: 1.2rem;
+        gap: 8px;
+    }
+
+    .company-intro-section p {
+        font-size: 0.9rem;
+    }
+
+    .company-intro-fabs {
+        right: 10px;
+        gap: 8px;
+    }
+
+    .company-intro-fab {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .company-intro-fab .fab-tooltip {
+        display: none;
+    }
+
+    .company-intro-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .footer-section h4 {
+        font-size: 1rem;
+    }
+
+    .footer-section p {
+        font-size: 0.8rem;
+    }
+
+    .image-placeholder {
+        height: 150px;
+    }
+
+    .image-placeholder i {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+}
+
+/* ==================================================
+   9. ACCESSIBILITY & FOCUS STATES
+   ================================================== */
+
+/* Enhanced focus states for accessibility */
+.company-intro-fab:focus,
+.editable-content:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .company-intro-section,
+    .company-intro-footer {
+        border-width: 2px;
+    }
+
+    .text-edit-highlight {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .company-intro-fab,
+    .company-intro-section,
+    .editable-content,
+    .company-image,
+    .company-intro-fab::before {
+        transition: none;
+        animation: none;
+    }
+
+    .company-intro-fab:hover,
+    .company-intro-section:hover,
+    .company-image:hover {
+        transform: none;
+    }
+
+    @keyframes pulse-highlight {
+        0%, 100% {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+    }
+}
+
+/* ==================================================
+   10. PRINT STYLES
+   ================================================== */
+
+@media print {
+    .company-intro-page {
+        background: white;
+        padding: 0;
+    }
+
+    .company-intro-page .a4-container {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 20mm;
+        max-width: none;
+        min-height: auto;
+    }
+
+    .company-intro-fabs {
+        display: none;
+    }
+
+    .edit-indicator {
+        display: none;
+    }
+
+    .text-edit-highlight {
+        background: transparent;
+        border: none;
+        animation: none;
+    }
+
+    .company-intro-section {
+        break-inside: avoid;
+        box-shadow: none;
+        background: white;
+        border: 1px solid #e2e8f0;
+    }
+
+    .company-intro-header::after,
+    .company-intro-footer::before {
+        background: #667eea;
+    }
+}
+
+/* ==================================================
+   ADDITIONAL UTILITY STYLES
+   ================================================== */
+
+/* Center-aligned text and styling */
+.text-center {
+    text-align: center;
+}
+
+.text-center h2 {
+    color: #E74B32;
+    padding-top: 15px;
+}
+
+/* Footer paragraph margins */
+#footerContent p {
+    margin: 0;
+}
+
+/* Progress bar styling */
+.progress-bar {
+    width: 0%;
+}
+
+/* QR Code error styling */
+.qr-error {
+    color: red;
+    text-align: center;
+    padding: 20px;
+}

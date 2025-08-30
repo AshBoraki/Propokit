@@ -1,0 +1,202 @@
+﻿/* ==================================================
+   ðŸ“„ PROPOKIT GENERAL PAGE LAYOUT STYLES
+   ================================================== */
+
+/* ==================================================
+   MAIN PAGE CONTAINERS
+   ================================================== */
+
+/* Main container styling for A4 pages */
+.a4-page, .container {
+    width: 210mm;
+    height: 296mm;
+    padding: -5mm;
+    padding-top: 10mm;
+    padding-bottom: 80px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: white;
+    margin: 30px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+    transform-origin: top center;
+}
+
+/* Main content area layout */
+#page-content {
+    display: flex;
+    justify-content: center;
+    padding-top: calc(60px + 20px);
+    padding-bottom: 50px;
+    margin-left: 0px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* ==================================================
+   GENERAL IMAGE STYLING
+   ================================================== */
+
+/* General image styling for all pages */
+img {
+    max-width: 100%;
+    max-height: none;
+    height: auto;
+    width: auto;
+    page-break-inside: avoid;
+    margin: 0 auto;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* General image styling */
+img {
+    object-fit: cover;
+    background-color: transparent !important;
+}
+
+/* ==================================================
+   CORNER STYLE CONTROLS
+   ================================================== */
+
+.corner-style-controls {
+    position: relative;
+    display: inline-block;
+}
+
+.corner-style-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 120px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.corner-style-controls:hover .corner-style-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.corner-style-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.corner-style-option:last-child {
+    border-bottom: none;
+}
+
+.corner-style-option:hover {
+    background-color: #f9fafb;
+}
+
+.corner-style-option i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.corner-style-option span {
+    font-size: 14px;
+    color: #374151;
+}
+
+/* ==================================================
+   BUTTON CONTAINER STYLING
+   ================================================== */
+
+.button-container {
+    background: var(--button-bg-color);
+    border: 1px solid var(--brand-primary);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    margin-top: -80px;
+    margin-bottom: 10px;
+    width: 100%;
+    background: var(--button-bg-color, white);
+    z-index: 1000;
+    padding: 20px 0;
+    border-radius: var(--corner-radius, 0);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.button-divider {
+    height: 1px;
+    background-color: #cccccc;
+    margin-top: 30px;
+}
+
+.hide-on-modal {
+    display: none;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+/* Mobile responsiveness for all pages */
+@media (max-width: 768px) {
+    .a4-page, .container {
+        width: 100%;
+        height: auto;
+        margin: 10px auto;
+        padding: 15mm 5mm;
+        box-shadow: none;
+    }
+
+    #page-content {
+        padding-top: calc(50px + 15px);
+        padding-bottom: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .a4-page, .container {
+        padding: 10mm 3mm;
+    }
+
+    #page-content {
+        padding-top: calc(40px + 10px);
+        padding-bottom: 30px;
+    }
+}
+
+/* ==================================================
+   PRINT STYLES
+   ================================================== */
+
+@media print {
+    .a4-page, .container {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+    }
+
+    #page-content {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}

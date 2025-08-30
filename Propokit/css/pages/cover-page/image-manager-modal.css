@@ -1,0 +1,487 @@
+﻿/* ==================================================
+   IMAGE MANAGER MODAL STYLES - Cover Page Specific
+   ==================================================
+
+   This file contains SPECIFIC styles for the Image Manager Modal
+   (#combinedImageModal) used on the cover page. It inherits base modal
+   styles from css/shared/modals.css and adds Image Manager specific
+   functionality on top.
+
+   IMPORTANT: This file works WITH modals.css, not instead of it!
+
+   Features:
+   - Image upload interface
+   - Crop controls (movement, zoom, rotation)
+   - Image gallery management
+   - Responsive design
+
+   Last Updated: [Current Date]
+   ================================================== */
+
+/* ==================================================
+   1. IMAGE MANAGER Z-INDEX (Required for proper layering)
+   ================================================== */
+
+#combinedImageModal {
+    z-index: 10001 !important;
+}
+
+#combinedImageModal .modal-dialog {
+    z-index: 10001 !important;
+    max-width: 900px;
+}
+
+#combinedImageModal .modal-content {
+    z-index: 10001 !important;
+}
+
+/* ==================================================
+   2. IMAGE MANAGER CONTAINER LAYOUT
+   ================================================== */
+
+/* Main container with sidebar and crop area */
+.image-manager-container {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* Left sidebar with upload and controls */
+.image-sidebar {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+/* Main crop area */
+.crop-main-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+/* ==================================================
+   3. UPLOAD SECTION STYLING
+   ================================================== */
+
+/* Upload section container */
+.upload-section {
+    text-align: center;
+}
+
+/* Upload button with drag & drop styling */
+.upload-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+}
+
+.upload-btn:hover {
+    border-color: #667eea;
+    background: #f1f5f9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.upload-btn i {
+    font-size: 24px;
+    color: #667eea;
+}
+
+.upload-btn span {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.upload-btn small {
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ==================================================
+   4. CROP CONTROLS SECTION
+   ================================================== */
+
+/* Controls section container */
+.crop-controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Individual control group */
+.control-group {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Control group title */
+.control-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-title i {
+    color: #667eea;
+    width: 16px;
+}
+
+/* ==================================================
+   5. MOVEMENT CONTROLS
+   ================================================== */
+
+/* Movement controls container */
+.movement-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Movement row for left/right buttons */
+.movement-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ==================================================
+   6. ZOOM AND ROTATION CONTROLS
+   ================================================== */
+
+/* Zoom and rotation controls */
+.zoom-controls,
+.rotate-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Control slider styling */
+.control-slider {
+    width: 100%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+}
+
+.control-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.control-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================================================
+   7. CONTROL BUTTONS
+   ================================================== */
+
+/* Base control button styling */
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.control-btn:hover:not(:disabled) {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.control-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(102, 126, 234, 0.2);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f9fafb;
+    color: #9ca3af;
+}
+
+/* ==================================================
+   8. CROP CONTAINER
+   ================================================== */
+
+/* Crop container with image display */
+.crop-container {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: #f9fafb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Crop status display */
+.crop-status {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.status-text {
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.loading-spinner {
+    color: #667eea;
+    margin-left: 10px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ==================================================
+   9. IMAGE GALLERY (if applicable)
+   ================================================== */
+
+/* Image gallery container */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Individual image thumbnail */
+.image-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.image-thumbnail:hover {
+    border-color: #667eea;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.image-thumbnail.selected {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+.image-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==================================================
+   10. RESPONSIVE DESIGN
+   ================================================== */
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+    .image-manager-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .image-sidebar {
+        width: 100%;
+        order: 2;
+    }
+
+    .crop-main-area {
+        order: 1;
+        min-height: 300px;
+    }
+
+    .control-group {
+        padding: 12px;
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
+    }
+
+    .upload-btn {
+        padding: 15px;
+    }
+
+    .upload-btn i {
+        font-size: 20px;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .image-manager-container {
+        gap: 10px;
+    }
+
+    .image-sidebar {
+        gap: 15px;
+    }
+
+    .control-group {
+        padding: 10px;
+    }
+
+    .control-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+
+    .upload-btn {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .upload-btn span {
+        font-size: 13px;
+    }
+
+    .upload-btn small {
+        font-size: 11px;
+    }
+
+    .control-title {
+        font-size: 13px;
+    }
+
+    .crop-main-area {
+        min-height: 250px;
+    }
+}
+
+/* ==================================================
+   11. ACCESSIBILITY & FOCUS STATES
+   ================================================== */
+
+/* Enhanced focus states for accessibility */
+.control-btn:focus,
+.upload-btn:focus,
+.control-slider:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .control-btn,
+    .upload-btn,
+    .control-group {
+        border-width: 2px;
+    }
+
+    .control-btn:hover:not(:disabled) {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .control-btn,
+    .upload-btn,
+    .image-thumbnail,
+    .loading-spinner {
+        transition: none;
+        animation: none;
+    }
+
+    .control-btn:hover:not(:disabled),
+    .upload-btn:hover,
+    .image-thumbnail:hover {
+        transform: none;
+    }
+}
+
+/* ==================================================
+   ADDITIONAL UTILITY STYLES
+   ================================================== */
+
+/* File input - hidden by default */
+#combinedUploadInput {
+    display: none;
+}
+
+/* Progress container - hidden by default */
+#progressContainer {
+    display: none;
+}
+
+/* Progress bar - starts at 0% */
+#progressBar {
+    width: 0%;
+}
+
+/* Loading spinner - hidden by default */
+#cropLoadingSpinner {
+    display: none;
+}

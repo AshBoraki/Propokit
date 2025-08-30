@@ -1,0 +1,641 @@
+﻿/* ==================================================
+   3. MODAL STYLING (ORGANIZED & SPECIFIC)
+   ================================================== */
+
+/* --- 3.1 Modal Container & Structure --- */
+/* This styles the main pop-up window */
+.modal-content {
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    border-radius: 16px !important; /* Use !important to override Bootstrap defaults if needed */
+    border: 1px solid #e0e4e8;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    overflow: hidden; /* Ensures child elements conform to the rounded corners */
+}
+
+/* --- 3.2 Modal Header --- */
+/* This styles ALL modal headers across the entire application */
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    padding: 20px;
+    border-bottom: none; /* Removes the default Bootstrap line */
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* The 'X' close button in the header */
+.modal-header .close {
+    color: #ffffff;
+    font-size: 1.5rem; /* Slightly larger for easier clicking */
+    font-weight: bold;
+    opacity: 0.8;
+    text-shadow: none; /* Removes default Bootstrap shadow */
+    transition: opacity 0.2s ease;
+}
+.modal-header .close:hover {
+    color: #ffffff;
+    opacity: 1;
+}
+
+/* --- 3.3 Modal Body --- */
+/* This styles the main content area of the modal */
+.modal-body {
+    padding: 25px;
+    background-color: #ffffff;
+}
+
+/* --- 3.4 Modal Footer --- */
+/* This styles the bottom bar with the action buttons */
+.modal-footer {
+    background-color: #f1f5f9; /* A lighter, cleaner grey */
+    padding: 20px;
+    border-top: 1px solid #e0e4e8; /* A subtle separator line */
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/* --- 3.5 Modal Form Elements --- */
+/* Styles for input fields and labels inside the modal */
+.modal-body .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-body .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-body .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* --- 3.6 Modal Action Buttons - SHARED ACROSS ALL MODALS --- */
+/* By targeting buttons ONLY in the .modal-footer, we avoid affecting other buttons */
+.modal-footer .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 500;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.modal-footer .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Primary button (e.g., "Submit", "Save") - ALL MODALS */
+.modal-footer .btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.modal-footer .btn-primary:hover {
+    background: #5a67d8;
+}
+
+/* Secondary button (e.g., "Close", "Cancel") - ALL MODALS */
+.modal-footer .btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: #5a5d63;
+}
+
+/* Success button - ALL MODALS */
+.modal-footer .btn-success {
+    background: #10b981;
+    color: white;
+}
+
+.modal-footer .btn-success:hover {
+    background: #059669;
+}
+
+/* Outline secondary button - ALL MODALS */
+.modal-footer .btn-outline-secondary {
+    border: 2px solid #6b7280;
+    color: #6b7280;
+    background: transparent;
+    box-shadow: none;
+}
+
+.modal-footer .btn-outline-secondary:hover {
+    background: #6b7280;
+    color: white;
+}
+
+/* QR Code modal styles moved to: css/pages/cover-page/qr-code-modal.css */
+
+/* --- 3.9 CUSTOM MODAL ELEMENTS --- */
+/* Styles for custom elements used across different modals */
+
+/* Header content layout */
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.header-icon {
+    font-size: 24px;
+    opacity: 0.9;
+    color: white;
+}
+
+.header-text {
+    flex: 1;
+}
+
+.title-main {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.title-subtitle {
+    display: block;
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Progress steps styling */
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 24px 20px 24px;
+    position: relative;
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50px;
+    right: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+    border-radius: 1px;
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.step.active .step-number {
+    background: linear-gradient(135deg, #667eea 0%, #5a67d8 100%);
+    border-color: #667eea;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.step.completed .step-number {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+.step-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.step.active .step-label {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.step.completed .step-label {
+    color: #10b981;
+}
+
+/* Form steps */
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+/* Contact option styling */
+.contact-option {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    margin-bottom: 6px;
+}
+
+.contact-option:hover {
+    border-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+    transform: none;
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.option-label i {
+    color: #667eea;
+    width: 18px;
+}
+
+.option-description {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 12px;
+    margin-left: 28px;
+}
+
+.required {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+/* Form group styling */
+.form-group {
+    flex: 1;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+    transform: none;
+}
+
+/* Footer layout */
+.footer-left, .footer-center, .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Image management modal styles moved to: css/pages/cover-page/image-manager-modal.css */
+
+/* Footer editor styles moved to: css/pages/company-intro/edit-footer-modal.css */
+
+/* QR modal responsive styles moved to: css/pages/cover-page/qr-code-modal.css */
+
+    /* Image manager responsive styles moved to: css/pages/cover-page/image-manager-modal.css */
+
+    .progress-steps {
+        margin: 12px 16px 16px 16px;
+        padding: 12px 16px;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .progress-steps::before {
+        left: 40px;
+        right: 40px;
+    }
+
+    .header-content {
+        gap: 12px;
+    }
+
+    .header-icon {
+        font-size: 20px;
+    }
+
+    .title-main {
+        font-size: 18px;
+    }
+
+    .title-subtitle {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* QR modal mobile styles moved to: css/pages/cover-page/qr-code-modal.css */
+
+    /* Small screen image manager styles moved to: css/pages/cover-page/image-manager-modal.css */
+
+    .progress-steps {
+        margin: 8px 12px 12px 12px;
+        padding: 8px 12px;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+
+    .progress-steps::before {
+        left: 28px;
+        right: 28px;
+    }
+
+    .header-content {
+        gap: 8px;
+    }
+
+    .header-icon {
+        font-size: 18px;
+    }
+
+    .title-main {
+        font-size: 16px;
+    }
+
+    .title-subtitle {
+        font-size: 12px;
+    }
+}
+
+/* ==================================================
+   4. MODAL Z-INDEX OVERRIDES - HIGHEST PRIORITY
+   ================================================== */
+/* These rules ensure all modals appear above the header (z-index: 1000)
+   and PropoKit style menu (z-index: 3000) */
+
+/* Customer Details Modal z-index styles moved to: css/pages/cover-page/#1 modele Customer Info.css */
+
+/* Company Info Modal */
+#infoModal {
+    z-index: 10000 !important;
+}
+
+#infoModal .modal-dialog {
+    z-index: 10000 !important;
+}
+
+#infoModal .modal-content {
+    z-index: 10000 !important;
+}
+
+/* QR Code Modal */
+#qrModal {
+    z-index: 10000 !important;
+}
+
+#qrModal .modal-dialog {
+    z-index: 10000 !important;
+}
+
+#qrModal .modal-content {
+    z-index: 10000 !important;
+}
+
+/* Image Management Modal - Highest Priority */
+#combinedImageModal {
+    z-index: 10001 !important;
+}
+
+#combinedImageModal .modal-dialog {
+    z-index: 10001 !important;
+}
+
+#combinedImageModal .modal-content {
+    z-index: 10001 !important;
+}
+
+/* Force combinedImageModal above everything - highest priority */
+#combinedImageModal,
+#combinedImageModal.modal,
+#combinedImageModal .modal-dialog,
+#combinedImageModal .modal-content,
+#combinedImageModal .modal-backdrop {
+    z-index: 10001 !important;
+}
+
+/* FORCE Image Management Modal to use shared styling - AGGRESSIVE OVERRIDE */
+#combinedImageModal .modal-header,
+#combinedImageModal.modal .modal-header,
+.modal#combinedImageModal .modal-header,
+div[id="combinedImageModal"] .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+    color: #ffffff !important;
+    padding: 20px !important;
+    border-bottom: none !important;
+    border-top: none !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+    border-radius: 16px 16px 0 0 !important;
+}
+
+#combinedImageModal .modal-content,
+#combinedImageModal.modal .modal-content,
+.modal#combinedImageModal .modal-content {
+    background: linear-gradient(135deg, #ffffff, #f0f4f8) !important;
+    border-radius: 16px !important;
+    border: 1px solid #e0e4e8 !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+    overflow: hidden !important;
+}
+
+#combinedImageModal .modal-body {
+    padding: 25px !important;
+    background-color: #ffffff !important;
+}
+
+#combinedImageModal .modal-footer {
+    background-color: #f1f5f9 !important;
+    padding: 20px !important;
+    border-top: 1px solid #e0e4e8 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 15px !important;
+}
+
+/* Force Image Management Modal buttons to use shared styling */
+#combinedImageModal .modal-footer .btn {
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+#combinedImageModal .modal-footer .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+}
+
+#combinedImageModal .modal-footer .btn-primary {
+    background: #667eea !important;
+    color: white !important;
+}
+
+#combinedImageModal .modal-footer .btn-primary:hover {
+    background: #5a67d8 !important;
+}
+
+#combinedImageModal .modal-footer .btn-secondary {
+    background: #6b7280 !important;
+    color: white !important;
+}
+
+#combinedImageModal .modal-footer .btn-secondary:hover {
+    background: #5a5d63 !important;
+}
+
+/* Text Editing Modal styles moved to: css/pages/company-intro/edit-text-modal.css */
+
+/* Footer Editing Modal styles moved to: css/pages/company-intro/edit-footer-modal.css */
+
+/* Company Image Manager modal styles moved to: css/pages/company-intro/company-image-manager-modal.css */
+
+/* Delete and Rename Modals */
+#deleteModal, #renameModal {
+    z-index: 10000 !important;
+}
+
+#deleteModal .modal-dialog, #renameModal .modal-dialog {
+    z-index: 10000 !important;
+}
+
+#deleteModal .modal-content, #renameModal .modal-content {
+    z-index: 10000 !important;
+}
+
+/* Override Bootstrap modal-dialog-centered conflicts */
+.modal-dialog-centered {
+    z-index: inherit !important;
+}
+
+/* Ensure all modals have proper backdrop z-index */
+.modal-backdrop.show {
+    z-index: 9999 !important;
+}
+
+/* ==================================================
+   MODAL DIALOG SIZING OVERRIDES
+   ================================================== */
+
+/* Text and Footer Edit Modals */
+#editTextModal .modal-dialog,
+#editFooterModal .modal-dialog,
+#myModal .modal-dialog {
+    max-width: 700px;
+}
+
+/* About Modal */
+#aboutModal .modal-dialog {
+    max-width: 600px;
+}
+
+/* ==================================================
+   HIDDEN ELEMENTS BY DEFAULT
+   ================================================== */
+
+#prevTextStepBtn,
+#saveTextBtn,
+#prevStepBtn,
+#submitBtn {
+    display: none;
+}
+
+/* ==================================================
+   CONTACT OPTION FIELDS
+   ================================================== */
+
+.step1-approach-field,
+.step2-expertise-field,
+.step1-address-field,
+.step3-date-field {
+    margin-top: 20px;
+}
+
+/* Form groups display states */
+#addressInputGroup {
+    display: block;
+}
+
+#phoneInputGroup {
+    display: block;
+}
+
+#emailInputGroup {
+    display: none;
+}

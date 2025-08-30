@@ -1,0 +1,581 @@
+﻿/* ==================================================
+   ðŸŽ¨ PROPOKIT THEME STYLES - CONSOLIDATED
+   ================================================== */
+
+/* ==================================================
+   ðŸ—ï¸ CORNER STYLE THEMES
+   ================================================== */
+
+/* Theme: Sharp (Default) - Professional square corners */
+body.theme-sharp {
+    --corner-radius: 0;           /* No rounded corners */
+    --corner-radius-image: 0;     /* Sharp image corners */
+    --sharp-accent: #374151;      /* Dark gray accent */
+    --sharp-secondary: #6b7280;   /* Medium gray secondary */
+    --sharp-highlight: #1f2937;   /* Dark highlight */
+}
+
+/* Theme: Curvy - Friendly rounded corners */
+body.theme-curvy {
+    --corner-radius: 12px;        /* Rounded corners for elements */
+    --corner-radius-image: 12px;  /* Rounded image corners */
+    --curvy-accent: #059669;      /* Green accent */
+    --curvy-secondary: #10b981;   /* Light green secondary */
+    --curvy-highlight: #047857;   /* Dark green highlight */
+}
+
+/* Theme: Hybrid - Sharp image corners, curvy elsewhere */
+body.theme-hybrid {
+    --corner-radius: 12px;        /* Rounded corners for elements */
+    --corner-radius-image: 0;     /* Sharp image corners */
+    --hybrid-accent: #6366f1;     /* Blue accent */
+    --hybrid-secondary: #8b5cf6;  /* Purple secondary */
+    --hybrid-highlight: #06b6d4;  /* Cyan highlight */
+}
+
+/* Smooth transitions for all corner radius changes */
+* {
+    transition: border-radius 0.3s ease;
+}
+
+/* ==================================================
+   ðŸŽ¨ PROFESSIONAL COLOR PALETTE SYSTEM
+   ================================================== */
+
+/* CSS Custom Properties (CSS Variables) for Theme System
+   These variables control the entire color scheme of the application */
+:root {
+    /* ==================================================
+       ðŸ¢ DEFAULT BRAND COLORS (Ocean Blue Theme)
+       ================================================== */
+    --brand-primary: #2563eb;     /* Main brand color - used for headers, buttons */
+    --brand-secondary: #7c3aed;   /* Secondary brand color - used for accents */
+    --brand-accent: #06b6d4;      /* Accent color - used for highlights */
+
+    /* ==================================================
+       ðŸ“± QR CODE COLORS (Default Theme)
+       ================================================== */
+    --qr-border-color: #2563eb;   /* Border color for QR code containers */
+    --website-qr-color: #7c3aed;  /* Background color for website QR messages */
+    --pdf-qr-color: #2563eb;      /* Background color for PDF QR messages */
+    --custom-qr-color: #06b6d4;   /* Background color for custom QR messages */
+
+    /* ==================================================
+       ðŸŽ¯ UI ELEMENT COLORS
+       ================================================== */
+    --container-bg-color: #f8fafc; /* Background color for content containers */
+    --button-bg-color: #ffffff;    /* Background color for buttons */
+
+    /* ==================================================
+       ðŸŒ«ï¸ NEUTRAL COLOR PALETTE (Gray Scale)
+       ================================================== */
+    --neutral-50: #f9fafb;        /* Lightest gray - almost white */
+    --neutral-100: #f3f4f6;       /* Very light gray */
+    --neutral-200: #e5e7eb;       /* Light gray */
+    --neutral-300: #d1d5db;       /* Medium light gray */
+    --neutral-400: #9ca3af;       /* Medium gray */
+    --neutral-500: #6b7280;       /* True medium gray */
+    --neutral-600: #4b5563;       /* Medium dark gray */
+    --neutral-700: #374151;       /* Dark gray */
+    --neutral-800: #1f2937;       /* Very dark gray */
+    --neutral-900: #111827;       /* Darkest gray - almost black */
+
+    /* ==================================================
+       ðŸŒŸ SHADOW SYSTEM (Depth & Elevation)
+       ================================================== */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);    /* Subtle shadow */
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);  /* Medium shadow */
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Large shadow */
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1); /* Extra large shadow */
+}
+
+/* ==================================================
+   ðŸŒˆ COLOR THEME VARIATIONS
+   ================================================== */
+
+/* 6 MOST POPULAR PROPOSAL COLORS - Based on Real Research */
+
+/* Ocean Blue - Most Popular Business Color */
+body.theme-ocean-blue {
+    --brand-primary: #2563eb;
+    --brand-secondary: #1d4ed8;
+    --brand-accent: #3b82f6;
+    --brand-primary-rgb: 37, 99, 235;
+    --brand-secondary-rgb: 29, 78, 216;
+    --brand-accent-rgb: 59, 130, 246;
+    --qr-border-color: #1d4ed8;
+    --website-qr-color: #1e40af;
+    --pdf-qr-color: #1e3a8a;
+    --custom-qr-color: #3b82f6;
+    --button-bg-color: #ffffff;
+}
+
+/* Forest Green - Money & Success Color */
+body.theme-forest-green {
+    --brand-primary: #059669;
+    --brand-secondary: #047857;
+    --brand-accent: #10b981;
+    --brand-primary-rgb: 5, 150, 105;
+    --brand-secondary-rgb: 4, 120, 87;
+    --brand-accent-rgb: 16, 185, 129;
+    --qr-border-color: #047857;
+    --website-qr-color: #059669;
+    --pdf-qr-color: #065f46;
+    --custom-qr-color: #10b981;
+    --button-bg-color: #ffffff;
+}
+
+/* Royal Purple - Creative & Luxury Color */
+body.theme-royal-purple {
+    --brand-primary: #7c3aed;
+    --brand-secondary: #6d28d9;
+    --brand-accent: #8b5cf6;
+    --brand-primary-rgb: 124, 58, 237;
+    --brand-secondary-rgb: 109, 40, 217;
+    --brand-accent-rgb: 139, 92, 246;
+    --qr-border-color: #6d28d9;
+    --website-qr-color: #7c3aed;
+    --pdf-qr-color: #5b21b6;
+    --custom-qr-color: #8b5cf6;
+    --button-bg-color: #ffffff;
+}
+
+/* Sunset Orange Theme */
+body.theme-sunset-orange {
+    --brand-primary: #dc2626;
+    --brand-secondary: #ea580c;
+    --brand-accent: #f59e0b;
+    --brand-primary-rgb: 220, 38, 38;
+    --brand-secondary-rgb: 234, 88, 12;
+    --brand-accent-rgb: 245, 158, 11;
+    --qr-border-color: #dc2626;
+    --website-qr-color: #ea580c;
+    --pdf-qr-color: #f59e0b;
+    --custom-qr-color: #84cc16;
+}
+
+/* Midnight Blue - Executive & Trust Color */
+body.theme-midnight-blue {
+    --brand-primary: #1e3a8a;
+    --brand-secondary: #1e40af;
+    --brand-accent: #3b82f6;
+    --brand-primary-rgb: 30, 58, 138;
+    --brand-secondary-rgb: 30, 64, 175;
+    --brand-accent-rgb: 59, 130, 246;
+    --qr-border-color: #1e40af;
+    --website-qr-color: #1e3a8a;
+    --pdf-qr-color: #1e40af;
+    --custom-qr-color: #3b82f6;
+    --button-bg-color: #ffffff;
+}
+
+/* Rose Gold - Premium & Fashion Color */
+body.theme-rose-gold {
+    --brand-primary: #e11d48;
+    --brand-secondary: #be185d;
+    --brand-accent: #f43f5e;
+    --brand-primary-rgb: 225, 29, 72;
+    --brand-secondary-rgb: 190, 24, 93;
+    --brand-accent-rgb: 244, 63, 94;
+    --qr-border-color: #be185d;
+    --website-qr-color: #e11d48;
+    --pdf-qr-color: #be185d;
+    --custom-qr-color: #f43f5e;
+    --button-bg-color: #ffffff;
+}
+
+/* Coral Reef - Energy & Sales Color */
+body.theme-coral-reef {
+    --brand-primary: #dc2626;
+    --brand-secondary: #b91c1c;
+    --brand-accent: #ef4444;
+    --brand-primary-rgb: 220, 38, 38;
+    --brand-secondary-rgb: 185, 28, 28;
+    --brand-accent-rgb: 239, 68, 68;
+    --qr-border-color: #b91c1c;
+    --website-qr-color: #dc2626;
+    --pdf-qr-color: #b91c1c;
+    --custom-qr-color: #ef4444;
+    --button-bg-color: #ffffff;
+}
+
+/* ==================================================
+   ðŸŒˆ SPECIAL COLOR STYLE VARIATIONS
+   ================================================== */
+
+/* Professional QR Code Color Schemes - Top 3 Themes (Business Appropriate) */
+body.theme-ocean-blue.rainbow-style {
+    --qr-border-color: #dc2626; /* Professional Red */
+    --website-qr-color: #059669; /* Professional Green */
+    --pdf-qr-color: #1e40af; /* Professional Blue */
+    --custom-qr-color: #d97706; /* Professional Orange */
+}
+
+body.theme-forest-green.rainbow-style {
+    --qr-border-color: #b91c1c; /* Deep Red */
+    --website-qr-color: #2563eb; /* Professional Blue */
+    --pdf-qr-color: #7c3aed; /* Professional Purple */
+    --custom-qr-color: #059669; /* Professional Green */
+}
+
+body.theme-royal-purple.rainbow-style {
+    --qr-border-color: #059669; /* Professional Green */
+    --website-qr-color: #dc2626; /* Professional Red */
+    --pdf-qr-color: #1e40af; /* Professional Blue */
+    --custom-qr-color: #d97706; /* Professional Orange */
+}
+
+/* Professional Mixed Color Themes - Bottom 3 Themes (Business Appropriate) */
+body.theme-midnight-blue.mixed-style {
+    --qr-border-color: #9ca3af; /* Professional Gray */
+    --website-qr-color: #6b7280; /* Dark Gray */
+    --pdf-qr-color: #4b5563; /* Charcoal */
+    --custom-qr-color: #374151; /* Slate */
+}
+
+body.theme-rose-gold.mixed-style {
+    --qr-border-color: #f59e0b; /* Professional Amber */
+    --website-qr-color: #d97706; /* Professional Orange */
+    --pdf-qr-color: #b45309; /* Dark Orange */
+    --custom-qr-color: #92400e; /* Deep Orange */
+}
+
+body.theme-coral-reef.mixed-style {
+    --qr-border-color: #10b981; /* Professional Green */
+    --website-qr-color: #059669; /* Dark Green */
+    --pdf-qr-color: #047857; /* Deep Green */
+    --custom-qr-color: #065f46; /* Forest Green */
+}
+
+/* ==================================================
+   ðŸ”„ DYNAMIC CORNER STYLE APPLICATION
+   ================================================== */
+
+/* Dynamic Theme Color Application - CORNERS ONLY, NO COLORS */
+body.theme-sharp {
+    --corner-radius: 0;
+    --corner-radius-image: 0;
+}
+
+body.theme-curvy {
+    --corner-radius: 20px;
+    --corner-radius-image: 20px;
+}
+
+body.theme-hybrid {
+    --corner-radius: 12px;
+    --corner-radius-image: 0;
+    --image-top-left-radius: 0;
+    --image-top-right-radius: 0;
+    --image-bottom-left-radius: 12px;
+    --image-bottom-right-radius: 12px;
+    --qr-top-left-radius: 8px;
+    --qr-top-right-radius: 8px;
+    --qr-bottom-left-radius: 8px;
+    --qr-bottom-right-radius: 8px;
+}
+
+/* ==================================================
+   ðŸŽ›ï¸ THEME TOGGLE BUTTON STYLES
+   ================================================== */
+
+.toggle-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(45, 55, 72, 0.1);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.toggle-btn:hover {
+    background: rgba(45, 55, 72, 0.2);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.toggle-btn.active {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.toggle-btn i {
+    margin-right: 6px;
+    font-size: 10px;
+}
+
+/* ==================================================
+   ðŸŽ¨ THEME GRID LAYOUT
+   ================================================== */
+
+/* Theme Grids */
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 4px;
+    transition: all 0.2s ease;
+}
+
+.theme-grid:not(.active) {
+    display: none;
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(74, 85, 104, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin: 0 4px;
+    width: calc(100% - 8px);
+}
+
+.theme-option:hover {
+    background: rgba(74, 85, 104, 0.4);
+    border-color: rgba(74, 85, 104, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.theme-option.active {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.theme-option.active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border-radius: 12px;
+    z-index: -1;
+}
+
+/* ==================================================
+   ðŸ–¼ï¸ THEME PREVIEW STYLES
+   ================================================== */
+
+.theme-preview {
+    width: 36px;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.05);
+}
+
+.theme-option:hover .theme-preview {
+    border-color: var(--brand-primary, #cbd5e1);
+    box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb, 14, 165, 233), 0.2);
+    transform: scale(1.05);
+}
+
+.theme-option.active .theme-preview {
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    transform: scale(1.08);
+}
+
+.theme-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.theme-preview::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 6px;
+}
+
+/* ==================================================
+   ðŸŽ¨ THEME PREVIEW COLOR DEFINITIONS
+   ================================================== */
+
+/* 6 Most Popular Business Theme Preview Colors - SOLID */
+.theme-preview.ocean-blue::before {
+    background: #1e40af;
+}
+.theme-preview.ocean-blue::after {
+    background: #0ea5e9;
+}
+
+.theme-preview.forest-green::before {
+    background: #047857;
+}
+.theme-preview.forest-green::after {
+    background: #10b981;
+}
+
+.theme-preview.royal-purple::before {
+    background: #5b21b6;
+}
+.theme-preview.royal-purple::after {
+    background: #8b5cf6;
+}
+
+.theme-preview.midnight-blue::before {
+    background: #1e3a8a;
+}
+.theme-preview.midnight-blue::after {
+    background: #3b82f6;
+}
+
+.theme-preview.rose-gold::before {
+    background: #be185d;
+}
+.theme-preview.rose-gold::after {
+    background: #f43f5e;
+}
+
+.theme-preview.coral-reef::before {
+    background: #b91c1c;
+}
+.theme-preview.coral-reef::after {
+    background: #ef4444;
+}
+
+.theme-option span {
+    font-size: 12px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ==================================================
+   ðŸŒ™ DARK/LIGHT MODE TOGGLE STYLES
+   ================================================== */
+
+/* Container for the Toggle Item */
+.dropdown-item-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pushes label and switch apart */
+    padding: 10px 15px;
+    margin: 0 5px;
+    width: calc(100% - 10px);
+    border-radius: 4px;
+    cursor: default; /* Not a clickable link */
+}
+
+.dropdown-item-toggle:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Label on the left (Icon + Text) */
+.dropdown-item-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #E2E8F0;
+    font-size: 14px;
+}
+
+.dropdown-item-label i {
+    width: 18px;
+    text-align: center;
+    color: #9ab0c9;
+}
+
+/* The Switch on the right */
+#theme-switcher-dropdown {
+    position: relative;
+}
+
+#theme-toggle-checkbox {
+    display: none;
+}
+
+/* The track/background of the switch */
+#theme-switcher-dropdown .theme-toggle-label {
+    background-color: #4A5568; /* Darker background for contrast */
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    position: relative;
+    height: 22px; /* Smaller */
+    width: 42px;  /* Smaller */
+    transition: background-color 0.3s ease;
+}
+
+/* The moving ball */
+#theme-switcher-dropdown .ball {
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: 18px; /* Smaller */
+    width: 18px;  /* Smaller */
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Sun/Moon Icons */
+#theme-switcher-dropdown .fa-moon,
+#theme-switcher-dropdown .fa-sun {
+    font-size: 10px; /* Smaller */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#theme-switcher-dropdown .fa-moon { color: #f1c40f; }
+#theme-switcher-dropdown .fa-sun { color: #f39c12; }
+
+/* Checked state (Light Mode) */
+#theme-toggle-checkbox:checked + .theme-toggle-label {
+    background-color: #73C0F4;
+}
+#theme-toggle-checkbox:checked + .theme-toggle-label .ball {
+    transform: translateX(20px); /* Adjusted for smaller size */
+}
+
+/* Icon visibility logic */
+#theme-toggle-checkbox:checked + .theme-toggle-label .fa-moon {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+#theme-toggle-checkbox:checked + .theme-toggle-label .fa-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+#theme-switcher-dropdown .theme-toggle-label .fa-moon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+#theme-switcher-dropdown .theme-toggle-label .fa-sun {
+    opacity: 0;
+    transform: rotate(-90deg);
+}

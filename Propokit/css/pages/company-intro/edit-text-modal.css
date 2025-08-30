@@ -1,0 +1,772 @@
+﻿/* ==================================================
+   EDIT TEXT CONTENT MODAL STYLES - Company Intro Page Specific
+   ==================================================
+
+   This file contains SPECIFIC styles for the Edit Text Content Modal
+   (#editTextModal) used on the company intro page. It inherits base
+   modal styles from css/shared/modals.css and adds text editing
+   specific functionality.
+
+   IMPORTANT: This file works WITH modals.css, not instead of it!
+
+   Features:
+   - Multi-step text editing form
+   - Progress indicator with steps
+   - Company information editing
+   - Services and approach editing
+   - Proposal content editing
+   - Form validation and styling
+   - Professional text editing interface
+
+   Last Updated: [Current Date]
+   ================================================== */
+
+/* ==================================================
+   1. EDIT TEXT MODAL Z-INDEX (Required for proper layering)
+   ================================================== */
+
+#editTextModal {
+    z-index: 10000 !important;
+}
+
+#editTextModal .modal-dialog {
+    z-index: 10000 !important;
+}
+
+#editTextModal .modal-content {
+    z-index: 10000 !important;
+}
+
+/* ==================================================
+   2. EDIT TEXT MODAL LAYOUT & STRUCTURE
+   ================================================== */
+
+/* Edit Text Modal Dialog */
+#editTextModal .modal-dialog {
+    max-width: 700px;
+}
+
+/* Edit Text Modal Content - Shared Styling */
+#editTextModal .modal-content {
+    background: linear-gradient(135deg, #ffffff, #f0f4f8) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+    border: 1px solid #e0e4e8 !important;
+    overflow: hidden !important;
+}
+
+/* Edit Text Modal Header - Shared Styling */
+#editTextModal .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #ffffff !important;
+    padding: 20px !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+    border-radius: 16px 16px 0 0 !important;
+}
+
+/* Edit Text Modal Body */
+#editTextModal .modal-body {
+    padding: 25px !important;
+    background-color: #ffffff !important;
+    min-height: 400px;
+}
+
+/* Edit Text Modal Footer - Shared Styling */
+#editTextModal .modal-footer {
+    background-color: #f1f5f9 !important;
+    padding: 20px !important;
+    border-top: 1px solid #e0e4e8 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 15px !important;
+    border-radius: 0 0 16px 16px !important;
+}
+
+/* ==================================================
+   3. PROGRESS STEPS STYLING
+   ================================================== */
+
+/* Progress Steps Container */
+.progress-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    position: relative;
+    background: linear-gradient(135deg, #f8faff 0%, #e6f0fa 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.08);
+}
+
+/* Progress Line Background */
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 60px;
+    right: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e0 100%);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+/* Individual Step */
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    max-width: 120px;
+}
+
+/* Step Number Circle */
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Step Label */
+.step-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+/* Active Step Styling */
+.step.active .step-number {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.step.active .step-label {
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* Completed Step Styling */
+.step.completed .step-number {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.step.completed .step-label {
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* ==================================================
+   4. FORM STEPS STYLING
+   ================================================== */
+
+/* Text Edit Form Container */
+#text-edit-form {
+    position: relative;
+}
+
+/* Individual Form Step */
+.form-step {
+    display: none;
+    animation: fadeInUp 0.3s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Step Header */
+.step-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+}
+
+.step-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1px;
+}
+
+.step-header h6 {
+    color: #374151;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.step-header h6 i {
+    color: #667eea;
+    width: 20px;
+}
+
+/* ==================================================
+   5. CONTACT OPTIONS (FIELD CONTAINERS)
+   ================================================== */
+
+/* Contact Option Container */
+.contact-option {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.contact-option:hover {
+    border-color: #667eea;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+.contact-option:hover::before {
+    opacity: 1;
+}
+
+/* Step-specific field styling */
+.step1-company-field,
+.step1-approach-field,
+.step2-services-field,
+.step2-expertise-field,
+.step3-proposal-field {
+    border-left: 4px solid #667eea;
+    background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+}
+
+/* ==================================================
+   6. OPTION HEADER & LABELS
+   ================================================== */
+
+/* Option Header */
+.option-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+/* Option Label */
+.option-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.option-label:hover {
+    color: #667eea;
+}
+
+.option-label i {
+    color: #667eea;
+    width: 20px;
+    font-size: 16px;
+}
+
+/* Required Indicator */
+.required {
+    color: #ef4444;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+/* Option Description */
+.option-description {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-style: italic;
+    padding-left: 30px;
+}
+
+/* ==================================================
+   7. FORM GROUPS & INPUT STYLING
+   ================================================== */
+
+/* Customer Form Group */
+.customer-form-group {
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* Customer Input Fields */
+.customer-input {
+    width: 100%;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #374151;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 45px;
+}
+
+.customer-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+    background: #fafbff;
+}
+
+.customer-input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Textarea specific styling */
+.customer-input[rows] {
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+/* Input Focus Border Effect */
+.input-focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.customer-input:focus + .input-focus-border {
+    width: 100%;
+}
+
+/* Form Text Help */
+.form-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, #f8faff 0%, #e6f0fa 100%);
+    border-radius: 6px;
+    border-left: 3px solid #667eea;
+}
+
+.form-text i {
+    color: #667eea;
+    width: 14px;
+}
+
+/* ==================================================
+   8. MODAL FOOTER BUTTONS - SHARED STYLING
+   ================================================== */
+
+/* Edit Text Modal Footer Buttons */
+#editTextModal .modal-footer .btn {
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+#editTextModal .modal-footer .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+}
+
+/* Primary Button - Shared Purple Style */
+#editTextModal .modal-footer .btn-primary {
+    background: #667eea !important;
+    color: white !important;
+}
+
+#editTextModal .modal-footer .btn-primary:hover {
+    background: #5a67d8 !important;
+}
+
+#editTextModal .modal-footer .btn-primary:disabled {
+    background: #cccccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* Secondary Button - Shared Gray Style */
+#editTextModal .modal-footer .btn-secondary {
+    background: #6b7280 !important;
+    color: white !important;
+}
+
+#editTextModal .modal-footer .btn-secondary:hover {
+    background: #5a5d63 !important;
+}
+
+/* Success Button - Shared Green Style */
+#editTextModal .modal-footer .btn-success {
+    background: #10b981 !important;
+    color: white !important;
+}
+
+#editTextModal .modal-footer .btn-success:hover {
+    background: #059669 !important;
+}
+
+/* ==================================================
+   9. STEP NAVIGATION BUTTONS
+   ================================================== */
+
+/* Step Navigation Container */
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.step-navigation .btn {
+    min-width: 120px;
+}
+
+/* Previous/Next Button Styling */
+.btn-step-nav {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #374151;
+    border: 2px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-step-nav:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.btn-step-nav:disabled {
+    background: #f9fafb;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ==================================================
+   10. VALIDATION STATES
+   ================================================== */
+
+/* Valid Input State */
+.customer-input.valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.customer-input.valid + .input-focus-border {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Invalid Input State */
+.customer-input.invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.customer-input.invalid + .input-focus-border {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Validation Message */
+.validation-message {
+    font-size: 12px;
+    margin-top: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.validation-message.error {
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.validation-message.success {
+    color: #059669;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.validation-message i {
+    width: 14px;
+}
+
+/* ==================================================
+   11. RESPONSIVE DESIGN
+   ================================================== */
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+    #editTextModal .modal-dialog {
+        max-width: 95vw;
+        margin: 10px;
+    }
+
+    #editTextModal .modal-body {
+        padding: 20px 15px !important;
+    }
+
+    .progress-steps {
+        padding: 15px 10px;
+        margin-bottom: 20px;
+    }
+
+    .progress-steps::before {
+        left: 40px;
+        right: 40px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .step-label {
+        font-size: 11px;
+    }
+
+    .contact-option {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .option-description {
+        padding-left: 25px;
+    }
+
+    .step-header h6 {
+        font-size: 1.1rem;
+    }
+
+    .step-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .step-navigation .btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    #editTextModal .modal-dialog {
+        max-width: 98vw;
+        margin: 5px;
+    }
+
+    #editTextModal .modal-header {
+        padding: 15px !important;
+    }
+
+    #editTextModal .modal-body {
+        padding: 15px 12px !important;
+        min-height: 300px;
+    }
+
+    #editTextModal .modal-footer {
+        padding: 15px !important;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #editTextModal .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .progress-steps {
+        padding: 12px 8px;
+        margin-bottom: 15px;
+    }
+
+    .progress-steps::before {
+        left: 30px;
+        right: 30px;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .step-label {
+        font-size: 10px;
+    }
+
+    .contact-option {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .option-label {
+        font-size: 14px;
+        gap: 8px;
+    }
+
+    .option-description {
+        padding-left: 22px;
+        font-size: 13px;
+    }
+
+    .customer-input {
+        padding: 10px 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .step-header h6 {
+        font-size: 1rem;
+        gap: 8px;
+    }
+}
+
+/* ==================================================
+   12. ACCESSIBILITY & FOCUS STATES
+   ================================================== */
+
+/* Enhanced focus states for accessibility */
+.customer-input:focus,
+.btn-step-nav:focus,
+.option-label:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .contact-option,
+    .progress-steps {
+        border-width: 2px;
+    }
+
+    .step-number {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .contact-option,
+    .customer-input,
+    .step-number,
+    .btn-step-nav,
+    .form-step {
+        transition: none;
+        animation: none;
+    }
+
+    .contact-option:hover,
+    .btn-step-nav:hover {
+        transform: none;
+    }
+
+    @keyframes fadeInUp {
+        from, to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* ==================================================
+   13. PRINT STYLES
+   ================================================== */
+
+@media print {
+    #editTextModal {
+        display: none !important;
+    }
+}

@@ -1,0 +1,53 @@
+﻿/* ==================================================
+   ðŸŒ PROPOKIT GLOBAL STYLES & LAYOUT
+   ================================================== */
+
+/* AI NOTE: This section defines the base styling and CSS custom properties
+   that control the entire application's appearance. All other styles inherit from here. */
+
+/* Main body styling with CSS custom properties for theming */
+body {
+    background-color: #F0F2F5;
+    --corner-radius: 0;           /* Default corner radius for elements */
+    --corner-radius-image: 0;     /* Default corner radius for images */
+}
+
+/* Hide scrollbars globally */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ==================================================
+   PRINT STYLES
+   ================================================== */
+
+/* Print styles */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+}

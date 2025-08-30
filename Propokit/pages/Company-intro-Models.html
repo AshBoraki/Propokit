@@ -1,0 +1,141 @@
+﻿<!-- Company Intro Models - Crop Modal Only -->
+<!-- Cropping Modal -->
+<div class="modal fade" id="companyIntroCropModal" tabindex="-1" role="dialog" aria-labelledby="cropModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="header-content">
+          <div class="header-icon">
+            <i class="fas fa-crop-alt"></i>
+          </div>
+          <div class="header-text">
+            <h5 class="modal-title" id="cropModalLabel">
+              <span class="title-main">Company Image Manager</span>
+              <span class="title-subtitle">Upload and crop your company intro image</span>
+            </h5>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="image-manager-container">
+          <!-- Left Column: Upload + Controls -->
+          <div class="image-sidebar">
+            <!-- Upload Section -->
+            <div class="upload-section">
+              <label for="cropImageInput" class="upload-btn">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Upload New Image</span>
+                <small>Click to browse or drag & drop</small>
+              </label>
+              <input type="file" id="cropImageInput" accept="image/*">
+            </div>
+
+            <!-- Controls Section -->
+            <div class="crop-controls-section">
+              <div class="control-group">
+                <h6 class="control-title">
+                  <i class="fas fa-arrows-alt"></i>
+                  Movement
+                </h6>
+                <div class="movement-controls">
+                  <button type="button" id="moveUpBtn" class="control-btn" disabled>
+                    <i class="fas fa-arrow-up"></i>
+                  </button>
+                  <div class="movement-row">
+                    <button type="button" id="moveLeftBtn" class="control-btn" disabled>
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button type="button" id="moveRightBtn" class="control-btn" disabled>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                  <button type="button" id="moveDownBtn" class="control-btn" disabled>
+                    <i class="fas fa-arrow-down"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <h6 class="control-title">
+                  <i class="fas fa-search-plus"></i>
+                  Zoom
+                </h6>
+                <div class="zoom-controls">
+                  <button type="button" id="zoomOutBtn" class="control-btn" disabled>
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input type="range" id="zoomSlider" min="0.1" max="2" step="0.01" value="1" class="control-slider" disabled>
+                  <button type="button" id="zoomInBtn" class="control-btn" disabled>
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <h6 class="control-title">
+                  <i class="fas fa-redo"></i>
+                  Rotate
+                </h6>
+                <div class="rotate-controls">
+                  <button type="button" id="rotateLeftBtn" class="control-btn" disabled>
+                    <i class="fas fa-undo"></i>
+                  </button>
+                  <input type="range" id="rotateSlider" min="-180" max="180" step="1" value="0" class="control-slider" disabled>
+                  <button type="button" id="rotateRightBtn" class="control-btn" disabled>
+                    <i class="fas fa-redo"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div class="crop-status">
+              <div class="status-content">
+                <span id="cropStatus" class="status-text">Upload an image to get started</span>
+                <span id="cropLoadingSpinner" class="loading-spinner">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Canvas Container -->
+          <div class="crop-main-area">
+            <div id="cropContainer" class="crop-container">
+              <canvas id="imageCanvas"></canvas>
+              <div id="cropGrid" class="crop-grid">
+                <div id="gridLines" class="grid-lines">
+                  <div class="grid-line horizontal"></div>
+                  <div class="grid-line horizontal"></div>
+                  <div class="grid-line vertical"></div>
+                  <div class="grid-line vertical"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="footer-left">
+          <button type="button" id="resetCropBtn" class="btn btn-outline-secondary" disabled>
+            <i class="fas fa-undo"></i> Reset Crop
+          </button>
+        </div>
+        <div class="footer-right">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <i class="fas fa-times"></i> Close
+          </button>
+          <button type="button" id="saveCropBtn" class="btn btn-primary" disabled>
+            <i class="fas fa-check"></i> Save Image
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Company Intro Crop functionality is now initialized in the main index-product.html file -->
