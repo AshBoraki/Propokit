@@ -1,0 +1,336 @@
+﻿/* ==================================================
+   ðŸš€ PROPOKIT STYLE MENU SYSTEM
+   ================================================== */
+
+/* ==================================================
+   MENU CONTAINER & CONTROLS
+   ================================================== */
+
+.propokit-menu-controls {
+    position: relative;
+    display: inline-block;
+}
+
+/* Menu button inherits all styles from .header-btn and .header-btn-icon-only */
+
+.propokit-style-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 300px;
+    background: #2D3748;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    z-index: 3000;
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.propokit-style-menu::-webkit-scrollbar {
+    display: none;
+}
+
+/* Click to open instead of hover */
+.propokit-style-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* ==================================================
+   COLOR STYLE TOGGLE SECTION
+   ================================================== */
+
+.color-style-toggle {
+    margin-bottom: 8px;
+}
+
+.toggle-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+}
+
+/* ==================================================
+   MENU HEADER
+   ================================================== */
+
+.style-menu-header {
+    padding: 16px 20px 12px 20px;
+    background: rgba(74, 85, 104, 0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+}
+
+.style-menu-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 22px;
+    right: 22px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+}
+
+.style-menu-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    text-align: left;
+    letter-spacing: 0.4px;
+    opacity: 1;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ==================================================
+   MENU SECTIONS
+   ================================================== */
+
+.style-menu-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    background: rgba(74, 85, 104, 0.1);
+    margin: 0 12px 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.2s ease;
+}
+
+.style-menu-section:hover {
+    background: rgba(74, 85, 104, 0.2);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.style-menu-section:last-child {
+    border-bottom: none;
+}
+
+.style-menu-section h4 {
+    margin: 0 0 12px 0;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    opacity: 1;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.style-menu-section h4 i {
+    color: #d1d5db;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* ==================================================
+   CORNER STYLE OPTIONS
+   ================================================== */
+
+/* Professional Corner Style Options */
+.style-options {
+    display: flex;
+    gap: 12px;
+    padding: 4px;
+}
+
+.style-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(74, 85, 104, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin: 0 4px;
+    width: calc(100% - 8px);
+}
+
+.style-option:hover {
+    background: rgba(74, 85, 104, 0.4);
+    border-color: rgba(74, 85, 104, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.style-option.active {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.style-option.active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border-radius: 12px;
+    z-index: -1;
+}
+
+/* Style option text styling for better readability */
+.style-option .style-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.style-option .style-desc {
+    font-size: 10px;
+    color: #cbd5e1;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* ==================================================
+   STYLE PREVIEWS
+   ================================================== */
+
+.style-preview {
+    width: 50px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+/* Corner style previews now use PropoKit logo blue color */
+.style-option.active .style-preview {
+    border-color: #3a8dff;
+    background: linear-gradient(135deg, #3a8dff, #60a5fa);
+    box-shadow: 0 2px 8px rgba(58, 141, 255, 0.2);
+}
+
+.style-option:hover .style-preview {
+    border-color: #3a8dff;
+    box-shadow: 0 4px 12px rgba(58, 141, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.sharp-preview {
+    border-radius: 0 !important;
+}
+
+.curvy-preview {
+    border-radius: 12px !important;
+}
+
+.hybrid-preview {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
+
+/* ==================================================
+   STYLE INFO TEXT
+   ================================================== */
+
+.style-info {
+    text-align: center;
+}
+
+.style-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+    opacity: 1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.style-desc {
+    display: block;
+    font-size: 10px;
+    color: #e2e8f0;
+    line-height: 1.2;
+    opacity: 0.9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ==================================================
+   COLOR STYLE TOGGLE
+   ================================================== */
+
+.color-style-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+/* ==================================================
+   MENU FOOTER
+   ================================================== */
+
+.style-menu-footer {
+    padding: 14px 18px;
+    background: rgba(74, 85, 104, 0.15);
+    border-radius: 0 0 8px 8px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    margin: 0 12px 12px 12px;
+    transition: all 0.2s ease;
+}
+
+.style-menu-footer:hover {
+    background: rgba(74, 85, 104, 0.2);
+    border-top-color: rgba(255,255,255,0.15);
+}
+
+.current-settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #cbd5e1;
+    position: relative;
+}
+
+.current-settings span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.current-settings strong {
+    color: #ffffff;
+    font-weight: 600;
+}

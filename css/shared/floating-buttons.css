@@ -1,0 +1,173 @@
+﻿/* ==================================================
+   ðŸš€ PROPOKIT FLOATING ACTION BUTTONS (FABs)
+   ================================================== */
+
+/* ==================================================
+   BASE FAB STYLING & ANIMATIONS
+   ================================================== */
+
+.action-fab {
+    position: fixed;
+    z-index: 1000;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+                filter 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* FAB icon styling */
+.action-fab i {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* FAB text styling */
+.action-fab span {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+}
+
+/* FAB hover effects */
+.action-fab:hover span {
+    opacity: 1;
+}
+
+.action-fab:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================================================
+   FAB POSITIONING & SIZING
+   ================================================== */
+
+/* Individual button positioning */
+#printButton { top: 80px; }
+#enterDetailsBtn { top: 150px; }
+#toggleImageButton { top: 220px; }
+#downloadPdfButton { top: 290px; }
+#generateQrButton { top: 360px; }
+#editInfoButton { top: 430px; }
+#openCropModalBtn { top: 150px; }
+#editTextButton { top: 220px; }
+#editFooterButton { top: 290px; }
+
+/* Hover width animations */
+#printButton:hover { width: 110px; }
+#enterDetailsBtn:hover { width: 165px; }
+#toggleImageButton:hover { width: 220px; }
+#downloadPdfButton:hover { width: 180px; }
+#generateQrButton:hover { width: 205px; }
+#editInfoButton:hover { width: 195px; }
+#editTextButton:hover { width: 210px; }
+#editFooterButton:hover { width: 220px; }
+#openCropModalBtn:hover { width: 215px; }
+
+/* ==================================================
+   FAB THEME COLORS
+   ================================================== */
+
+.action-fab.nav-color-terms {
+    background-color: #1E8449;
+    color: #F4F6F6;
+}
+
+.action-fab.nav-color-scope {
+    background-color: #5499C7;
+    color: #FFFFFF;
+}
+
+.action-fab.nav-color-about-us {
+    background-color: #F5B041;
+    color: #FFFFFF;
+}
+
+.action-fab.nav-color-pdf-combiner {
+    background-color: #E67E22;
+    color: #FFFFFF;
+}
+
+.action-fab.nav-color-pricing {
+    background-color: #E74C3C;
+    color: #FFFFFF;
+}
+
+.action-fab.nav-color-cover-page {
+    background-color: #5DADE2;
+    color: #FFFFFF;
+}
+
+/* ==================================================
+   COMPANY INTRO FAB POSITIONING
+   ================================================== */
+
+.company-intro-fab {
+    position: fixed;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* ==================================================
+   RESPONSIVE FAB BEHAVIOR
+   ================================================== */
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .action-fab {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        right: 15px;
+    }
+
+    .action-fab i {
+        font-size: 18px;
+    }
+
+    .action-fab span {
+        font-size: 12px;
+    }
+
+    /* Adjust positioning for mobile */
+    #printButton { top: 70px; }
+    #enterDetailsBtn { top: 130px; }
+    #toggleImageButton { top: 190px; }
+    #downloadPdfButton { top: 250px; }
+    #generateQrButton { top: 310px; }
+    #editInfoButton { top: 370px; }
+    #openCropModalBtn { top: 130px; }
+    #editTextButton { top: 190px; }
+    #editFooterButton { top: 250px; }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .action-fab {
+        right: 15px;
+    }
+
+    /* Slightly adjust hover widths for tablets */
+    #printButton:hover { width: 100px; }
+    #enterDetailsBtn:hover { width: 155px; }
+    #toggleImageButton:hover { width: 210px; }
+    #downloadPdfButton:hover { width: 170px; }
+    #generateQrButton:hover { width: 195px; }
+    #editInfoButton:hover { width: 185px; }
+    #editTextButton:hover { width: 200px; }
+    #editFooterButton:hover { width: 210px; }
+    #openCropModalBtn:hover { width: 205px; }
+}

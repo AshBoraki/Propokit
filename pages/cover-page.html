@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropoKit Application</title>
+
+    <!-- Shared Libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../css/shared/main-styles.css">
+    <link rel="stylesheet" href="../css/shared/Header-Sidebar-Styles.css">
+    <link rel="stylesheet" href="../css/shared/modals.css">
+</head>
+<body>
+
+    <!-- This is the Application Shell. It loads ONCE. -->
+    <header id="top-application-header">
+        <!-- We will paste the HTML for your header here later. -->
+        <p class="header-placeholder">HEADER AREA</p>
+    </header>
+
+    <aside id="main-sidebar">
+        <!-- We will paste the HTML for your sidebar here later. -->
+        <p class="sidebar-placeholder">SIDEBAR AREA</p>
+        <!-- Example Link Structure for the Router -->
+        <a href="#" data-page="cover-page" class="nav-link-example">Go to Cover Page</a>
+    </aside>
+
+    <!-- This is where your pages will be loaded by the router. -->
+    <main id="page-content">
+        <!-- Initially empty -->
+    </main>
+
+        <!-- Shared JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script src="../js/shared/firebase-config.js"></script>
+    
+    <!-- Core Application Logic -->
+    <script src="../js/shared/local-firebase-test.js"></script>
+    <script src="../js/shared/app-router.js"></script>
+
+</body>
+</html>

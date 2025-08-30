@@ -1,0 +1,723 @@
+﻿/* ==================================================
+   COMPANY IMAGE MANAGER MODAL STYLES - Company Intro Page Specific
+   ==================================================
+
+   This file contains SPECIFIC styles for the Company Image Manager Modal
+   (#companyIntroCropModal) used on the company intro page. It inherits base
+   modal styles from css/shared/modals.css and adds Company Image Manager
+   specific functionality.
+
+   IMPORTANT: This file works WITH modals.css, not instead of it!
+
+   Features:
+   - Image upload and cropping interface
+   - Professional crop controls (movement, zoom, rotate)
+   - Canvas-based image manipulation
+   - Real-time crop grid and guidelines
+   - Status indicators and loading states
+   - Responsive design for all screen sizes
+
+   Last Updated: [Current Date]
+   ================================================== */
+
+/* ==================================================
+   1. COMPANY IMAGE MANAGER MODAL Z-INDEX (Required for proper layering)
+   ================================================== */
+
+#companyIntroCropModal {
+    z-index: 10000 !important;
+}
+
+#companyIntroCropModal .modal-dialog {
+    z-index: 10000 !important;
+    max-width: 900px;
+}
+
+#companyIntroCropModal .modal-content {
+    z-index: 10000 !important;
+}
+
+/* ==================================================
+   2. COMPANY IMAGE MANAGER MODAL LAYOUT & STRUCTURE
+   ================================================== */
+
+/* Company Image Manager Modal Content - SHARED STYLING */
+#companyIntroCropModal .modal-content {
+    background: linear-gradient(135deg, #ffffff, #f0f4f8) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+    border: 1px solid #e0e4e8 !important;
+    width: 1000px;
+    height: 600px;
+    overflow: hidden !important;
+}
+
+/* Company Image Manager Modal Header - SHARED STYLING */
+#companyIntroCropModal .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #ffffff !important;
+    padding: 20px !important;
+    border-bottom: none !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+}
+
+/* Company Image Manager Modal Body */
+#companyIntroCropModal .modal-body {
+    padding: 20px !important;
+    background: #ffffff !important;
+    border-radius: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Company Image Manager Modal Footer - SHARED STYLING */
+#companyIntroCropModal .modal-footer {
+    background-color: #f1f5f9 !important;
+    padding: 20px !important;
+    border-top: 1px solid #e0e4e8 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+    border-radius: 0 0 16px 16px !important;
+}
+
+/* ==================================================
+   3. IMAGE MANAGER CONTAINER LAYOUT
+   ================================================== */
+
+/* Main Image Manager Container */
+.image-manager-container {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    min-height: 400px;
+}
+
+/* Left Sidebar - Upload and Controls */
+.image-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Right Main Area - Canvas */
+.crop-main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    border: 2px dashed #cbd5e0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ==================================================
+   4. UPLOAD SECTION
+   ================================================== */
+
+/* Upload Section Container */
+.upload-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+/* Upload Button */
+.upload-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.upload-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.upload-btn i {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.upload-btn span {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.upload-btn small {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* ==================================================
+   5. CROP CONTROLS SECTION
+   ================================================== */
+
+/* Crop Controls Section Container */
+.crop-controls-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+/* Control Group */
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Control Title */
+.control-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-title i {
+    color: #667eea;
+    width: 16px;
+}
+
+/* ==================================================
+   6. MOVEMENT CONTROLS
+   ================================================== */
+
+/* Movement Controls Container */
+.movement-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Movement Row */
+.movement-row {
+    display: flex;
+    gap: 8px;
+}
+
+/* Control Button */
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.control-btn:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f8faff;
+    color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.control-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+}
+
+.control-btn:disabled {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* ==================================================
+   7. ZOOM AND ROTATE CONTROLS
+   ================================================== */
+
+/* Zoom Controls Container */
+.zoom-controls,
+.rotate-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Control Slider */
+.control-slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.control-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.control-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+}
+
+.control-slider:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.control-slider:disabled::-webkit-slider-thumb {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* ==================================================
+   8. CROP STATUS SECTION
+   ================================================== */
+
+/* Crop Status Container */
+.crop-status {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #cbd5e0;
+    margin-top: auto;
+}
+
+/* Status Content */
+.status-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Status Text */
+.status-text {
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    color: #667eea;
+    font-size: 16px;
+    animation: spin 1s linear infinite;
+    display: none; /* Hidden by default */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================================================
+   9. CROP CONTAINER AND CANVAS
+   ================================================== */
+
+/* Crop Container */
+.crop-container {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image Canvas */
+#imageCanvas {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    cursor: move;
+}
+
+/* Crop Grid */
+.crop-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Grid Lines */
+.grid-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.grid-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.grid-line.horizontal {
+    left: 0;
+    right: 0;
+    height: 1px;
+}
+
+.grid-line.vertical {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+}
+
+/* Grid line positioning */
+.grid-line.horizontal:nth-child(1) {
+    top: 33.33%;
+}
+
+.grid-line.horizontal:nth-child(2) {
+    top: 66.66%;
+}
+
+.grid-line.vertical:nth-child(3) {
+    left: 33.33%;
+}
+
+.grid-line.vertical:nth-child(4) {
+    left: 66.66%;
+}
+
+/* File input - hidden by default */
+#cropImageInput {
+    display: none;
+}
+
+/* ==================================================
+   10. MODAL FOOTER LAYOUT
+   ================================================== */
+
+/* Footer Left Section */
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Footer Right Section */
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ==================================================
+   11. BUTTON STYLING OVERRIDES
+   ================================================== */
+
+/* SHARED MODAL BUTTON STYLING */
+#companyIntroCropModal .modal-footer .btn {
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+#companyIntroCropModal .modal-footer .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+}
+
+/* Primary Button - Shared Purple Style */
+#companyIntroCropModal .modal-footer .btn-primary {
+    background: #667eea !important;
+    color: white !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-primary:hover {
+    background: #5a67d8 !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-primary:disabled {
+    background: #cccccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Secondary Button - Shared Gray Style */
+#companyIntroCropModal .modal-footer .btn-secondary {
+    background: #6b7280 !important;
+    color: white !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-secondary:hover {
+    background: #5a5d63 !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-secondary:disabled {
+    background: #cccccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Outline Secondary Button - Shared Style */
+#companyIntroCropModal .modal-footer .btn-outline-secondary {
+    border: 2px solid #6b7280 !important;
+    color: #6b7280 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-outline-secondary:hover {
+    background: #6b7280 !important;
+    color: white !important;
+}
+
+#companyIntroCropModal .modal-footer .btn-outline-secondary:disabled {
+    border-color: #cccccc !important;
+    color: #cccccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* ==================================================
+   12. RESPONSIVE DESIGN
+   ================================================== */
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+    #companyIntroCropModal .modal-content {
+        width: 95vw;
+        height: 80vh;
+        margin: 10px;
+    }
+
+    .image-manager-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .image-sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .upload-section {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .crop-controls-section {
+        flex: 2;
+        min-width: 300px;
+    }
+
+    .crop-main-area {
+        height: 300px;
+    }
+
+    .movement-controls {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .movement-row {
+        order: 2;
+    }
+
+    #moveUpBtn {
+        order: 1;
+    }
+
+    #moveDownBtn {
+        order: 3;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    #companyIntroCropModal .modal-content {
+        width: 98vw;
+        height: 90vh;
+        margin: 5px;
+        border-radius: 8px;
+    }
+
+    #companyIntroCropModal .modal-header {
+        padding: 12px 16px !important;
+        border-radius: 8px 8px 0 0 !important;
+    }
+
+    #companyIntroCropModal .modal-body {
+        padding: 15px;
+    }
+
+    #companyIntroCropModal .modal-footer {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .image-sidebar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .crop-controls-section {
+        padding: 15px;
+    }
+
+    .control-group {
+        margin-bottom: 15px;
+    }
+
+    .zoom-controls,
+    .rotate-controls {
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
+    }
+
+    .crop-main-area {
+        height: 250px;
+    }
+
+    .crop-status {
+        padding: 12px;
+    }
+
+    .status-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}
+
+/* ==================================================
+   13. ACCESSIBILITY & FOCUS STATES
+   ================================================== */
+
+/* Enhanced focus states for accessibility */
+.control-btn:focus,
+.control-slider:focus,
+.upload-btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .control-btn,
+    .crop-controls-section,
+    .upload-section {
+        border-width: 2px;
+    }
+
+    .grid-line {
+        background: rgba(0, 0, 0, 0.8);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .control-btn,
+    .upload-btn,
+    .control-slider::-webkit-slider-thumb,
+    .loading-spinner {
+        transition: none;
+        animation: none;
+    }
+
+    .control-btn:hover,
+    .upload-btn:hover {
+        transform: none;
+    }
+
+    .loading-spinner {
+        animation: none;
+    }
+}
+
+/* ==================================================
+   14. PRINT STYLES
+   ================================================== */
+
+@media print {
+    #companyIntroCropModal {
+        display: none !important;
+    }
+}
