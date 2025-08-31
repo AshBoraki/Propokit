@@ -706,6 +706,90 @@
             }
         }
         
+        /* ULTRA-ENHANCED: Demo Mode Watermarks */
+        .demo-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.1;
+            user-select: none;
+            font-family: var(--font-main);
+        }
+        
+        .watermark-content {
+            text-align: center;
+            color: var(--color-text-dark);
+        }
+        
+        .watermark-logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .watermark-text {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .demo-badge {
+            color: var(--color-warning);
+            font-weight: 600;
+            font-size: 0.8em;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--color-warning);
+            margin-left: 10px;
+            display: inline-block;
+        }
+        
+        /* Dark mode watermarks */
+        [data-theme="dark"] .watermark-content {
+            color: var(--color-dark-text);
+        }
+        
+        [data-theme="dark"] .demo-watermark {
+            opacity: 0.08;
+        }
+        
+        /* Responsive watermarks */
+        @media (max-width: 768px) {
+            .watermark-logo {
+                font-size: 36px;
+                letter-spacing: 2px;
+            }
+            
+            .watermark-text {
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+            
+            .demo-badge {
+                font-size: 0.7em;
+                padding: 1px 6px;
+                margin-left: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .watermark-logo {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+            
+            .watermark-text {
+                font-size: 10px;
+            }
+        }
+        
         .notification {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid var(--color-border);
@@ -9464,6 +9548,11 @@
                 localStorage.setItem('firebaseUID', user.uid);
                 window.currentFirebaseUID = user.uid;
                 
+                // Add demo watermarks immediately
+                setTimeout(() => {
+                    addDemoWatermark();
+                }, 1000);
+                
                 // Trigger existing Firebase data initialization
                 if (window.reinitializeFirebaseRefs) {
                     window.reinitializeFirebaseRefs(user.uid);
@@ -9553,9 +9642,53 @@
             // Add demo watermark to proposals
             function addDemoWatermark() {
                 if (userSubscriptionStatus === 'demo') {
-                    // Add watermark logic here
                     console.log('Adding demo watermark...');
+                    
+                    // Add watermark to all proposal pages
+                    const proposalContainer = document.querySelector('.a4-container, .container, main');
+                    if (proposalContainer && !proposalContainer.querySelector('.demo-watermark')) {
+                        const watermark = document.createElement('div');
+                        watermark.className = 'demo-watermark';
+                        watermark.innerHTML = `
+                            <div class="watermark-content">
+                                <div class="watermark-logo">📝 PropoKit DEMO</div>
+                                <div class="watermark-text">Upgrade to Pro to remove watermarks</div>
+                            </div>
+                        `;
+                        proposalContainer.appendChild(watermark);
+                    }
+                    
+                    // Add watermark to PDFs and downloads
+                    addDemoWatermarkToElements();
                 }
+            }
+            
+            // Add watermark to specific elements
+            function addDemoWatermarkToElements() {
+                // Add to company header
+                const companyHeader = document.getElementById('companyNameHeader');
+                if (companyHeader && !companyHeader.querySelector('.demo-badge')) {
+                    const demoBadge = document.createElement('span');
+                    demoBadge.className = 'demo-badge';
+                    demoBadge.textContent = ' [DEMO]';
+                    companyHeader.appendChild(demoBadge);
+                }
+                
+                // Add to proposal titles
+                const proposalTitles = document.querySelectorAll('h1, h2.company-header');
+                proposalTitles.forEach(title => {
+                    if (!title.querySelector('.demo-badge') && title.textContent.includes('Proposal')) {
+                        const demoBadge = document.createElement('span');
+                        demoBadge.className = 'demo-badge';
+                        demoBadge.textContent = ' [DEMO VERSION]';
+                        title.appendChild(demoBadge);
+                    }
+                });
+            }
+            
+            // Remove demo watermarks (when user upgrades)
+            function removeDemoWatermarks() {
+                document.querySelectorAll('.demo-watermark, .demo-badge').forEach(el => el.remove());
             }
             
             // Initialize authentication when DOM is loaded
@@ -9566,13 +9699,50 @@
                 }, 1000);
             });
             
+            // Initialize demo restrictions on pricing buttons
+            function initializePricingButtons() {
+                const pricingButtons = document.querySelectorAll('.btn[href="#"], .pricing-card .btn');
+                pricingButtons.forEach(button => {
+                    if (button.textContent.includes('Start Your Free Trial') || button.textContent.includes('Start')) {
+                        button.addEventListener('click', handlePricingButtonClick);
+                    }
+                });
+            }
+            
+            // Handle pricing button clicks
+            function handlePricingButtonClick(e) {
+                e.preventDefault();
+                
+                if (!currentUser) {
+                    showNotification('🔐 Please sign in first to start your trial!', 'warning', 5000);
+                    // Scroll to top to show login button
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                
+                if (userSubscriptionStatus === 'demo') {
+                    showNotification('🚀 Coming Soon: Stripe payment integration! For now, enjoy the demo mode.', 'info', 5000);
+                    // TODO: Replace with actual Stripe checkout
+                    return;
+                }
+            }
+            
+            // Initialize pricing buttons when DOM loads
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    initializePricingButtons();
+                }, 2000);
+            });
+            
             // Make functions globally available
             window.PropoKitAuth = {
                 checkDemoModeRestrictions,
                 addDemoWatermark,
+                removeDemoWatermarks,
                 getCurrentUser: () => currentUser,
                 getSubscriptionStatus: () => userSubscriptionStatus,
-                updateUserStatus
+                updateUserStatus,
+                initializePricingButtons
             };
 
         });
