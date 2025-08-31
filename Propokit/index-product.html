@@ -341,8 +341,8 @@
     </div>
 
     <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item" id="google-login-btn" style="background: linear-gradient(45deg, #ff6b35, #f7931e); color: white; border-radius: 6px; margin: 5px; display: block;">
-        <i class="fab fa-google"></i> Sign in with Google
+    <a href="#" class="dropdown-item" id="google-login-btn" onclick="console.log('🔥 ONCLICK: Login clicked!'); if(window.directMainAppLogin) window.directMainAppLogin(); return false;" style="background: linear-gradient(45deg, #ff6b35, #f7931e) !important; color: white !important; border-radius: 6px !important; margin: 5px !important; display: block !important; font-weight: bold !important; text-decoration: none !important; padding: 12px 15px !important; cursor: pointer !important;">
+        <i class="fab fa-google"></i> 🔐 SIGN IN WITH GOOGLE
     </a>
     <a href="#" class="dropdown-item" id="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
 </div>
@@ -1305,11 +1305,51 @@
             
             // Initialize Google Auth when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
+                console.log('🔍 DOM loaded, checking for login button...');
+                
+                // Check if login button exists immediately
+                const loginBtnCheck = document.getElementById('google-login-btn');
+                console.log('🔍 Google login button found:', loginBtnCheck ? 'YES' : 'NO');
+                
+                if (loginBtnCheck) {
+                    console.log('🔍 Button styles:', {
+                        display: window.getComputedStyle(loginBtnCheck).display,
+                        visibility: window.getComputedStyle(loginBtnCheck).visibility
+                    });
+                    
+                    // Add immediate click test
+                    loginBtnCheck.addEventListener('click', () => {
+                        console.log('🖱️ LOGIN BUTTON CLICKED IMMEDIATELY!');
+                    });
+                }
+                
                 // Wait for Firebase to load
                 setTimeout(() => {
                     initializeGoogleAuth();
                 }, 1000);
             });
+            
+            // Also add a manual test function
+            window.testMainAppLogin = function() {
+                console.log('🧪 Testing main app login...');
+                const btn = document.getElementById('google-login-btn');
+                if (btn) {
+                    console.log('✅ Button found, triggering click...');
+                    btn.click();
+                } else {
+                    console.log('❌ Button not found!');
+                }
+            };
+            
+            // Direct Google sign-in for main app
+            window.directMainAppLogin = async function() {
+                console.log('🚀 Direct main app Google sign-in...');
+                if (typeof signInWithGoogle === 'function') {
+                    await signInWithGoogle();
+                } else {
+                    console.log('❌ signInWithGoogle function not available');
+                }
+            };
 
             // =================================================================
             // === WIX SESSION CONTROLLER (EVENT LISTENER)
