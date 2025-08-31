@@ -7138,7 +7138,7 @@
                     <li><a href="#security">Security</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="Propokit/index-product.html">Launch App</a></li>
                 </ul>
                 
                 <!-- ULTRA-ENHANCED: Header Actions -->
@@ -9502,11 +9502,11 @@
                     // Remove any existing listeners first
                     loginBtn.removeEventListener('click', signInWithGoogle);
                     
-                    // Add click listener with debugging
+                    // Add click listener with debugging - redirect to main app
                     loginBtn.addEventListener('click', (e) => {
-                        console.log('🖱️ Login button clicked!');
+                        console.log('🖱️ Login button clicked - redirecting to main app!');
                         e.preventDefault();
-                        signInWithGoogle();
+                        window.location.href = 'Propokit/index-product.html';
                     });
                     
                     // Also add debugging for hover
@@ -9801,16 +9801,11 @@
                     loginBtnCheck.style.zIndex = '9999';
                     loginBtnCheck.style.position = 'relative';
                     
-                    // Add backup click handler
+                    // Add backup click handler - redirect to main app
                     loginBtnCheck.onclick = function(e) {
-                        console.log('🔥 BACKUP: Button clicked via onclick!');
+                        console.log('🔥 BACKUP: Button clicked - redirecting to main app!');
                         e.preventDefault();
-                        if (typeof signInWithGoogle === 'function') {
-                            signInWithGoogle();
-                        } else {
-                            console.log('📞 Calling Google sign-in directly...');
-                            window.location.href = '#login';
-                        }
+                        window.location.href = 'Propokit/index-product.html';
                     };
                 }
                 
@@ -9849,22 +9844,11 @@
                 });
             }
             
-            // Handle pricing button clicks
+            // Handle pricing button clicks - redirect to main app
             function handlePricingButtonClick(e) {
                 e.preventDefault();
-                
-                if (!currentUser) {
-                    showNotification('🔐 Please sign in first to start your trial!', 'warning', 5000);
-                    // Scroll to top to show login button
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    return;
-                }
-                
-                if (userSubscriptionStatus === 'demo') {
-                    showNotification('🚀 Coming Soon: Stripe payment integration! For now, enjoy the demo mode.', 'info', 5000);
-                    // TODO: Replace with actual Stripe checkout
-                    return;
-                }
+                console.log('💳 Pricing button clicked - redirecting to main app!');
+                window.location.href = 'Propokit/index-product.html';
             }
             
             // Initialize pricing buttons when DOM loads
@@ -9874,16 +9858,10 @@
                 }, 2000);
             });
             
-            // Test function to manually trigger login
+            // Test function to manually trigger login - redirect to main app
             window.testLogin = function() {
-                console.log('🧪 Manual login test triggered!');
-                const btn = document.getElementById('login-btn');
-                if (btn) {
-                    console.log('✅ Button found, triggering click...');
-                    btn.click();
-                } else {
-                    console.log('❌ Button not found!');
-                }
+                console.log('🧪 Manual login test - redirecting to main app!');
+                window.location.href = 'Propokit/index-product.html';
             };
             
             // Direct Google sign-in function
