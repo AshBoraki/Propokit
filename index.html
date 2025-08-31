@@ -656,13 +656,20 @@
         
         /* Mobile responsive auth UI */
         @media (max-width: 768px) {
+            .header-actions {
+                display: flex !important;
+                gap: 15px;
+            }
+            
             .auth-section {
                 gap: 10px;
+                display: flex !important;
             }
             
             .auth-btn {
                 padding: 8px 12px;
                 font-size: 13px;
+                display: flex !important;
             }
             
             .auth-btn svg {
@@ -7115,7 +7122,7 @@
                     <!-- User Authentication -->
                     <div class="auth-section">
                         <!-- Login Button (shown when logged out) -->
-                        <button class="auth-btn login-btn" id="login-btn" style="display: none;">
+                        <button class="auth-btn login-btn" id="login-btn" style="display: flex;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                                 <polyline points="10,17 15,12 10,7"></polyline>
@@ -9464,9 +9471,8 @@
                     }
                 });
                 
-                // Show login button initially
+                // Setup login button functionality
                 if (loginBtn) {
-                    loginBtn.style.display = 'flex';
                     loginBtn.addEventListener('click', signInWithGoogle);
                 }
                 
@@ -9693,6 +9699,13 @@
             
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
+                // Check if login button exists immediately
+                const loginBtnCheck = document.getElementById('login-btn');
+                console.log('🔍 Login button found:', loginBtnCheck ? 'YES' : 'NO');
+                if (loginBtnCheck) {
+                    console.log('🔍 Login button styles:', window.getComputedStyle(loginBtnCheck).display);
+                }
+                
                 // Wait a bit for Firebase to load
                 setTimeout(() => {
                     initializeAuth();
