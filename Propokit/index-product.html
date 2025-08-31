@@ -101,6 +101,7 @@
 
     <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     
@@ -340,7 +341,10 @@
     </div>
 
     <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <a href="#" class="dropdown-item" id="google-login-btn" style="background: linear-gradient(45deg, #ff6b35, #f7931e); color: white; border-radius: 6px; margin: 5px; display: block;">
+        <i class="fab fa-google"></i> Sign in with Google
+    </a>
+    <a href="#" class="dropdown-item" id="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
 </div>
 </header>
  <aside id="main-sidebar">
@@ -1174,6 +1178,138 @@
                 window.qrCodesRef.on('value', snap => updateQrCodesUI(snap.val()));
                 window.coverImageRef.on('value', snap => updateCoverImageUI(snap.val()));
             }
+
+            // =================================================================
+            // === 🔐 GOOGLE AUTHENTICATION SYSTEM
+            // =================================================================
+            
+            // Initialize Google Authentication
+            function initializeGoogleAuth() {
+                console.log('🔐 Initializing Google Authentication...');
+                
+                // Check if Firebase Auth is available
+                if (typeof firebase === 'undefined' || !firebase.auth) {
+                    console.error('❌ Firebase Auth not available');
+                    return;
+                }
+                
+                // Listen for authentication state changes
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log('✅ User signed in:', user.email);
+                        handleUserSignIn(user);
+                    } else {
+                        console.log('❌ User signed out');
+                        handleUserSignOut();
+                    }
+                });
+                
+                // Setup login button
+                const loginBtn = document.getElementById('google-login-btn');
+                if (loginBtn) {
+                    loginBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        signInWithGoogle();
+                    });
+                }
+                
+                // Setup logout button
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        signOut();
+                    });
+                }
+            }
+            
+            // Sign in with Google
+            async function signInWithGoogle() {
+                try {
+                    console.log('🔐 Starting Google sign-in...');
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    provider.addScope('email');
+                    provider.addScope('profile');
+                    
+                    const result = await firebase.auth().signInWithPopup(provider);
+                    console.log('✅ Google sign-in successful:', result.user.email);
+                    showNotification('🎉 Successfully signed in with Google!', 'success');
+                } catch (error) {
+                    console.error('❌ Google sign-in failed:', error);
+                    let errorMessage = 'Sign-in failed. Please try again.';
+                    
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'Sign-in was cancelled.';
+                    } else if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'Pop-up was blocked. Please allow pop-ups and try again.';
+                    }
+                    
+                    showNotification(`❌ ${errorMessage}`, 'error');
+                }
+            }
+            
+            // Sign out
+            async function signOut() {
+                try {
+                    await firebase.auth().signOut();
+                    showNotification('👋 Successfully signed out', 'info');
+                } catch (error) {
+                    console.error('❌ Sign-out failed:', error);
+                    showNotification('❌ Sign-out failed. Please try again.', 'error');
+                }
+            }
+            
+            // Handle user sign in
+            function handleUserSignIn(user) {
+                // Update UI
+                updateUserProfileUI(user.displayName || user.email.split('@')[0], user.email);
+                
+                // Show/hide buttons
+                const loginBtn = document.getElementById('google-login-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+                
+                // Store user UID and initialize Firebase data
+                localStorage.setItem('firebaseUID', user.uid);
+                window.currentFirebaseUID = user.uid;
+                
+                // Initialize Firebase data with user's UID
+                if (typeof reinitializeFirebaseRefs === 'function') {
+                    reinitializeFirebaseRefs(user.uid);
+                }
+                
+                window.appInitialized = true;
+            }
+            
+            // Handle user sign out
+            function handleUserSignOut() {
+                // Reset UI
+                resetUserProfileUI();
+                
+                // Show/hide buttons
+                const loginBtn = document.getElementById('google-login-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+                
+                // Clear stored data
+                localStorage.removeItem('firebaseUID');
+                window.currentFirebaseUID = null;
+                
+                // Reset Firebase data
+                if (typeof reinitializeFirebaseRefs === 'function') {
+                    reinitializeFirebaseRefs('');
+                }
+            }
+            
+            // Initialize Google Auth when DOM is loaded
+            document.addEventListener('DOMContentLoaded', () => {
+                // Wait for Firebase to load
+                setTimeout(() => {
+                    initializeGoogleAuth();
+                }, 1000);
+            });
 
             // =================================================================
             // === WIX SESSION CONTROLLER (EVENT LISTENER)
