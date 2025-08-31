@@ -7144,12 +7144,12 @@
                     <div class="auth-section">
                         <!-- Login Button (shown when logged out) -->
                         <button class="auth-btn login-btn" id="login-btn" style="display: flex;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                                 <polyline points="10,17 15,12 10,7"></polyline>
                                 <line x1="15" y1="12" x2="3" y2="12"></line>
                             </svg>
-                            Login with Google
+                            Log in
                         </button>
                         
                         <!-- User Profile (shown when logged in) -->
@@ -9494,7 +9494,24 @@
                 
                 // Setup login button functionality
                 if (loginBtn) {
-                    loginBtn.addEventListener('click', signInWithGoogle);
+                    console.log('🔗 Attaching click handler to login button');
+                    
+                    // Remove any existing listeners first
+                    loginBtn.removeEventListener('click', signInWithGoogle);
+                    
+                    // Add click listener with debugging
+                    loginBtn.addEventListener('click', (e) => {
+                        console.log('🖱️ Login button clicked!');
+                        e.preventDefault();
+                        signInWithGoogle();
+                    });
+                    
+                    // Also add debugging for hover
+                    loginBtn.addEventListener('mouseenter', () => {
+                        console.log('🖱️ Login button hovered');
+                    });
+                } else {
+                    console.error('❌ Login button not found!');
                 }
                 
                 // Logout functionality
@@ -9530,7 +9547,7 @@
                     if (loginButton) {
                         loginButton.disabled = true;
                         loginButton.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 12a9 9 0 11-6.219-8.56"/>
                             </svg>
                             Signing in...
@@ -9559,12 +9576,12 @@
                     if (loginButton) {
                         loginButton.disabled = false;
                         loginButton.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                                 <polyline points="10,17 15,12 10,7"></polyline>
                                 <line x1="15" y1="12" x2="3" y2="12"></line>
                             </svg>
-                            Login with Google
+                            Log in
                         `;
                         loginButton.style.opacity = '1';
                     }
@@ -9761,7 +9778,20 @@
                 const loginBtnCheck = document.getElementById('login-btn');
                 console.log('🔍 Login button found:', loginBtnCheck ? 'YES' : 'NO');
                 if (loginBtnCheck) {
-                    console.log('🔍 Login button styles:', window.getComputedStyle(loginBtnCheck).display);
+                    const styles = window.getComputedStyle(loginBtnCheck);
+                    console.log('🔍 Login button styles:', {
+                        display: styles.display,
+                        visibility: styles.visibility,
+                        opacity: styles.opacity,
+                        pointerEvents: styles.pointerEvents,
+                        zIndex: styles.zIndex
+                    });
+                    
+                    // Test if button is clickable
+                    console.log('🔍 Button clickable test...');
+                    loginBtnCheck.addEventListener('click', () => {
+                        console.log('✅ Button click detected immediately!');
+                    });
                 }
                 
                 // Check if Firebase is loaded
