@@ -488,7 +488,7 @@
         }
         
         .auth-btn {
-            display: flex;
+            display: flex !important;
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
@@ -498,10 +498,13 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
-            cursor: pointer;
+            cursor: pointer !important;
             transition: all var(--transition);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            pointer-events: auto !important;
+            position: relative;
         }
         
         .auth-btn:hover {
@@ -9792,6 +9795,23 @@
                     loginBtnCheck.addEventListener('click', () => {
                         console.log('✅ Button click detected immediately!');
                     });
+                    
+                    // Force button to be clickable with multiple methods
+                    loginBtnCheck.style.pointerEvents = 'auto';
+                    loginBtnCheck.style.zIndex = '9999';
+                    loginBtnCheck.style.position = 'relative';
+                    
+                    // Add backup click handler
+                    loginBtnCheck.onclick = function(e) {
+                        console.log('🔥 BACKUP: Button clicked via onclick!');
+                        e.preventDefault();
+                        if (typeof signInWithGoogle === 'function') {
+                            signInWithGoogle();
+                        } else {
+                            console.log('📞 Calling Google sign-in directly...');
+                            window.location.href = '#login';
+                        }
+                    };
                 }
                 
                 // Check if Firebase is loaded
@@ -9854,6 +9874,37 @@
                 }, 2000);
             });
             
+            // Test function to manually trigger login
+            window.testLogin = function() {
+                console.log('🧪 Manual login test triggered!');
+                const btn = document.getElementById('login-btn');
+                if (btn) {
+                    console.log('✅ Button found, triggering click...');
+                    btn.click();
+                } else {
+                    console.log('❌ Button not found!');
+                }
+            };
+            
+            // Direct Google sign-in function
+            window.directGoogleSignIn = async function() {
+                console.log('🚀 Direct Google sign-in triggered!');
+                try {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        const provider = new firebase.auth.GoogleAuthProvider();
+                        const result = await firebase.auth().signInWithPopup(provider);
+                        console.log('✅ Direct sign-in successful:', result.user.email);
+                        alert('Login successful! ' + result.user.email);
+                    } else {
+                        console.log('❌ Firebase not available');
+                        alert('Firebase not loaded yet. Please wait and try again.');
+                    }
+                } catch (error) {
+                    console.error('❌ Direct sign-in failed:', error);
+                    alert('Login failed: ' + error.message);
+                }
+            };
+            
             // Make functions globally available
             window.PropoKitAuth = {
                 checkDemoModeRestrictions,
@@ -9862,7 +9913,9 @@
                 getCurrentUser: () => currentUser,
                 getSubscriptionStatus: () => userSubscriptionStatus,
                 updateUserStatus,
-                initializePricingButtons
+                initializePricingButtons,
+                testLogin: window.testLogin,
+                directGoogleSignIn: window.directGoogleSignIn
             };
 
         });
