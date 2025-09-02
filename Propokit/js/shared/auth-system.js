@@ -116,20 +116,35 @@ async function signInWithGoogle() {
             loginBtn.style.opacity = '0.7';
         }
 
-        // Try Firebase authentication first
+        // Try Firebase authentication with different methods
         if (typeof firebase !== 'undefined' && firebase.auth) {
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope('email');
                 provider.addScope('profile');
-
-                const result = await firebase.auth().signInWithPopup(provider);
-                console.log('✅ Google sign-in successful:', result.user.email);
+                
+                // Try redirect method first (more reliable than popup)
+                console.log('🔄 Trying redirect method...');
+                await firebase.auth().signInWithRedirect(provider);
+                
+                // If we get here, redirect was successful
+                console.log('✅ Google sign-in successful via redirect');
                 showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
+                
             } catch (firebaseError) {
-                console.warn('⚠️ Firebase authentication failed, using local test mode:', firebaseError);
-                // Fall back to local test authentication
-                await signInWithLocalTest();
+                console.warn('⚠️ Firebase redirect failed, trying popup:', firebaseError);
+                
+                try {
+                    // Try popup method as fallback
+                    const result = await firebase.auth().signInWithPopup(provider);
+                    console.log('✅ Google sign-in successful via popup:', result.user.email);
+                    showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
+                    
+                } catch (popupError) {
+                    console.warn('⚠️ Firebase popup failed, using local test mode:', popupError);
+                    // Fall back to local test authentication
+                    await signInWithLocalTest();
+                }
             }
         } else {
             // Firebase not available, use local test
