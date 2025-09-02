@@ -332,7 +332,10 @@ function handleUserSignIn(user) {
                 userAvatarTrigger.innerHTML = `<div style="width: 32px; height: 32px; border-radius: 50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:12px;">${initials}</div>`;
             }
         }
-        if (logoutBtn) logoutBtn.style.display = 'block';
+        if (logoutBtn) {
+            logoutBtn.style.display = 'block';
+            logoutBtn.style.visibility = 'visible';
+        }
     }
 
     // Update subscription status
@@ -362,7 +365,10 @@ function handleUserSignOut() {
     if (isMarketing) {
         // Marketing page UI updates
         if (loginBtn) loginBtn.style.display = 'flex';
-        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (logoutBtn) {
+            logoutBtn.style.display = 'none';
+            logoutBtn.style.visibility = 'hidden';
+        }
         if (userProfile) userProfile.style.display = 'none';
         // Reset marketing avatar elements
         const initialsEl = document.getElementById('user-avatar-initials');
@@ -383,7 +389,10 @@ function handleUserSignOut() {
         if (userAvatarTrigger) {
             userAvatarTrigger.innerHTML = `<span>GU</span><div class="user-status-indicator online"></div>`;
         }
-        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (logoutBtn) {
+            logoutBtn.style.display = 'none';
+            logoutBtn.style.visibility = 'hidden';
+        }
     }
     
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
