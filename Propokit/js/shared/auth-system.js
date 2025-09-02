@@ -552,24 +552,26 @@ function setupDropdownToggles() {
         });
     }
     
-    // Main app dropdown toggle
-    const mainAppUserMenu = document.getElementById('user-profile-menu');
-    const mainAppUserAvatarTrigger = document.getElementById('user-avatar-trigger');
-    
-    if (mainAppUserAvatarTrigger && mainAppUserMenu) {
-        console.log('🎛️ Setting up main app dropdown toggle');
-        mainAppUserAvatarTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🖱️ Main app avatar clicked, toggling dropdown');
-            mainAppUserMenu.classList.toggle('open');
-            console.log('🔍 Dropdown classes after toggle:', mainAppUserMenu.className);
-        });
-    } else {
-        console.warn('⚠️ Main app dropdown elements not found:', {
-            avatarTrigger: !!mainAppUserAvatarTrigger,
-            userMenu: !!mainAppUserMenu
-        });
+    // Main app dropdown toggle - only set up if we're on the main app
+    if (window.location.pathname.includes('Propokit')) {
+        const mainAppUserMenu = document.getElementById('user-profile-menu');
+        const mainAppUserAvatarTrigger = document.getElementById('user-avatar-trigger');
+        
+        if (mainAppUserAvatarTrigger && mainAppUserMenu) {
+            console.log('🎛️ Setting up main app dropdown toggle');
+            mainAppUserAvatarTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🖱️ Main app avatar clicked, toggling dropdown');
+                mainAppUserMenu.classList.toggle('open');
+                console.log('🔍 Dropdown classes after toggle:', mainAppUserMenu.className);
+            });
+        } else {
+            console.warn('⚠️ Main app dropdown elements not found:', {
+                avatarTrigger: !!mainAppUserAvatarTrigger,
+                userMenu: !!mainAppUserMenu
+            });
+        }
     }
     
     // Close dropdowns when clicking outside
@@ -577,6 +579,7 @@ function setupDropdownToggles() {
         if (marketingDropdownMenu && !marketingDropdownMenu.contains(e.target) && !marketingDropdownToggle?.contains(e.target)) {
             marketingDropdownMenu.classList.remove('show');
         }
+        const mainAppUserMenu = document.getElementById('user-profile-menu');
         if (mainAppUserMenu && !mainAppUserMenu.contains(e.target)) {
             mainAppUserMenu.classList.remove('open');
         }
