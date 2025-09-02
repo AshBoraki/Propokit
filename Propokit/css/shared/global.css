@@ -51,3 +51,41 @@ body {
         display: block !important;
     }
 }
+
+/* Authentication Status Indicator */
+.auth-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-left: 12px;
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    color: #856404;
+    transition: all 0.3s ease;
+}
+
+.auth-status-indicator i {
+    font-size: 10px;
+}
+
+.auth-status-indicator.firebase-mode {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 28, 0.3);
+    color: #155724;
+}
+
+.auth-status-indicator.local-mode {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    color: #856404;
+}
+
+.auth-status-indicator.error-mode {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #721c24;
+}

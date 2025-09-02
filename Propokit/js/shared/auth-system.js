@@ -161,47 +161,95 @@ async function signInWithGoogle() {
             loginBtn.style.opacity = '0.7';
         }
 
-        // Try Firebase authentication with different methods
-        if (typeof firebase !== 'undefined' && firebase.auth) {
-            // Create provider OUTSIDE the try block so it's available in catch blocks
-            const provider = new firebase.auth.GoogleAuthProvider();
-            provider.addScope('email');
-            provider.addScope('profile');
+        // Check if Firebase is available and properly configured
+        if (typeof firebase === 'undefined' || !firebase.auth) {
+            console.warn('⚠️ Firebase Auth not available, using local test mode');
+            await signInWithLocalTest();
+            return;
+        }
 
-            // Set the client ID for better compatibility
-            if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
-                provider.setCustomParameters({
-                    client_id: firebaseConfig.clientId
-                });
+        // Test Firebase configuration first
+        try {
+            // Try to access Firebase Auth to test if API key is working
+            await firebase.auth().signOut(); // This will test if the API is accessible
+            console.log('✅ Firebase Auth API is accessible');
+        } catch (configError) {
+            console.warn('⚠️ Firebase Auth API test failed:', configError);
+            
+            // Check if it's the 403 API key blocked error
+            if (configError.code === 'auth/internal-error' || 
+                configError.message.includes('403') || 
+                configError.message.includes('API_KEY_SERVICE_BLOCKED') ||
+                configError.message.includes('identitytoolkit')) {
+                
+                console.warn('🚫 Firebase API key is blocked from Identity Toolkit API');
+                console.warn('🔄 Falling back to local test authentication...');
+                await signInWithLocalTest();
+                return;
+            }
+        }
+
+        // Create provider
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('email');
+        provider.addScope('profile');
+
+        // Set the client ID for better compatibility
+        if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
+            provider.setCustomParameters({
+                client_id: firebaseConfig.clientId
+            });
+        }
+
+        // Try popup method first (more reliable than redirect for local development)
+        try {
+            console.log('🔄 Trying popup method...');
+            const result = await firebase.auth().signInWithPopup(provider);
+            console.log('✅ Google sign-in successful via popup:', result.user.email);
+            showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
+            
+            // Show Firebase mode status indicator
+            showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
+
+        } catch (popupError) {
+            console.warn('⚠️ Firebase popup failed, trying redirect:', popupError);
+            
+            // Check if it's the 403 API key blocked error
+            if (popupError.code === 'auth/internal-error' || 
+                popupError.message.includes('403') || 
+                popupError.message.includes('API_KEY_SERVICE_BLOCKED') ||
+                popupError.message.includes('identitytoolkit')) {
+                
+                console.warn('🚫 Firebase API key is blocked from Identity Toolkit API');
+                console.warn('🔄 Falling back to local test authentication...');
+                await signInWithLocalTest();
+                return;
             }
 
             try {
-                // Try redirect method first (more reliable than popup)
+                // Try redirect method as fallback
                 console.log('🔄 Trying redirect method...');
                 await firebase.auth().signInWithRedirect(provider);
+                console.log('✅ Google sign-in redirect initiated');
 
-                // If we get here, redirect was successful
-                console.log('✅ Google sign-in successful via redirect');
-                showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-
-            } catch (firebaseError) {
-                console.warn('⚠️ Firebase redirect failed, trying popup:', firebaseError);
-
-                try {
-                    // Try popup method as fallback
-                    const result = await firebase.auth().signInWithPopup(provider);
-                    console.log('✅ Google sign-in successful via popup:', result.user.email);
-                    showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-
-                } catch (popupError) {
-                    console.warn('⚠️ Firebase popup failed, using local test mode:', popupError);
-                    // Fall back to local test authentication
+            } catch (redirectError) {
+                console.warn('⚠️ Firebase redirect failed, using local test mode:', redirectError);
+                
+                // Check if it's the 403 API key blocked error
+                if (redirectError.code === 'auth/internal-error' || 
+                    redirectError.message.includes('403') || 
+                    redirectError.message.includes('API_KEY_SERVICE_BLOCKED') ||
+                    redirectError.message.includes('identitytoolkit')) {
+                    
+                    console.warn('🚫 Firebase API key is blocked from Identity Toolkit API');
+                    console.warn('🔄 Falling back to local test authentication...');
                     await signInWithLocalTest();
+                    return;
                 }
+                
+                // Fall back to local test authentication
+                await signInWithLocalTest();
             }
-        } else {
-            // Firebase not available, use local test
-            await signInWithLocalTest();
         }
 
         // Redirect to main app if on marketing page
@@ -229,6 +277,20 @@ async function signInWithGoogle() {
         }
 
         let errorMessage = 'Sign-in failed. Please try again.';
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+            errorMessage = 'Sign-in was cancelled.';
+        } else if (error.code === 'auth/popup-blocked') {
+            errorMessage = 'Pop-up was blocked. Please allow pop-ups and try again.';
+        } else if (error.message.includes('Firebase Auth not loaded')) {
+            errorMessage = 'Authentication system is loading. Please wait a moment and try again.';
+        } else if (error.message.includes('403') || error.message.includes('API_KEY_SERVICE_BLOCKED')) {
+            errorMessage = 'Authentication service temporarily unavailable. Using local mode.';
+            // Automatically fall back to local test
+            await signInWithLocalTest();
+            return;
+        }
+        
         showNotification(`❌ ${errorMessage}`, 'error', 5000);
     }
 }
@@ -239,6 +301,12 @@ async function signInWithGoogle() {
  */
 async function signInWithLocalTest() {
     console.log('🧪 Using local test authentication...');
+    
+    // Show a notification about the fallback
+    showNotification('🔄 Using local authentication mode', 'info', 2000);
+    
+    // Show local mode status indicator
+    showAuthStatusIndicator('local-mode', 'Local Mode');
     
     // Check if local Firebase test system is available
     if (window.localFirebaseTest) {
@@ -254,7 +322,7 @@ async function signInWithLocalTest() {
         
         // Handle the sign in
         handleUserSignIn(mockUser);
-        showNotification('🧪 Signed in with test account!', 'success', 3000);
+        showNotification('🧪 Signed in with test account! All features available.', 'success', 4000);
         
     } else {
         // Create a simple test user
@@ -271,9 +339,43 @@ async function signInWithLocalTest() {
         
         // Handle the sign in
         handleUserSignIn(testUser);
-        showNotification('🧪 Signed in with test account!', 'success', 3000);
+        showNotification('🧪 Signed in with test account! All features available.', 'success', 4000);
+    }
+    
+    // Show additional info about the fallback
+    setTimeout(() => {
+        console.log('💡 Local authentication mode active - all app features will work normally');
+        console.log('💡 To fix Firebase authentication, check your Firebase Console settings');
+    }, 1000);
+}
+
+/**
+ * 🔍 Show authentication status indicator
+ * Displays the current authentication mode in the header
+ */
+function showAuthStatusIndicator(mode, text) {
+    const indicator = document.getElementById('auth-status-indicator');
+    if (indicator) {
+        indicator.style.display = 'flex';
+        indicator.className = `auth-status-indicator ${mode}`;
+        
+        const icon = indicator.querySelector('i');
+        const textSpan = indicator.querySelector('.auth-status-text');
+        
+        if (mode === 'firebase-mode') {
+            icon.className = 'fas fa-fire';
+            textSpan.textContent = text || 'Firebase Mode';
+        } else if (mode === 'local-mode') {
+            icon.className = 'fas fa-shield-alt';
+            textSpan.textContent = text || 'Local Mode';
+        } else if (mode === 'error-mode') {
+            icon.className = 'fas fa-exclamation-triangle';
+            textSpan.textContent = text || 'Auth Error';
+        }
     }
 }
+
+/**
 
 /**
  * 🔐 Sign out

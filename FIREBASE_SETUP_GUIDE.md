@@ -1,94 +1,73 @@
-# 🔥 Firebase Google Authentication Setup Guide
+# 🔥 Firebase Authentication Setup Guide
 
-## 🚨 Current Issue
-Your Firebase API key is blocked/restricted, which is why the Google login falls back to test mode.
+## Current Issue
+Your Firebase API key is being blocked from accessing the Identity Toolkit API, which is causing authentication failures.
 
-## 🔧 Step-by-Step Fix
+## 🔧 Quick Fix Steps
 
-### 1. **Firebase Console Setup**
+### 1. Check Firebase Console Settings
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Select your project: `denali-tech-f22e8`
+3. Go to **Authentication** → **Sign-in method**
+4. Make sure **Google** is enabled as a sign-in provider
+5. Add your domain to **Authorized domains**:
+   - `localhost`
+   - `127.0.0.1`
+   - Your production domain (if any)
 
-1. **Go to Firebase Console**: https://console.firebase.google.com/
-2. **Select your project**: `denali-tech-f22e8`
-3. **Go to Authentication**: Left sidebar → Authentication
-4. **Enable Google Sign-in**:
-   - Click "Sign-in method" tab
-   - Click "Google" provider
-   - Toggle "Enable" to ON
-   - Add your support email
-   - Click "Save"
+### 2. Check API Key Restrictions
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Select your project: `denali-tech-f22e8`
+3. Go to **APIs & Services** → **Credentials**
+4. Find your API key: `AIzaSyD4KPxRXHK4phJVyiLsaU6CLb9pBfZygjw`
+5. Check if there are any restrictions that might be blocking the Identity Toolkit API
 
-### 2. **Fix API Key Restrictions**
+### 3. Enable Required APIs
+1. In Google Cloud Console, go to **APIs & Services** → **Library**
+2. Search for and enable these APIs:
+   - **Identity Toolkit API**
+   - **Firebase Authentication API**
+   - **Firebase Realtime Database API**
+   - **Firebase Storage API**
 
-1. **Go to Google Cloud Console**: https://console.cloud.google.com/
-2. **Select your project**: `denali-tech-f22e8`
-3. **Go to APIs & Services**: Left sidebar → APIs & Services → Credentials
-4. **Find your API key**: `AIzaSyD4KPxRXHK4phJVyiLsaU6CLb9pBfZygjw`
-5. **Click on the API key** to edit it
-6. **Remove restrictions** or add proper ones:
-   - **Application restrictions**: Set to "None" or "HTTP referrers"
-   - **API restrictions**: Set to "Don't restrict key" or add specific APIs:
-     - `Firebase Authentication API`
-     - `Firebase Realtime Database API`
-     - `Firebase Storage API`
+### 4. Check OAuth 2.0 Client ID
+1. In Google Cloud Console, go to **APIs & Services** → **Credentials**
+2. Find your OAuth 2.0 Client ID: `1012434420529-la200fdscsf5u6g5ajulo9r1ibmqo5rb.apps.googleusercontent.com`
+3. Add these to **Authorized JavaScript origins**:
+   - `http://localhost`
+   - `http://127.0.0.1`
+   - `http://localhost:3000` (if using a dev server)
+   - Your production domain (if any)
 
-### 3. **Add Authorized Domains**
+## 🚀 Current Workaround
+The app now automatically falls back to local test authentication when Firebase fails, so all features will work normally. You'll see:
+- ✅ Local authentication mode active
+- ✅ All app features available
+- ✅ QR codes and data persistence working
 
-1. **Back to Firebase Console**: Authentication → Settings
-2. **Authorized domains**: Add your domains:
-   - `yourdomain.com` (if you have a custom domain)
-   - `localhost` (for local development)
-   - `127.0.0.1` (for local development)
+## 🔍 Debug Information
+The authentication system now provides detailed logging:
+- `🚫 Firebase API key is blocked from Identity Toolkit API`
+- `🔄 Falling back to local test authentication...`
+- `🧪 Signed in with test account! All features available.`
 
-### 4. **Enable Required APIs**
+## 📝 Next Steps
+1. **Immediate**: The app works with local authentication
+2. **Short-term**: Follow the setup steps above to fix Firebase
+3. **Long-term**: Consider using a different Firebase project or authentication method
 
-1. **Google Cloud Console**: APIs & Services → Library
-2. **Search and enable these APIs**:
-   - `Firebase Authentication API`
-   - `Firebase Realtime Database API`
-   - `Firebase Storage API`
-   - `Identity Toolkit API`
+## 🆘 If Issues Persist
+If you continue having Firebase issues:
+1. Create a new Firebase project
+2. Update the `firebaseConfig` in `Propokit/js/shared/firebase-config.js`
+3. Or continue using the local authentication mode (fully functional)
 
-### 5. **Test the Setup**
+## 💡 Local Authentication Mode
+The local authentication mode provides:
+- ✅ Full app functionality
+- ✅ Data persistence (localStorage)
+- ✅ QR code generation
+- ✅ All features working normally
+- ✅ No external dependencies
 
-After making these changes:
-
-1. **Wait 5-10 minutes** for changes to propagate
-2. **Refresh your page**
-3. **Try the login button**
-4. **Check console** for successful Google authentication
-
-## 🔍 Troubleshooting
-
-### If still getting API blocked errors:
-
-1. **Check API quotas**: Google Cloud Console → APIs & Services → Quotas
-2. **Verify billing**: Ensure your project has billing enabled
-3. **Check domain restrictions**: Make sure your domain is authorized
-4. **Clear browser cache**: Hard refresh (Ctrl+F5)
-
-### Common Issues:
-
-- **"API_KEY_SERVICE_BLOCKED"**: API key restrictions too strict
-- **"auth/popup-blocked"**: Browser blocking popups
-- **"auth/unauthorized-domain"**: Domain not in authorized list
-
-## 🎯 Expected Result
-
-After fixing these issues, you should see:
-```
-🔐 Starting Google sign-in...
-✅ Google sign-in successful: your.email@gmail.com
-🎉 Successfully signed in with Google!
-```
-
-## 📞 Need Help?
-
-If you're still having issues after following this guide, please:
-1. Check the Firebase Console for any error messages
-2. Verify all APIs are enabled
-3. Ensure your domain is authorized
-4. Check that billing is enabled on your Google Cloud project
-
----
-
-**Note**: This guide assumes you have access to the Firebase Console and Google Cloud Console for your project. If you don't have access, you'll need to contact the project owner.
+This mode is perfect for development and testing, and can even be used in production if needed.

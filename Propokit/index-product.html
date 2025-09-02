@@ -107,7 +107,7 @@
     
     <!-- Firebase Configuration -->
     <script src="js/shared/firebase-config.js"></script>
-    
+
     <!-- Propokit Shared Authentication System -->
     <script src="js/shared/auth-system.js"></script>
 
@@ -168,6 +168,11 @@
 <div class="header-document-title-wrapper">
     <i class="fas fa-file-alt document-icon"></i>
     <input type="text" id="header-document-title" placeholder="Untitled Proposal" />
+    <!-- Authentication Status Indicator -->
+    <div id="auth-status-indicator" class="auth-status-indicator" style="display: none;">
+        <i class="fas fa-shield-alt"></i>
+        <span class="auth-status-text">Local Mode</span>
+    </div>
 </div>
     <div class="header-right">
        <a href="#" data-page="product-library" class="header-btn header-btn-tool" title="Product Library"><i class="fas fa-swatchbook"></i><span>Product Library</span></a>
