@@ -312,7 +312,8 @@ function handleUserSignIn(user) {
         if (loginBtn) loginBtn.style.display = 'none';
         if (logoutBtn) logoutBtn.style.display = 'flex';
         if (userProfile) userProfile.style.display = 'flex';
-        if (userAvatar) userAvatar.src = user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg';
+        // Render avatar: prefer user photo, fallback to initials
+        renderMarketingAvatar(user);
         if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
     } else {
         // Main app UI updates
@@ -324,7 +325,12 @@ function handleUserSignIn(user) {
         if (profileUserName) profileUserName.textContent = user.displayName || 'Alex Hormozi';
         if (profileUserEmail) profileUserEmail.textContent = user.email || 'alex.hormozi@test.com';
         if (userAvatarTrigger) {
-            userAvatarTrigger.innerHTML = `<img src="${user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">`;
+            if (user.photoURL) {
+                userAvatarTrigger.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">`;
+            } else {
+                const initials = getUserInitials(user.displayName || user.email);
+                userAvatarTrigger.innerHTML = `<div style="width: 32px; height: 32px; border-radius: 50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:12px;">${initials}</div>`;
+            }
         }
         if (logoutBtn) logoutBtn.style.display = 'block';
     }
@@ -358,6 +364,13 @@ function handleUserSignOut() {
         if (loginBtn) loginBtn.style.display = 'flex';
         if (logoutBtn) logoutBtn.style.display = 'none';
         if (userProfile) userProfile.style.display = 'none';
+        // Reset marketing avatar elements
+        const initialsEl = document.getElementById('user-avatar-initials');
+        if (initialsEl && initialsEl.parentElement) initialsEl.parentElement.removeChild(initialsEl);
+        if (userAvatar) {
+            userAvatar.src = '';
+            userAvatar.style.display = '';
+        }
     } else {
         // Main app UI updates
         const profileUserName = document.getElementById('profile-user-name');
@@ -383,6 +396,56 @@ function handleUserSignOut() {
     // Trigger existing Firebase data cleanup
     if (window.reinitializeFirebaseRefs) {
         window.reinitializeFirebaseRefs('');
+    }
+}
+
+// =============================
+// Avatar helpers
+// =============================
+
+function getUserInitials(nameOrEmail) {
+    if (!nameOrEmail) return 'U';
+    const base = String(nameOrEmail).trim();
+    if (base.includes(' ')) {
+        const parts = base.split(/\s+/).filter(Boolean);
+        const first = parts[0]?.[0] || '';
+        const last = parts[parts.length - 1]?.[0] || '';
+        return (first + last).toUpperCase();
+    }
+    // From email
+    const beforeAt = base.split('@')[0];
+    const first = beforeAt[0] || 'U';
+    return first.toUpperCase();
+}
+
+function renderMarketingAvatar(user) {
+    try {
+        if (!userProfile) return;
+        const existingInitials = document.getElementById('user-avatar-initials');
+        if (user && user.photoURL) {
+            // Show image, hide initials if any
+            if (userAvatar) {
+                userAvatar.src = user.photoURL;
+                userAvatar.style.display = '';
+            }
+            if (existingInitials) existingInitials.style.display = 'none';
+        } else {
+            // Hide image, show initials badge
+            if (userAvatar) userAvatar.style.display = 'none';
+            const initialsText = getUserInitials(user?.displayName || user?.email);
+            if (existingInitials) {
+                existingInitials.textContent = initialsText;
+                existingInitials.style.display = 'inline-flex';
+            } else {
+                const badge = document.createElement('span');
+                badge.id = 'user-avatar-initials';
+                badge.textContent = initialsText;
+                badge.style.cssText = 'width:24px;height:24px;border-radius:50%;background:#333;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;margin-right:8px;';
+                userProfile.insertBefore(badge, userProfile.firstChild);
+            }
+        }
+    } catch (e) {
+        console.warn('Avatar render failed:', e);
     }
 }
 
