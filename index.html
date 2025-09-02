@@ -6999,6 +6999,40 @@
             }
         }
     </style>
+    <style>
+        /* Ensure login button is clickable */
+        .auth-btn.login-btn {
+            position: relative !important;
+            z-index: 1000 !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn.login-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+        
+        .auth-btn.login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .auth-btn.login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
     <body>
         <!-- ULTRA-ENHANCED: INSANE background shapes that will BLOW MINDS! 🌟✨ -->
@@ -7063,13 +7097,18 @@
                     <!-- User Authentication -->
                     <div class="auth-section">
                         <!-- Login Button (shown when logged out) -->
-                        <button class="auth-btn login-btn" id="login-btn" style="display: flex;">
+                        <button class="auth-btn login-btn" id="login-btn" style="display: flex; position: relative; z-index: 1000; pointer-events: auto; cursor: pointer;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                                 <polyline points="10,17 15,12 10,7"></polyline>
                                 <line x1="15" y1="12" x2="3" y2="12"></line>
                             </svg>
                             Log in
+                        </button>
+                        
+                        <!-- Test Button for Debugging -->
+                        <button id="test-login-btn" style="background: #28a745; color: white; padding: 4px 8px; margin-left: 10px; border: none; border-radius: 4px; cursor: pointer;" onclick="console.log('🧪 TEST BUTTON CLICKED!'); signInWithGoogle();">
+                            Test Login
                         </button>
                         
                         <!-- User Profile (shown when logged in) -->
@@ -9415,6 +9454,14 @@
                 // Setup login button functionality
                 if (loginBtn) {
                     console.log('🔗 Attaching click handler to login button');
+                    console.log('🔍 Login button element:', loginBtn);
+                    console.log('🔍 Login button styles:', {
+                        display: window.getComputedStyle(loginBtn).display,
+                        visibility: window.getComputedStyle(loginBtn).visibility,
+                        pointerEvents: window.getComputedStyle(loginBtn).pointerEvents,
+                        zIndex: window.getComputedStyle(loginBtn).zIndex,
+                        position: window.getComputedStyle(loginBtn).position
+                    });
                     
                     // Remove any existing listeners first
                     loginBtn.removeEventListener('click', signInWithGoogle);
@@ -9423,6 +9470,7 @@
                     loginBtn.addEventListener('click', (e) => {
                         console.log('🖱️ Login button clicked - starting Google sign-in...');
                         e.preventDefault();
+                        e.stopPropagation();
                         signInWithGoogle();
                     });
                     
@@ -9430,6 +9478,14 @@
                     loginBtn.addEventListener('mouseenter', () => {
                         console.log('🖱️ Login button hovered');
                     });
+                    
+                    // Add a direct onclick as backup
+                    loginBtn.onclick = function(e) {
+                        console.log('🔥 DIRECT ONCLICK: Login button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        signInWithGoogle();
+                    };
                 } else {
                     console.error('❌ Login button not found!');
                 }
@@ -9630,6 +9686,12 @@
             
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
+                console.log('🔍 DOM loaded, checking for login button...');
+                console.log('🔍 Firebase available:', typeof firebase !== 'undefined' ? 'YES' : 'NO');
+                if (typeof firebase !== 'undefined') {
+                    console.log('🔍 Firebase auth available:', typeof firebase.auth !== 'undefined' ? 'YES' : 'NO');
+                }
+                
                 // Check if login button exists immediately
                 const loginBtnCheck = document.getElementById('login-btn');
                 console.log('🔍 Login button found:', loginBtnCheck ? 'YES' : 'NO');
