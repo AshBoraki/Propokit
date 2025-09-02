@@ -179,9 +179,21 @@
         
         <!-- User Authentication Section -->
         <div class="user-auth-section">
-            <button id="logout-btn" class="header-btn header-btn-icon-only" title="Logout" style="color: #ff6b35;">
+            <!-- Login Button (shown when not authenticated) -->
+            <button id="login-btn" class="header-btn header-btn-icon-only" title="Login" style="color: #28a745; display: flex;">
+                <i class="fas fa-sign-in-alt"></i>
+            </button>
+            
+            <!-- Logout Button (shown when authenticated) -->
+            <button id="logout-btn" class="header-btn header-btn-icon-only" title="Logout" style="color: #ff6b35; display: none;">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
+            
+            <!-- User Profile (shown when authenticated) -->
+            <div id="user-profile" style="display: none;">
+                <img id="user-avatar" src="" alt="User Avatar" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 8px;">
+                <span id="user-name" style="color: #333; font-size: 12px;"></span>
+            </div>
         </div>
         <div class="header-divider"></div>
 
@@ -1213,12 +1225,14 @@
                 });
                 
                 // Setup login button
-                const loginBtn = document.getElementById('google-login-btn');
+                const loginBtn = document.getElementById('login-btn');
                 if (loginBtn) {
                     loginBtn.addEventListener('click', (e) => {
                         e.preventDefault();
                         signInWithGoogle();
                     });
+                } else {
+                    console.error('❌ Login button not found!');
                 }
                 
                 // Setup logout button
@@ -1228,6 +1242,8 @@
                         e.preventDefault();
                         signOut();
                     });
+                } else {
+                    console.error('❌ Logout button not found!');
                 }
             }
             
@@ -1269,14 +1285,23 @@
             
             // Handle user sign in
             function handleUserSignIn(user) {
-                // Update UI
-                updateUserProfileUI(user.displayName || user.email.split('@')[0], user.email);
+                console.log('👤 Handling user sign in:', user.email);
+                
+                // Update UI elements
+                const loginBtn = document.getElementById('login-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+                const userProfile = document.getElementById('user-profile');
+                const userAvatar = document.getElementById('user-avatar');
+                const userName = document.getElementById('user-name');
                 
                 // Show/hide buttons
-                const loginBtn = document.getElementById('google-login-btn');
-                const logoutBtn = document.getElementById('logout-btn');
                 if (loginBtn) loginBtn.style.display = 'none';
-                if (logoutBtn) logoutBtn.style.display = 'block';
+                if (logoutBtn) logoutBtn.style.display = 'flex';
+                if (userProfile) userProfile.style.display = 'flex';
+                
+                // Update user profile
+                if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/24';
+                if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
                 
                 // Store user UID and initialize Firebase data
                 localStorage.setItem('firebaseUID', user.uid);
@@ -1287,19 +1312,25 @@
                     reinitializeFirebaseRefs(user.uid);
                 }
                 
+                showNotification('🎉 Successfully signed in!', 'success', 3000);
+            }
+                
                 window.appInitialized = true;
             }
             
             // Handle user sign out
             function handleUserSignOut() {
-                // Reset UI
-                resetUserProfileUI();
+                console.log('👤 Handling user sign out');
+                
+                // Update UI elements
+                const loginBtn = document.getElementById('login-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+                const userProfile = document.getElementById('user-profile');
                 
                 // Show/hide buttons
-                const loginBtn = document.getElementById('google-login-btn');
-                const logoutBtn = document.getElementById('logout-btn');
-                if (loginBtn) loginBtn.style.display = 'block';
+                if (loginBtn) loginBtn.style.display = 'flex';
                 if (logoutBtn) logoutBtn.style.display = 'none';
+                if (userProfile) userProfile.style.display = 'none';
                 
                 // Clear stored data
                 localStorage.removeItem('firebaseUID');
@@ -1309,40 +1340,21 @@
                 if (typeof reinitializeFirebaseRefs === 'function') {
                     reinitializeFirebaseRefs('');
                 }
+                
+                showNotification('👋 Successfully signed out', 'info', 3000);
             }
             
             // Initialize Google Auth when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 DOM loaded, checking authentication...');
+                console.log('🔍 DOM loaded, initializing authentication...');
                 
-                // Check if user is authenticated
+                // Check if user is already authenticated
                 const storedUID = localStorage.getItem('firebaseUID');
-                if (!storedUID) {
-                    console.log('❌ No authentication found, redirecting to login...');
-                    showNotification('🔐 Please log in to access PropoKit', 'warning', 3000);
-                    setTimeout(() => {
-                        window.location.href = '../index.html';
-                    }, 3000);
-                    return;
-                }
-                
-                console.log('✅ User authenticated with UID:', storedUID);
-                window.currentFirebaseUID = storedUID;
-                
-                // Check if login button exists immediately
-                const loginBtnCheck = document.getElementById('google-login-btn');
-                console.log('🔍 Google login button found:', loginBtnCheck ? 'YES' : 'NO');
-                
-                if (loginBtnCheck) {
-                    console.log('🔍 Button styles:', {
-                        display: window.getComputedStyle(loginBtnCheck).display,
-                        visibility: window.getComputedStyle(loginBtnCheck).visibility
-                    });
-                    
-                    // Add immediate click test
-                    loginBtnCheck.addEventListener('click', () => {
-                        console.log('🖱️ LOGIN BUTTON CLICKED IMMEDIATELY!');
-                    });
+                if (storedUID) {
+                    console.log('✅ User already authenticated with UID:', storedUID);
+                    window.currentFirebaseUID = storedUID;
+                } else {
+                    console.log('❌ No authentication found, showing login button');
                 }
                 
                 // Wait for Firebase to load
