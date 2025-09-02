@@ -318,6 +318,8 @@
                     operationType: result.operationType,
                     additionalUserInfo: result.additionalUserInfo
                 });
+                console.log('🔍 Current URL before redirect:', window.location.href);
+                console.log('🔍 Current domain:', window.location.hostname);
                 
                 if (result.user) {
                     console.log('✅ Redirect sign-in successful:', result.user.email);
@@ -329,6 +331,7 @@
                     
                     // Redirect to main app immediately
                     console.log('🔄 Redirecting to main app...');
+                    console.log('🔄 Target URL: index-product.html');
                     window.location.href = 'index-product.html';
                 } else {
                     console.log('🔍 No redirect result user found');
@@ -337,6 +340,7 @@
                     console.log('   - Domain not authorized in Firebase Console');
                     console.log('   - OAuth consent not completed');
                     console.log('   - Redirect URI mismatch');
+                    console.log('🔍 Current Firebase auth state:', firebase.auth().currentUser);
                 }
             }).catch((error) => {
                 console.error('❌ Redirect sign-in error details:', error);
@@ -351,6 +355,7 @@
             // Check if user is already signed in (only if redirect wasn't handled)
             firebase.auth().onAuthStateChanged((user) => {
                 console.log('🔍 Login page - Auth state changed:', user ? user.email : 'No user');
+                console.log('🔍 Redirect handled flag:', redirectHandled);
                 if (user && !redirectHandled) {
                     console.log('✅ User already signed in:', user.email);
                     showNotification('👋 Welcome back!', 'success', 2000);
@@ -361,6 +366,7 @@
                     
                     // Redirect to main app
                     console.log('🔄 Redirecting to main app (already signed in)...');
+                    console.log('🔄 Target URL: index-product.html');
                     window.location.href = 'index-product.html';
                 }
             });

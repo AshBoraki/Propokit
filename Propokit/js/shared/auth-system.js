@@ -206,7 +206,8 @@ async function signInWithGoogle() {
                 console.log('✅ Google sign-in redirect initiated');
                 
             } else {
-                // Redirect to login page
+                // For marketing page, redirect to login page
+                console.log('🔄 Marketing page detected, redirecting to login page...');
                 window.location.href = 'Propokit/login.html';
                 return;
             }

@@ -1197,6 +1197,8 @@
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('🔍 Main app loaded, checking authentication state...');
+                console.log('🔍 Current URL:', window.location.href);
+                console.log('🔍 Current domain:', window.location.hostname);
                 
                 // Check current auth state immediately
                 const currentUser = firebase.auth().currentUser;
@@ -1222,6 +1224,7 @@
                         console.log('✅ User authenticated and Firebase initialized');
                     } else {
                         console.log('🔍 No redirect result user found');
+                        console.log('🔍 This is normal if user came directly to main app');
                     }
                 }).catch((error) => {
                     if (error.code !== 'auth/no-redirect-result') {
@@ -1243,6 +1246,7 @@
                         reinitializeFirebaseRefs(user.uid);
                     } else {
                         console.log('👤 No user authenticated');
+                        console.log('🔍 This is normal for guest users');
                         resetUserProfileUI();
                     }
                 });
