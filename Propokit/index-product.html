@@ -1204,52 +1204,8 @@
                 const currentUser = firebase.auth().currentUser;
                 console.log('🔍 Current user on page load:', currentUser ? currentUser.email : 'None');
                 
-                // Handle Firebase redirect result (for users coming from login page)
-                firebase.auth().getRedirectResult().then((result) => {
-                    console.log('🔍 Redirect result:', result);
-                    if (result.user) {
-                        console.log('✅ Redirect sign-in successful:', result.user.email);
-                        
-                        // Update user profile UI
-                        updateUserProfileUI(result.user.displayName, result.user.email);
-                        
-                        // Initialize Firebase references with the new user
-                        reinitializeFirebaseRefs(result.user.uid);
-                        
-                        // Show success notification
-                        if (window.showNotification) {
-                            window.showNotification('🎉 Successfully signed in!', 'success', 3000);
-                        }
-                        
-                        console.log('✅ User authenticated and Firebase initialized');
-                    } else {
-                        console.log('🔍 No redirect result user found');
-                        console.log('🔍 This is normal if user came directly to main app');
-                    }
-                }).catch((error) => {
-                    if (error.code !== 'auth/no-redirect-result') {
-                        console.error('❌ Redirect sign-in failed:', error);
-                        if (window.showNotification) {
-                            window.showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
-                        }
-                    } else {
-                        console.log('🔍 No redirect result (normal)');
-                    }
-                });
-                
-                // Listen for auth state changes
-                firebase.auth().onAuthStateChanged((user) => {
-                    console.log('🔍 Auth state changed:', user ? user.email : 'No user');
-                    if (user) {
-                        console.log('✅ User authenticated:', user.email);
-                        updateUserProfileUI(user.displayName, user.email);
-                        reinitializeFirebaseRefs(user.uid);
-                    } else {
-                        console.log('👤 No user authenticated');
-                        console.log('🔍 This is normal for guest users');
-                        resetUserProfileUI();
-                    }
-                });
+                // Authentication is now handled by the shared auth-system.js module
+                // This prevents duplicate listeners and conflicting redirects
             });
             
 

@@ -381,6 +381,19 @@ function handleUserSignIn(user) {
     console.log('👤 Handling user sign in:', user.email);
     currentUser = user;
 
+    // Check if we're on the login page and need to redirect
+    if (window.location.pathname.includes('login.html')) {
+        console.log('🔄 Login page detected, redirecting to main app...');
+        console.log('🔄 Target URL: index-product.html');
+        
+        // Show success notification before redirect
+        showNotification('🎉 Successfully signed in with Google!', 'success', 2000);
+        
+        // Redirect to main app
+        window.location.href = 'index-product.html';
+        return; // Exit early to prevent UI updates on login page
+    }
+
     // Update UI elements based on page type
     const isMarketing = !window.location.pathname.includes('Propokit');
     
