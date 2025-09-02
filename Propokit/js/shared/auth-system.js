@@ -214,33 +214,44 @@ async function signInWithGoogle() {
             });
         }
 
-        // Try popup method ONLY (no redirect fallback for safety)
+        // Redirect to login page instead of popup
         try {
-            console.log('🔄 Attempting popup authentication...');
+            console.log('🔄 Redirecting to login page...');
             
-            // Check if popups are blocked
-            const popupTest = window.open('', '_blank', 'width=1,height=1');
-            if (!popupTest) {
-                throw new Error('Popups are blocked by browser');
-            }
-            popupTest.close();
-            
-            console.log('✅ Popup test successful, proceeding with Google sign-in...');
-            const result = await firebase.auth().signInWithPopup(provider);
-            console.log('✅ Google sign-in successful via popup:', result.user.email);
-            showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-            
-            // Show Firebase mode status indicator
-            showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
+            // Check if we're already on the login page
+            if (window.location.pathname.includes('login.html')) {
+                console.log('✅ Already on login page, proceeding with Google sign-in...');
+                
+                // Create provider
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('email');
+                provider.addScope('profile');
 
-        } catch (popupError) {
-            console.warn('⚠️ Popup authentication failed:', popupError);
+                // Set the client ID for better compatibility
+                if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
+                    provider.setCustomParameters({
+                        client_id: firebaseConfig.clientId
+                    });
+                }
+
+                // Use redirect method for login page
+                await firebase.auth().signInWithRedirect(provider);
+                console.log('✅ Google sign-in redirect initiated');
+                
+            } else {
+                // Redirect to login page
+                window.location.href = 'Propokit/login.html';
+                return;
+            }
+
+        } catch (redirectError) {
+            console.warn('⚠️ Redirect to login page failed:', redirectError);
             
             // Check if it's the 403 API key blocked error
-            if (popupError.code === 'auth/internal-error' || 
-                popupError.message.includes('403') || 
-                popupError.message.includes('API_KEY_SERVICE_BLOCKED') ||
-                popupError.message.includes('identitytoolkit')) {
+            if (redirectError.code === 'auth/internal-error' || 
+                redirectError.message.includes('403') || 
+                redirectError.message.includes('API_KEY_SERVICE_BLOCKED') ||
+                redirectError.message.includes('identitytoolkit')) {
                 
                 console.warn('🚫 Firebase API key is blocked from Identity Toolkit API');
                 console.warn('🔄 Falling back to local test authentication...');
@@ -248,19 +259,8 @@ async function signInWithGoogle() {
                 return;
             }
             
-            // Check for popup-specific errors
-            if (popupError.code === 'auth/popup-blocked') {
-                showNotification('❌ Popup was blocked. Please allow pop-ups and try again.', 'error', 5000);
-            } else if (popupError.code === 'auth/popup-closed-by-user') {
-                showNotification('ℹ️ Sign-in was cancelled.', 'info', 3000);
-            } else if (popupError.message.includes('Popups are blocked')) {
-                showNotification('❌ Popups are blocked by your browser. Please enable popups and try again.', 'error', 5000);
-            } else {
-                showNotification('❌ Popup authentication failed. Please try again.', 'error', 5000);
-            }
-            
-            // Don't fall back to redirect - only use popup for safety
-            console.log('🛡️ Using popup-only authentication for security');
+            // Fall back to local test authentication
+            await signInWithLocalTest();
         }
 
         // Redirect to main app if on marketing page
@@ -289,19 +289,13 @@ async function signInWithGoogle() {
 
         let errorMessage = 'Sign-in failed. Please try again.';
         
-        if (error.code === 'auth/popup-closed-by-user') {
-            errorMessage = 'Sign-in was cancelled.';
-        } else if (error.code === 'auth/popup-blocked') {
-            errorMessage = 'Pop-up was blocked. Please allow pop-ups and try again.';
-        } else if (error.message.includes('Firebase Auth not loaded')) {
+        if (error.message.includes('Firebase Auth not loaded')) {
             errorMessage = 'Authentication system is loading. Please wait a moment and try again.';
         } else if (error.message.includes('403') || error.message.includes('API_KEY_SERVICE_BLOCKED')) {
             errorMessage = 'Authentication service temporarily unavailable. Using local mode.';
             // Automatically fall back to local test
             await signInWithLocalTest();
             return;
-        } else if (error.message.includes('Popups are blocked')) {
-            errorMessage = 'Popups are blocked by your browser. Please enable popups and try again.';
         }
         
         showNotification(`❌ ${errorMessage}`, 'error', 5000);
