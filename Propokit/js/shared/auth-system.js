@@ -338,6 +338,9 @@ function handleUserSignIn(user) {
         if (logoutBtn) {
             logoutBtn.style.display = 'block';
             logoutBtn.style.visibility = 'visible';
+            console.log('🔍 Logout button should now be visible');
+        } else {
+            console.warn('⚠️ Logout button not found in main app');
         }
     }
 
@@ -538,7 +541,14 @@ function setupDropdownToggles() {
         mainAppUserAvatarTrigger.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('🖱️ Main app avatar clicked, toggling dropdown');
             mainAppUserMenu.classList.toggle('open');
+            console.log('🔍 Dropdown classes after toggle:', mainAppUserMenu.className);
+        });
+    } else {
+        console.warn('⚠️ Main app dropdown elements not found:', {
+            avatarTrigger: !!mainAppUserAvatarTrigger,
+            userMenu: !!mainAppUserMenu
         });
     }
     
@@ -659,6 +669,20 @@ window.PropoKitAuth = {
 
 // Also make signOut available directly on window for the main app
 window.signOut = signOut;
+
+// Debug function to force show logout button
+window.forceShowLogout = function() {
+    console.log('🔧 Force showing logout button...');
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.style.display = 'block';
+        logoutBtn.style.visibility = 'visible';
+        logoutBtn.style.opacity = '1';
+        console.log('✅ Logout button forced visible');
+    } else {
+        console.warn('❌ Logout button not found');
+    }
+};
 
 console.log('📦 Propokit authentication system loaded');
 
