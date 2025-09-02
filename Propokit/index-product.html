@@ -1148,6 +1148,9 @@
                 }, 3000);
             }
 
+            // Make showNotification available globally
+            window.showNotification = showNotification;
+
             function updateUserProfileUI(name, email) {
                 if (name) {
                     $('#profile-user-name').text(name);
@@ -1197,6 +1200,45 @@
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('🔍 Main app loaded, authentication handled by shared module');
+                
+                // Handle Firebase redirect result (for users coming from login page)
+                firebase.auth().getRedirectResult().then((result) => {
+                    if (result.user) {
+                        console.log('✅ Redirect sign-in successful:', result.user.email);
+                        
+                        // Update user profile UI
+                        updateUserProfileUI(result.user.displayName, result.user.email);
+                        
+                        // Initialize Firebase references with the new user
+                        reinitializeFirebaseRefs(result.user.uid);
+                        
+                        // Show success notification
+                        if (window.showNotification) {
+                            window.showNotification('🎉 Successfully signed in!', 'success', 3000);
+                        }
+                        
+                        console.log('✅ User authenticated and Firebase initialized');
+                    }
+                }).catch((error) => {
+                    if (error.code !== 'auth/no-redirect-result') {
+                        console.error('❌ Redirect sign-in failed:', error);
+                        if (window.showNotification) {
+                            window.showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
+                        }
+                    }
+                });
+                
+                // Listen for auth state changes
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log('✅ User authenticated:', user.email);
+                        updateUserProfileUI(user.displayName, user.email);
+                        reinitializeFirebaseRefs(user.uid);
+                    } else {
+                        console.log('👤 No user authenticated');
+                        resetUserProfileUI();
+                    }
+                });
             });
             
 
