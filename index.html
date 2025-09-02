@@ -9419,11 +9419,11 @@
                     // Remove any existing listeners first
                     loginBtn.removeEventListener('click', signInWithGoogle);
                     
-                    // Add click listener with debugging - redirect to main app
+                    // Add click listener for actual Google sign-in
                     loginBtn.addEventListener('click', (e) => {
-                        console.log('🖱️ Login button clicked - redirecting to main app!');
+                        console.log('🖱️ Login button clicked - starting Google sign-in...');
                         e.preventDefault();
-                        window.location.href = 'Propokit/index-product.html';
+                        signInWithGoogle();
                     });
                     
                     // Also add debugging for hover
@@ -9553,6 +9553,12 @@
                 if (window.reinitializeFirebaseRefs) {
                     window.reinitializeFirebaseRefs(user.uid);
                 }
+                
+                // Show success message and redirect to main app after a short delay
+                showNotification('🎉 Successfully signed in! Redirecting to PropoKit...', 'success', 2000);
+                setTimeout(() => {
+                    window.location.href = 'Propokit/index-product.html';
+                }, 2000);
             }
             
             // Handle user sign out
@@ -9648,11 +9654,11 @@
                     loginBtnCheck.style.zIndex = '9999';
                     loginBtnCheck.style.position = 'relative';
                     
-                    // Add backup click handler - redirect to main app
+                    // Add backup click handler - perform authentication
                     loginBtnCheck.onclick = function(e) {
-                        console.log('🔥 BACKUP: Button clicked - redirecting to main app!');
+                        console.log('🔥 BACKUP: Button clicked - starting authentication!');
                         e.preventDefault();
-                        window.location.href = 'Propokit/index-product.html';
+                        signInWithGoogle();
                     };
                 }
                 
@@ -9691,11 +9697,11 @@
                 });
             }
             
-            // Handle pricing button clicks - redirect to main app
+            // Handle pricing button clicks - perform authentication
             function handlePricingButtonClick(e) {
                 e.preventDefault();
-                console.log('💳 Pricing button clicked - redirecting to main app!');
-                window.location.href = 'Propokit/index-product.html';
+                console.log('💳 Pricing button clicked - starting authentication...');
+                signInWithGoogle();
             }
             
             // Initialize pricing buttons when DOM loads

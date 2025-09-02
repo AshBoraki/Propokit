@@ -176,6 +176,14 @@
             <button id="zoom-in-btn" class="header-btn header-btn-icon-only" title="Zoom In"><i class="fas fa-search-plus"></i></button>
         </div>
         <div class="header-divider"></div>
+        
+        <!-- User Authentication Section -->
+        <div class="user-auth-section">
+            <button id="logout-btn" class="header-btn header-btn-icon-only" title="Logout" style="color: #ff6b35;">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+        <div class="header-divider"></div>
 
         <!-- Unified PropoKit Menu System -->
         <div class="propokit-menu-controls">
@@ -1305,7 +1313,21 @@
             
             // Initialize Google Auth when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 DOM loaded, checking for login button...');
+                console.log('🔍 DOM loaded, checking authentication...');
+                
+                // Check if user is authenticated
+                const storedUID = localStorage.getItem('firebaseUID');
+                if (!storedUID) {
+                    console.log('❌ No authentication found, redirecting to login...');
+                    showNotification('🔐 Please log in to access PropoKit', 'warning', 3000);
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 3000);
+                    return;
+                }
+                
+                console.log('✅ User authenticated with UID:', storedUID);
+                window.currentFirebaseUID = storedUID;
                 
                 // Check if login button exists immediately
                 const loginBtnCheck = document.getElementById('google-login-btn');
@@ -1351,6 +1373,48 @@
                     window.appInitialized = true;
                 }
             }, false);
+
+            // =================================================================
+            // === 🔐 AUTHENTICATION FUNCTIONS
+            // =================================================================
+            
+            // Initialize logout functionality
+            function initializeLogout() {
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async () => {
+                        try {
+                            console.log('🔐 Logging out...');
+                            
+                            // Sign out from Firebase
+                            if (firebase && firebase.auth) {
+                                await firebase.auth().signOut();
+                            }
+                            
+                            // Clear local storage
+                            localStorage.removeItem('firebaseUID');
+                            window.currentFirebaseUID = null;
+                            
+                            // Show success message
+                            showNotification('👋 Successfully logged out', 'success', 2000);
+                            
+                            // Redirect to login page after a short delay
+                            setTimeout(() => {
+                                window.location.href = '../index.html';
+                            }, 2000);
+                            
+                        } catch (error) {
+                            console.error('❌ Logout failed:', error);
+                            showNotification('❌ Logout failed. Please try again.', 'error', 3000);
+                        }
+                    });
+                }
+            }
+            
+            // Initialize logout when DOM is loaded
+            document.addEventListener('DOMContentLoaded', () => {
+                initializeLogout();
+            });
 
             // =================================================================
             // === ðŸš€ PAGE INITIALIZATION FUNCTIONS
