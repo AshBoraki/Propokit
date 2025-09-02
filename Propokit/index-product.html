@@ -107,6 +107,9 @@
     
     <!-- Firebase Configuration -->
     <script src="js/shared/firebase-config.js"></script>
+    
+    <!-- Propokit Shared Authentication System -->
+    <script src="js/shared/auth-system.js"></script>
 
     <!-- Utility Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
@@ -1200,167 +1203,15 @@
             }
 
             // =================================================================
-            // === 🔐 GOOGLE AUTHENTICATION SYSTEM
+            // === 🔐 AUTHENTICATION SYSTEM (USING SHARED MODULE)
             // =================================================================
             
-            // Initialize Google Authentication
-            function initializeGoogleAuth() {
-                console.log('🔐 Initializing Google Authentication...');
-                
-                // Check if Firebase Auth is available
-                if (typeof firebase === 'undefined' || !firebase.auth) {
-                    console.error('❌ Firebase Auth not available');
-                    return;
-                }
-                
-                // Listen for authentication state changes
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        console.log('✅ User signed in:', user.email);
-                        handleUserSignIn(user);
-                    } else {
-                        console.log('❌ User signed out');
-                        handleUserSignOut();
-                    }
-                });
-                
-                // Setup login button
-                const loginBtn = document.getElementById('login-btn');
-                if (loginBtn) {
-                    loginBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        signInWithGoogle();
-                    });
-                } else {
-                    console.error('❌ Login button not found!');
-                }
-                
-                // Setup logout button
-                const logoutBtn = document.getElementById('logout-btn');
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        signOut();
-                    });
-                } else {
-                    console.error('❌ Logout button not found!');
-                }
-            }
+            // The authentication system is now handled by the shared auth-system.js module
+            // This ensures consistent behavior across marketing page and main application
             
-            // Sign in with Google
-            async function signInWithGoogle() {
-                try {
-                    console.log('🔐 Starting Google sign-in...');
-                    const provider = new firebase.auth.GoogleAuthProvider();
-                    provider.addScope('email');
-                    provider.addScope('profile');
-                    
-                    const result = await firebase.auth().signInWithPopup(provider);
-                    console.log('✅ Google sign-in successful:', result.user.email);
-                    showNotification('🎉 Successfully signed in with Google!', 'success');
-                } catch (error) {
-                    console.error('❌ Google sign-in failed:', error);
-                    let errorMessage = 'Sign-in failed. Please try again.';
-                    
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        errorMessage = 'Sign-in was cancelled.';
-                    } else if (error.code === 'auth/popup-blocked') {
-                        errorMessage = 'Pop-up was blocked. Please allow pop-ups and try again.';
-                    }
-                    
-                    showNotification(`❌ ${errorMessage}`, 'error');
-                }
-            }
-            
-            // Sign out
-            async function signOut() {
-                try {
-                    await firebase.auth().signOut();
-                    showNotification('👋 Successfully signed out', 'info');
-                } catch (error) {
-                    console.error('❌ Sign-out failed:', error);
-                    showNotification('❌ Sign-out failed. Please try again.', 'error');
-                }
-            }
-            
-            // Handle user sign in
-            function handleUserSignIn(user) {
-                console.log('👤 Handling user sign in:', user.email);
-                
-                // Update UI elements
-                const loginBtn = document.getElementById('login-btn');
-                const logoutBtn = document.getElementById('logout-btn');
-                const userProfile = document.getElementById('user-profile');
-                const userAvatar = document.getElementById('user-avatar');
-                const userName = document.getElementById('user-name');
-                
-                // Show/hide buttons
-                if (loginBtn) loginBtn.style.display = 'none';
-                if (logoutBtn) logoutBtn.style.display = 'flex';
-                if (userProfile) userProfile.style.display = 'flex';
-                
-                // Update user profile
-                if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/24';
-                if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
-                
-                // Store user UID and initialize Firebase data
-                localStorage.setItem('firebaseUID', user.uid);
-                window.currentFirebaseUID = user.uid;
-                
-                // Initialize Firebase data with user's UID
-                if (typeof reinitializeFirebaseRefs === 'function') {
-                    reinitializeFirebaseRefs(user.uid);
-                }
-                
-                showNotification('🎉 Successfully signed in!', 'success', 3000);
-            }
-                
-                window.appInitialized = true;
-            }
-            
-            // Handle user sign out
-            function handleUserSignOut() {
-                console.log('👤 Handling user sign out');
-                
-                // Update UI elements
-                const loginBtn = document.getElementById('login-btn');
-                const logoutBtn = document.getElementById('logout-btn');
-                const userProfile = document.getElementById('user-profile');
-                
-                // Show/hide buttons
-                if (loginBtn) loginBtn.style.display = 'flex';
-                if (logoutBtn) logoutBtn.style.display = 'none';
-                if (userProfile) userProfile.style.display = 'none';
-                
-                // Clear stored data
-                localStorage.removeItem('firebaseUID');
-                window.currentFirebaseUID = null;
-                
-                // Reset Firebase data
-                if (typeof reinitializeFirebaseRefs === 'function') {
-                    reinitializeFirebaseRefs('');
-                }
-                
-                showNotification('👋 Successfully signed out', 'info', 3000);
-            }
-            
-            // Initialize Google Auth when DOM is loaded
+            // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 DOM loaded, initializing authentication...');
-                
-                // Check if user is already authenticated
-                const storedUID = localStorage.getItem('firebaseUID');
-                if (storedUID) {
-                    console.log('✅ User already authenticated with UID:', storedUID);
-                    window.currentFirebaseUID = storedUID;
-                } else {
-                    console.log('❌ No authentication found, showing login button');
-                }
-                
-                // Wait for Firebase to load
-                setTimeout(() => {
-                    initializeGoogleAuth();
-                }, 1000);
+                console.log('🔍 Main app loaded, authentication handled by shared module');
             });
             
 
@@ -1387,46 +1238,11 @@
             }, false);
 
             // =================================================================
-            // === 🔐 AUTHENTICATION FUNCTIONS
+            // === 🔐 AUTHENTICATION FUNCTIONS (USING SHARED MODULE)
             // =================================================================
             
-            // Initialize logout functionality
-            function initializeLogout() {
-                const logoutBtn = document.getElementById('logout-btn');
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', async () => {
-                        try {
-                            console.log('🔐 Logging out...');
-                            
-                            // Sign out from Firebase
-                            if (firebase && firebase.auth) {
-                                await firebase.auth().signOut();
-                            }
-                            
-                            // Clear local storage
-                            localStorage.removeItem('firebaseUID');
-                            window.currentFirebaseUID = null;
-                            
-                            // Show success message
-                            showNotification('👋 Successfully logged out', 'success', 2000);
-                            
-                            // Redirect to login page after a short delay
-                            setTimeout(() => {
-                                window.location.href = '../index.html';
-                            }, 2000);
-                            
-                        } catch (error) {
-                            console.error('❌ Logout failed:', error);
-                            showNotification('❌ Logout failed. Please try again.', 'error', 3000);
-                        }
-                    });
-                }
-            }
-            
-            // Initialize logout when DOM is loaded
-            document.addEventListener('DOMContentLoaded', () => {
-                initializeLogout();
-            });
+            // The authentication system is now handled by the shared auth-system.js module
+            // This ensures consistent behavior across marketing page and main application
 
             // =================================================================
             // === ðŸš€ PAGE INITIALIZATION FUNCTIONS
