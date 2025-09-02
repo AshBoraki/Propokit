@@ -46,6 +46,15 @@ function initializeAuthSystem() {
         return;
     }
 
+    // Set persistence to LOCAL to maintain session across browser sessions
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            console.log('🔒 Firebase persistence set to LOCAL');
+        })
+        .catch((error) => {
+            console.error('❌ Failed to set persistence:', error);
+        });
+
     // Listen for authentication state changes
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -63,10 +72,14 @@ function initializeAuthSystem() {
             console.log('✅ Redirect sign-in successful:', result.user.email);
             handleUserSignIn(result.user);
             showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
+            showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
+        } else if (result.credential) {
+            console.log('✅ Redirect completed but no user (might be sign-out)');
         }
     }).catch((error) => {
         if (error.code !== 'auth/no-redirect-result') {
             console.error('❌ Redirect sign-in failed:', error);
+            showNotification('❌ Sign-in failed. Please try again.', 'error', 3000);
         }
     });
 
