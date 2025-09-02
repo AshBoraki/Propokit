@@ -225,12 +225,8 @@ async function signInWithGoogle() {
             }
         }
 
-        // Redirect to main app if on marketing page
-        if (window.location.pathname.includes('index.html') && !window.location.pathname.includes('Propokit')) {
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 2000);
-        }
+        // Note: Removed problematic redirect that was causing authentication loop
+        // The login page now handles its own redirects properly
 
     } catch (error) {
         console.error('❌ Authentication failed:', error);

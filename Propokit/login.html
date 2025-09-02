@@ -259,6 +259,8 @@
                     googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Signing in...</span>';
                     
                     console.log('🔐 Starting Google sign-in from login page...');
+                    console.log('🔍 Current domain:', window.location.hostname);
+                    console.log('🔍 Current URL:', window.location.href);
                     
                     // Check if Firebase is available
                     if (typeof firebase === 'undefined' || !firebase.auth) {
@@ -283,6 +285,12 @@
                     
                 } catch (error) {
                     console.error('❌ Google sign-in failed:', error);
+                    console.error('❌ Error details:', {
+                        code: error.code,
+                        message: error.message,
+                        email: error.email,
+                        credential: error.credential
+                    });
                     
                     // Reset button
                     googleBtn.classList.remove('loading');
@@ -299,23 +307,39 @@
 
             // Local sign-in functionality removed for production
 
-            // Handle redirect result
+            // Handle redirect result and auth state changes
+            let redirectHandled = false;
+            
             firebase.auth().getRedirectResult().then((result) => {
                 console.log('🔍 Login page - Redirect result:', result);
+                console.log('🔍 Redirect result details:', {
+                    user: result.user,
+                    credential: result.credential,
+                    operationType: result.operationType,
+                    additionalUserInfo: result.additionalUserInfo
+                });
+                
                 if (result.user) {
                     console.log('✅ Redirect sign-in successful:', result.user.email);
                     showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
                     showAuthStatus('firebase-mode', 'Firebase Mode Active');
                     
-                    // Redirect to main app
+                    // Set flag to prevent duplicate redirects
+                    redirectHandled = true;
+                    
+                    // Redirect to main app immediately
                     console.log('🔄 Redirecting to main app...');
-                    setTimeout(() => {
-                        window.location.href = 'index-product.html';
-                    }, 2000);
+                    window.location.href = 'index-product.html';
                 } else {
                     console.log('🔍 No redirect result user found');
+                    console.log('🔍 This could mean:');
+                    console.log('   - User cancelled the sign-in');
+                    console.log('   - Domain not authorized in Firebase Console');
+                    console.log('   - OAuth consent not completed');
+                    console.log('   - Redirect URI mismatch');
                 }
             }).catch((error) => {
+                console.error('❌ Redirect sign-in error details:', error);
                 if (error.code !== 'auth/no-redirect-result') {
                     console.error('❌ Redirect sign-in failed:', error);
                     showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
@@ -324,19 +348,20 @@
                 }
             });
 
-            // Check if user is already signed in
+            // Check if user is already signed in (only if redirect wasn't handled)
             firebase.auth().onAuthStateChanged((user) => {
                 console.log('🔍 Login page - Auth state changed:', user ? user.email : 'No user');
-                if (user) {
+                if (user && !redirectHandled) {
                     console.log('✅ User already signed in:', user.email);
                     showNotification('👋 Welcome back!', 'success', 2000);
                     showAuthStatus('firebase-mode', 'Already Signed In');
                     
+                    // Set flag to prevent duplicate redirects
+                    redirectHandled = true;
+                    
                     // Redirect to main app
                     console.log('🔄 Redirecting to main app (already signed in)...');
-                    setTimeout(() => {
-                        window.location.href = 'index-product.html';
-                    }, 1500);
+                    window.location.href = 'index-product.html';
                 }
             });
         });
