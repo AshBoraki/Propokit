@@ -301,31 +301,39 @@
 
             // Handle redirect result
             firebase.auth().getRedirectResult().then((result) => {
+                console.log('🔍 Login page - Redirect result:', result);
                 if (result.user) {
                     console.log('✅ Redirect sign-in successful:', result.user.email);
                     showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
                     showAuthStatus('firebase-mode', 'Firebase Mode Active');
                     
                     // Redirect to main app
+                    console.log('🔄 Redirecting to main app...');
                     setTimeout(() => {
                         window.location.href = 'index-product.html';
                     }, 2000);
+                } else {
+                    console.log('🔍 No redirect result user found');
                 }
             }).catch((error) => {
                 if (error.code !== 'auth/no-redirect-result') {
                     console.error('❌ Redirect sign-in failed:', error);
                     showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
+                } else {
+                    console.log('🔍 No redirect result (normal)');
                 }
             });
 
             // Check if user is already signed in
             firebase.auth().onAuthStateChanged((user) => {
+                console.log('🔍 Login page - Auth state changed:', user ? user.email : 'No user');
                 if (user) {
                     console.log('✅ User already signed in:', user.email);
                     showNotification('👋 Welcome back!', 'success', 2000);
                     showAuthStatus('firebase-mode', 'Already Signed In');
                     
                     // Redirect to main app
+                    console.log('🔄 Redirecting to main app (already signed in)...');
                     setTimeout(() => {
                         window.location.href = 'index-product.html';
                     }, 1500);

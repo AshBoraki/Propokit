@@ -1196,10 +1196,15 @@
             
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 Main app loaded, authentication handled by shared module');
+                console.log('🔍 Main app loaded, checking authentication state...');
+                
+                // Check current auth state immediately
+                const currentUser = firebase.auth().currentUser;
+                console.log('🔍 Current user on page load:', currentUser ? currentUser.email : 'None');
                 
                 // Handle Firebase redirect result (for users coming from login page)
                 firebase.auth().getRedirectResult().then((result) => {
+                    console.log('🔍 Redirect result:', result);
                     if (result.user) {
                         console.log('✅ Redirect sign-in successful:', result.user.email);
                         
@@ -1215,6 +1220,8 @@
                         }
                         
                         console.log('✅ User authenticated and Firebase initialized');
+                    } else {
+                        console.log('🔍 No redirect result user found');
                     }
                 }).catch((error) => {
                     if (error.code !== 'auth/no-redirect-result') {
@@ -1222,11 +1229,14 @@
                         if (window.showNotification) {
                             window.showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
                         }
+                    } else {
+                        console.log('🔍 No redirect result (normal)');
                     }
                 });
                 
                 // Listen for auth state changes
                 firebase.auth().onAuthStateChanged((user) => {
+                    console.log('🔍 Auth state changed:', user ? user.email : 'No user');
                     if (user) {
                         console.log('✅ User authenticated:', user.email);
                         updateUserProfileUI(user.displayName, user.email);
