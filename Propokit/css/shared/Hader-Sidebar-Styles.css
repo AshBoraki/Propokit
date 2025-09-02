@@ -962,3 +962,22 @@ body.light-theme #top-application-header {
 /* --- [REMOVED] Old Theme Switcher Enhancements --- */
 /* The large hover/glow effects for the old switcher are no longer needed. */
 
+/* ============================================== */
+/* === FORCE LOGOUT BUTTON VISIBILITY === */
+/* ============================================== */
+
+/* When user is signed in, ensure logout button is always visible */
+#user-profile-menu.open #logout-btn {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Also ensure the dropdown content is visible when menu is open */
+#user-profile-menu.open .profile-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+

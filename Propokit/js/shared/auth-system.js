@@ -335,9 +335,13 @@ function handleUserSignIn(user) {
                 userAvatarTrigger.innerHTML = `<div style="width: 32px; height: 32px; border-radius: 50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:12px;">${initials}</div>`;
             }
         }
+        
+        // Make sure logout button is visible and clickable
         if (logoutBtn) {
             logoutBtn.style.display = 'block';
             logoutBtn.style.visibility = 'visible';
+            logoutBtn.style.opacity = '1';
+            logoutBtn.style.pointerEvents = 'auto';
             console.log('🔍 Logout button should now be visible');
             
             // Force the dropdown to be visible when user is signed in
@@ -345,6 +349,15 @@ function handleUserSignIn(user) {
             if (userMenu) {
                 userMenu.classList.add('open');
                 console.log('🔍 User menu forced open');
+                
+                // Also make sure the dropdown content is visible
+                const dropdown = userMenu.querySelector('.profile-dropdown');
+                if (dropdown) {
+                    dropdown.style.opacity = '1';
+                    dropdown.style.visibility = 'visible';
+                    dropdown.style.transform = 'translateY(0)';
+                    console.log('🔍 Dropdown content forced visible');
+                }
             }
         } else {
             console.warn('⚠️ Logout button not found in main app');
@@ -685,7 +698,20 @@ window.forceShowLogout = function() {
         logoutBtn.style.display = 'block';
         logoutBtn.style.visibility = 'visible';
         logoutBtn.style.opacity = '1';
+        logoutBtn.style.pointerEvents = 'auto';
         console.log('✅ Logout button forced visible');
+        
+        // Also force the dropdown to be open
+        const userMenu = document.getElementById('user-profile-menu');
+        if (userMenu) {
+            userMenu.classList.add('open');
+            const dropdown = userMenu.querySelector('.profile-dropdown');
+            if (dropdown) {
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+            }
+        }
     } else {
         console.warn('❌ Logout button not found');
     }
