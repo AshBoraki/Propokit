@@ -46,9 +46,9 @@ localStorage.setItem("firebaseUID", this.testUID);
 
 // Simulate Wix user session message
 setTimeout(() => {
-    // Use real user info if connecting to your actual Firebase UID
-    const userName = this.testUID === 'hzl3M39ICUZXAtkcngVz5jFs7802' ? 'Your Firebase User' : 'Local Test User';
-    const userEmail = this.testUID === 'hzl3M39ICUZXAtkcngVz5jFs7802' ? 'your.email@firebase.com' : 'local@test.com';
+    // Use consistent test user display across pages
+    const userName = 'Alex Hormozi';
+    const userEmail = 'alex.hormozi@test.com';
 
     window.postMessage({
 firebaseUID: this.testUID,
@@ -170,7 +170,7 @@ testPanel.style.cssText = `
 const isRealFirebase = this.testUID === 'hzl3M39ICUZXAtkcngVz5jFs7802';
 testPanel.innerHTML = `
     <div style="font-weight: bold; margin-bottom: 5px;">${isRealFirebase ? 'ðŸ”¥ LIVE FIREBASE MODE' : 'ðŸ§ª LOCAL TEST MODE'}</div>
-    <div>User: ${isRealFirebase ? 'Your Firebase User' : 'Test User (Local)'}</div>
+    <div>User: ${isRealFirebase ? 'Alex Hormozi' : 'Alex Hormozi (Test)'} </div>
     <div>UID: ${this.testUID}</div>
     <div style="margin-top: 8px;">
 <button onclick="forceFirebaseConnection()" style="
@@ -269,8 +269,8 @@ localStorage.setItem("firebaseUID", this.testUID);
 // Trigger the message event that the main app listens for
 window.postMessage({
     firebaseUID: this.testUID,
-    userName: 'Local Test User',
-    userEmail: 'local@test.com'
+    userName: 'Alex Hormozi',
+    userEmail: 'alex.hormozi@test.com'
 }, '*');
 
 // Also try to directly call reinitializeFirebaseRefs if it exists
