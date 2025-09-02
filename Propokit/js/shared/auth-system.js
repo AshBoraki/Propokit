@@ -228,7 +228,7 @@ async function signInWithGoogle() {
         // Redirect to main app if on marketing page
         if (window.location.pathname.includes('index.html') && !window.location.pathname.includes('Propokit')) {
             setTimeout(() => {
-                window.location.href = 'Propokit/index-product.html';
+                window.location.href = 'login.html';
             }, 2000);
         }
 
