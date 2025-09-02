@@ -104,6 +104,9 @@ function initializeAuthSystem() {
     // Setup pricing buttons (for marketing page)
     setupPricingButtons();
 
+    // Setup dropdown toggles
+    setupDropdownToggles();
+
     // Initialize main app user menu if on main app
     initializeMainAppUserMenu();
 
@@ -506,6 +509,48 @@ function handlePricingButtonClick(e) {
     e.preventDefault();
     console.log('💳 Pricing button clicked - starting authentication...');
     signInWithGoogle();
+}
+
+/**
+ * 🎛️ Setup dropdown toggles
+ * Makes dropdown menus clickable and functional
+ */
+function setupDropdownToggles() {
+    // Marketing page dropdown toggle
+    const marketingDropdownToggle = document.getElementById('user-dropdown-toggle');
+    const marketingDropdownMenu = document.getElementById('user-dropdown-menu');
+    
+    if (marketingDropdownToggle && marketingDropdownMenu) {
+        console.log('🎛️ Setting up marketing page dropdown toggle');
+        marketingDropdownToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            marketingDropdownMenu.classList.toggle('show');
+        });
+    }
+    
+    // Main app dropdown toggle
+    const mainAppUserMenu = document.getElementById('user-profile-menu');
+    const mainAppUserAvatarTrigger = document.getElementById('user-avatar-trigger');
+    
+    if (mainAppUserAvatarTrigger && mainAppUserMenu) {
+        console.log('🎛️ Setting up main app dropdown toggle');
+        mainAppUserAvatarTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            mainAppUserMenu.classList.toggle('open');
+        });
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (marketingDropdownMenu && !marketingDropdownMenu.contains(e.target) && !marketingDropdownToggle?.contains(e.target)) {
+            marketingDropdownMenu.classList.remove('show');
+        }
+        if (mainAppUserMenu && !mainAppUserMenu.contains(e.target)) {
+            mainAppUserMenu.classList.remove('open');
+        }
+    });
 }
 
 /**
