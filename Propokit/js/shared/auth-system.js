@@ -339,6 +339,13 @@ function handleUserSignIn(user) {
             logoutBtn.style.display = 'block';
             logoutBtn.style.visibility = 'visible';
             console.log('🔍 Logout button should now be visible');
+            
+            // Force the dropdown to be visible when user is signed in
+            const userMenu = document.getElementById('user-profile-menu');
+            if (userMenu) {
+                userMenu.classList.add('open');
+                console.log('🔍 User menu forced open');
+            }
         } else {
             console.warn('⚠️ Logout button not found in main app');
         }
