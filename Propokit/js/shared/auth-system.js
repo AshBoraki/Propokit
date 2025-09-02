@@ -131,35 +131,36 @@ async function signInWithGoogle() {
 
         // Try Firebase authentication with different methods
         if (typeof firebase !== 'undefined' && firebase.auth) {
+            // Create provider OUTSIDE the try block so it's available in catch blocks
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+
+            // Set the client ID for better compatibility
+            if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
+                provider.setCustomParameters({
+                    client_id: firebaseConfig.clientId
+                });
+            }
+
             try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.addScope('email');
-                provider.addScope('profile');
-                
-                // Set the client ID for better compatibility
-                if (firebaseConfig.clientId) {
-                    provider.setCustomParameters({
-                        client_id: firebaseConfig.clientId
-                    });
-                }
-                
                 // Try redirect method first (more reliable than popup)
                 console.log('🔄 Trying redirect method...');
                 await firebase.auth().signInWithRedirect(provider);
-                
+
                 // If we get here, redirect was successful
                 console.log('✅ Google sign-in successful via redirect');
                 showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-                
+
             } catch (firebaseError) {
                 console.warn('⚠️ Firebase redirect failed, trying popup:', firebaseError);
-                
+
                 try {
                     // Try popup method as fallback
                     const result = await firebase.auth().signInWithPopup(provider);
                     console.log('✅ Google sign-in successful via popup:', result.user.email);
                     showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-                    
+
                 } catch (popupError) {
                     console.warn('⚠️ Firebase popup failed, using local test mode:', popupError);
                     // Fall back to local test authentication
@@ -277,7 +278,7 @@ function handleUserSignIn(user) {
     if (logoutBtn) logoutBtn.style.display = 'flex';
     if (userProfile) userProfile.style.display = 'flex';
 
-    if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/32';
+    if (userAvatar) userAvatar.src = user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg';
     if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
 
     // Update subscription status
