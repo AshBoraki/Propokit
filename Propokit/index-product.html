@@ -108,9 +108,6 @@
     <!-- Firebase Configuration -->
     <script src="js/shared/firebase-config.js"></script>
 
-    <!-- Propokit Shared Authentication System -->
-    <script src="js/shared/auth-system.js"></script>
-
     <!-- Utility Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
@@ -3263,11 +3260,10 @@ function resetCrop() {
 
     <!-- ðŸ”§ Local Firebase Testing (only works locally, not on Wix) -->
     <!-- This script provides local testing capabilities for Firebase functionality -->
-    <script src="js/shared/local-firebase-test.js"></script>
     <script>
         // ðŸš€ Initialize local Firebase testing environment
-        const localTest = new LocalFirebaseTest();
-        localTest.init();
+        // const localTest = new LocalFirebaseTest();
+        // localTest.init();
 
         // ðŸ”¥ Set the Firebase UID from localStorage if it exists (for returning users)
         const savedUID = localStorage.getItem("firebaseUID");
