@@ -25,7 +25,8 @@ const firebaseConfig = {
     projectId: "denali-tech-f22e8",                                // Project identifier
     storageBucket: "denali-tech-f22e8.appspot.com",                // File storage bucket
     messagingSenderId: "1012434420529",                            // Sender ID for notifications
-    appId: "1:1012434420529:web:41c0019b364c6086046610"           // Unique app identifier
+    appId: "1:1012434420529:web:41c0019b364c6086046610",          // Unique app identifier
+    clientId: "1012434420529-la200fdscsf5u6g5ajulo9r1ibmqo5rb.apps.googleusercontent.com" // Google Web client ID
 };
 
 /**

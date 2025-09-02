@@ -56,6 +56,19 @@ function initializeAuthSystem() {
             handleUserSignOut();
         }
     });
+    
+    // Handle redirect result for Google sign-in
+    firebase.auth().getRedirectResult().then((result) => {
+        if (result.user) {
+            console.log('✅ Redirect sign-in successful:', result.user.email);
+            handleUserSignIn(result.user);
+            showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
+        }
+    }).catch((error) => {
+        if (error.code !== 'auth/no-redirect-result') {
+            console.error('❌ Redirect sign-in failed:', error);
+        }
+    });
 
     // Setup login button
     if (loginBtn) {
@@ -122,6 +135,13 @@ async function signInWithGoogle() {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope('email');
                 provider.addScope('profile');
+                
+                // Set the client ID for better compatibility
+                if (firebaseConfig.clientId) {
+                    provider.setCustomParameters({
+                        client_id: firebaseConfig.clientId
+                    });
+                }
                 
                 // Try redirect method first (more reliable than popup)
                 console.log('🔄 Trying redirect method...');
