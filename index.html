@@ -737,89 +737,7 @@
             }
         }
         
-        /* ULTRA-ENHANCED: Demo Mode Watermarks */
-        .demo-watermark {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            z-index: 999;
-            pointer-events: none;
-            opacity: 0.1;
-            user-select: none;
-            font-family: var(--font-main);
-        }
-        
-        .watermark-content {
-            text-align: center;
-            color: var(--color-text-dark);
-        }
-        
-        .watermark-logo {
-            font-size: 48px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        
-        .watermark-text {
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        .demo-badge {
-            color: var(--color-warning);
-            font-weight: 600;
-            font-size: 0.8em;
-            background: rgba(245, 158, 11, 0.1);
-            padding: 2px 8px;
-            border-radius: 6px;
-            border: 1px solid var(--color-warning);
-            margin-left: 10px;
-            display: inline-block;
-        }
-        
-        /* Dark mode watermarks */
-        [data-theme="dark"] .watermark-content {
-            color: var(--color-dark-text);
-        }
-        
-        [data-theme="dark"] .demo-watermark {
-            opacity: 0.08;
-        }
-        
-        /* Responsive watermarks */
-        @media (max-width: 768px) {
-            .watermark-logo {
-                font-size: 36px;
-                letter-spacing: 2px;
-            }
-            
-            .watermark-text {
-                font-size: 12px;
-                letter-spacing: 1px;
-            }
-            
-            .demo-badge {
-                font-size: 0.7em;
-                padding: 1px 6px;
-                margin-left: 5px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .watermark-logo {
-                font-size: 24px;
-                letter-spacing: 1px;
-            }
-            
-            .watermark-text {
-                font-size: 10px;
-            }
-        }
+
         
         .notification {
             background: rgba(255, 255, 255, 0.95);
@@ -7138,7 +7056,6 @@
                     <li><a href="#security">Security</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="Propokit/index-product.html" style="background: #ff6b35; color: white; padding: 8px 16px; border-radius: 6px; font-weight: bold;">🚀 Launch App (NEW)</a></li>
                 </ul>
                 
                 <!-- ULTRA-ENHANCED: Header Actions -->
@@ -7160,7 +7077,7 @@
                             <img class="user-avatar" id="user-avatar" src="" alt="User Avatar">
                             <div class="user-info">
                                 <span class="user-name" id="user-name">Loading...</span>
-                                <span class="user-status" id="user-status">Demo Mode</span>
+                                <span class="user-status" id="user-status">Free Plan</span>
                             </div>
                             <div class="user-dropdown">
                                 <button class="dropdown-toggle" id="user-dropdown-toggle">
@@ -7229,9 +7146,6 @@
             
             <div class="container">
                 <div class="hero-text fade-in-section">
-                    <div style="background: linear-gradient(45deg, #ff6b35, #f7931e); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
-                        🚀 TESTING NEW VERSION - UPDATED $(Get-Date -Format "HH:mm:ss") 🚀
-                    </div>
                     <h1>Create Professional Proposals Easily with PropoKit</h1>
                     <p>The all-in-one AI-powered platform to build stunning proposals, streamline your sales process, and impress your clients.</p>
                     <div class="hero-actions">
@@ -9628,17 +9542,12 @@
                 if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/32';
                 if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
                 
-                // Check subscription status (for now, everyone starts in demo mode)
-                updateUserStatus('demo');
+                // Check subscription status
+                updateUserStatus('free');
                 
                 // Store user UID in localStorage (connect to existing system)
                 localStorage.setItem('firebaseUID', user.uid);
                 window.currentFirebaseUID = user.uid;
-                
-                // Add demo watermarks immediately
-                setTimeout(() => {
-                    addDemoWatermark();
-                }, 1000);
                 
                 // Trigger existing Firebase data initialization
                 if (window.reinitializeFirebaseRefs) {
@@ -9671,8 +9580,8 @@
                 
                 if (userStatus) {
                     switch (status) {
-                        case 'demo':
-                            userStatus.textContent = 'Demo Mode';
+                        case 'free':
+                            userStatus.textContent = 'Free Plan';
                             userStatus.className = 'user-status';
                             break;
                         case 'pro':
@@ -9688,7 +9597,7 @@
                 
                 // Update upgrade button visibility
                 if (upgradeBtn) {
-                    upgradeBtn.style.display = status === 'demo' ? 'flex' : 'none';
+                    upgradeBtn.style.display = status === 'free' ? 'flex' : 'none';
                 }
             }
             
@@ -9711,72 +9620,7 @@
                 userDropdownMenu.classList.remove('show');
             }
             
-            // Demo mode restrictions
-            function checkDemoModeRestrictions() {
-                if (!currentUser) {
-                    showNotification('🔐 Please sign in to access PropoKit features!', 'warning', 5000);
-                    return false;
-                }
-                
-                if (userSubscriptionStatus === 'demo') {
-                    showNotification('⚠️ Demo Mode: Upgrade to Pro to remove watermarks and unlock full features!', 'warning', 5000);
-                    return 'demo';
-                }
-                
-                return true;
-            }
-            
-            // Add demo watermark to proposals
-            function addDemoWatermark() {
-                if (userSubscriptionStatus === 'demo') {
-                    console.log('Adding demo watermark...');
-                    
-                    // Add watermark to all proposal pages
-                    const proposalContainer = document.querySelector('.a4-container, .container, main');
-                    if (proposalContainer && !proposalContainer.querySelector('.demo-watermark')) {
-                        const watermark = document.createElement('div');
-                        watermark.className = 'demo-watermark';
-                        watermark.innerHTML = `
-                            <div class="watermark-content">
-                                <div class="watermark-logo">📝 PropoKit DEMO</div>
-                                <div class="watermark-text">Upgrade to Pro to remove watermarks</div>
-                            </div>
-                        `;
-                        proposalContainer.appendChild(watermark);
-                    }
-                    
-                    // Add watermark to PDFs and downloads
-                    addDemoWatermarkToElements();
-                }
-            }
-            
-            // Add watermark to specific elements
-            function addDemoWatermarkToElements() {
-                // Add to company header
-                const companyHeader = document.getElementById('companyNameHeader');
-                if (companyHeader && !companyHeader.querySelector('.demo-badge')) {
-                    const demoBadge = document.createElement('span');
-                    demoBadge.className = 'demo-badge';
-                    demoBadge.textContent = ' [DEMO]';
-                    companyHeader.appendChild(demoBadge);
-                }
-                
-                // Add to proposal titles
-                const proposalTitles = document.querySelectorAll('h1, h2.company-header');
-                proposalTitles.forEach(title => {
-                    if (!title.querySelector('.demo-badge') && title.textContent.includes('Proposal')) {
-                        const demoBadge = document.createElement('span');
-                        demoBadge.className = 'demo-badge';
-                        demoBadge.textContent = ' [DEMO VERSION]';
-                        title.appendChild(demoBadge);
-                    }
-                });
-            }
-            
-            // Remove demo watermarks (when user upgrades)
-            function removeDemoWatermarks() {
-                document.querySelectorAll('.demo-watermark, .demo-badge').forEach(el => el.remove());
-            }
+
             
             // Initialize authentication when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
@@ -9861,42 +9705,14 @@
                 }, 2000);
             });
             
-            // Test function to manually trigger login - redirect to main app
-            window.testLogin = function() {
-                console.log('🧪 Manual login test - redirecting to main app!');
-                window.location.href = 'Propokit/index-product.html';
-            };
-            
-            // Direct Google sign-in function
-            window.directGoogleSignIn = async function() {
-                console.log('🚀 Direct Google sign-in triggered!');
-                try {
-                    if (typeof firebase !== 'undefined' && firebase.auth) {
-                        const provider = new firebase.auth.GoogleAuthProvider();
-                        const result = await firebase.auth().signInWithPopup(provider);
-                        console.log('✅ Direct sign-in successful:', result.user.email);
-                        alert('Login successful! ' + result.user.email);
-                    } else {
-                        console.log('❌ Firebase not available');
-                        alert('Firebase not loaded yet. Please wait and try again.');
-                    }
-                } catch (error) {
-                    console.error('❌ Direct sign-in failed:', error);
-                    alert('Login failed: ' + error.message);
-                }
-            };
+
             
             // Make functions globally available
             window.PropoKitAuth = {
-                checkDemoModeRestrictions,
-                addDemoWatermark,
-                removeDemoWatermarks,
                 getCurrentUser: () => currentUser,
                 getSubscriptionStatus: () => userSubscriptionStatus,
                 updateUserStatus,
-                initializePricingButtons,
-                testLogin: window.testLogin,
-                directGoogleSignIn: window.directGoogleSignIn
+                initializePricingButtons
             };
 
         });

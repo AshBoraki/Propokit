@@ -1329,27 +1329,7 @@
                 }, 1000);
             });
             
-            // Also add a manual test function
-            window.testMainAppLogin = function() {
-                console.log('🧪 Testing main app login...');
-                const btn = document.getElementById('google-login-btn');
-                if (btn) {
-                    console.log('✅ Button found, triggering click...');
-                    btn.click();
-                } else {
-                    console.log('❌ Button not found!');
-                }
-            };
-            
-            // Direct Google sign-in for main app
-            window.directMainAppLogin = async function() {
-                console.log('🚀 Direct main app Google sign-in...');
-                if (typeof signInWithGoogle === 'function') {
-                    await signInWithGoogle();
-                } else {
-                    console.log('❌ signInWithGoogle function not available');
-                }
-            };
+
 
             // =================================================================
             // === WIX SESSION CONTROLLER (EVENT LISTENER)
