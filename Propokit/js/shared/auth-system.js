@@ -139,8 +139,6 @@ function initializeMainAppUserMenu() {
 }
 
 /**
-
-/**
  * 🔐 Sign in with Google
  * Handles the Google authentication process
  */
@@ -246,9 +244,9 @@ async function signInWithLocalTest() {
         // Create a mock user object
         const mockUser = {
             uid: window.localFirebaseTest.testUID || 'test-user-123',
-            email: 'alex@test.com',
+            email: 'alex.hormozi@test.com',
             displayName: 'Alex Hormozi',
-            photoURL: (typeof localStorage !== 'undefined' && localStorage.getItem('userPhotoURL')) || 'https://i.pravatar.cc/64?img=12'
+            photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
         };
         
         // Handle the sign in
@@ -259,9 +257,9 @@ async function signInWithLocalTest() {
         // Create a simple test user
         const testUser = {
             uid: 'test-user-' + Date.now(),
-            email: 'alex@test.com',
+            email: 'alex.hormozi@test.com',
             displayName: 'Alex Hormozi',
-            photoURL: 'https://i.pravatar.cc/64?img=12'
+            photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
         };
         
         // Store test UID
@@ -281,7 +279,9 @@ async function signInWithLocalTest() {
 async function signOut() {
     try {
         console.log('🔐 Signing out...');
-        await firebase.auth().signOut();
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            await firebase.auth().signOut();
+        }
         showNotification('👋 Successfully signed out', 'info', 3000);
 
         // Redirect to marketing page if on main app
@@ -550,9 +550,7 @@ function handleUpgrade() {
 
     // Close dropdown
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
-    if (userDropdownMenu) {
-        userDropdownMenu.classList.remove('show');
-    }
+    if (userDropdownMenu) userDropdownMenu.classList.remove('show');
 }
 
 // ==================================================
