@@ -1,0 +1,5 @@
+[33m975d264[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Create shared authentication system: unified login/logout across marketing page and main app
+[33m42e0cb5[m Add authentication system to main Propokit application with login/logout buttons
+[33mc3a51c0[m Add debugging and fix login button clickability issues
+[33m7006449[m Implement real Firebase authentication: login functionality, UID storage, and logout system
+[33m7ffa999[m Remove test content: login test functions, demo mode, test banners, and Launch App (NEW) button
