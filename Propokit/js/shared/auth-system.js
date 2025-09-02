@@ -104,8 +104,41 @@ function initializeAuthSystem() {
     // Setup pricing buttons (for marketing page)
     setupPricingButtons();
 
+    // Initialize main app user menu if on main app
+    initializeMainAppUserMenu();
+
     console.log('✅ Authentication system initialized');
 }
+
+/**
+ * 🎛️ Initialize main app user menu
+ * Sets up the user menu in the main application
+ */
+function initializeMainAppUserMenu() {
+    // Only run on main app
+    if (window.location.pathname.includes('Propokit')) {
+        console.log('🎛️ Initializing main app user menu...');
+        
+        // Check if user is already signed in
+        const storedUID = localStorage.getItem('firebaseUID');
+        if (storedUID && currentUser) {
+            console.log('👤 User already signed in, updating main app UI...');
+            handleUserSignIn(currentUser);
+        } else if (storedUID) {
+            console.log('👤 Found stored UID, setting up test user...');
+            // Create a test user object for the stored UID
+            const testUser = {
+                uid: storedUID,
+                email: 'alex.hormozi@test.com',
+                displayName: 'Alex Hormozi',
+                photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
+            };
+            handleUserSignIn(testUser);
+        }
+    }
+}
+
+/**
 
 /**
  * 🔐 Sign in with Google
@@ -271,16 +304,30 @@ function handleUserSignIn(user) {
     console.log('👤 Handling user sign in:', user.email);
     currentUser = user;
 
-    // Update UI elements (marketing page only)
+    // Update UI elements based on page type
     const isMarketing = !window.location.pathname.includes('Propokit');
+    
     if (isMarketing) {
+        // Marketing page UI updates
         if (loginBtn) loginBtn.style.display = 'none';
         if (logoutBtn) logoutBtn.style.display = 'flex';
         if (userProfile) userProfile.style.display = 'flex';
+        if (userAvatar) userAvatar.src = user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg';
+        if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
+    } else {
+        // Main app UI updates
+        const profileUserName = document.getElementById('profile-user-name');
+        const profileUserEmail = document.getElementById('profile-user-email');
+        const userAvatarTrigger = document.getElementById('user-avatar-trigger');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        if (profileUserName) profileUserName.textContent = user.displayName || 'Alex Hormozi';
+        if (profileUserEmail) profileUserEmail.textContent = user.email || 'alex.hormozi@test.com';
+        if (userAvatarTrigger) {
+            userAvatarTrigger.innerHTML = `<img src="${user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">`;
+        }
+        if (logoutBtn) logoutBtn.style.display = 'block';
     }
-
-    if (userAvatar) userAvatar.src = user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg';
-    if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
 
     // Update subscription status
     updateUserStatus('free');
@@ -303,12 +350,27 @@ function handleUserSignOut() {
     console.log('👤 Handling user sign out');
     currentUser = null;
 
-    // Update UI elements (marketing page only)
+    // Update UI elements based on page type
     const isMarketing = !window.location.pathname.includes('Propokit');
+    
     if (isMarketing) {
+        // Marketing page UI updates
         if (loginBtn) loginBtn.style.display = 'flex';
         if (logoutBtn) logoutBtn.style.display = 'none';
         if (userProfile) userProfile.style.display = 'none';
+    } else {
+        // Main app UI updates
+        const profileUserName = document.getElementById('profile-user-name');
+        const profileUserEmail = document.getElementById('profile-user-email');
+        const userAvatarTrigger = document.getElementById('user-avatar-trigger');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        if (profileUserName) profileUserName.textContent = 'Guest User';
+        if (profileUserEmail) profileUserEmail.textContent = 'Not logged in';
+        if (userAvatarTrigger) {
+            userAvatarTrigger.innerHTML = `<span>GU</span><div class="user-status-indicator online"></div>`;
+        }
+        if (logoutBtn) logoutBtn.style.display = 'none';
     }
     
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
@@ -479,6 +541,9 @@ window.PropoKitAuth = {
     handleUpgrade,
     toggleUserDropdown
 };
+
+// Also make signOut available directly on window for the main app
+window.signOut = signOut;
 
 console.log('📦 Propokit authentication system loaded');
 

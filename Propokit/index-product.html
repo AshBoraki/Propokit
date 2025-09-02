@@ -347,10 +347,7 @@
     </div>
 
     <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item" id="google-login-btn" onclick="console.log('🔥 ONCLICK: Login clicked!'); if(window.directMainAppLogin) window.directMainAppLogin(); return false;" style="background: linear-gradient(45deg, #ff6b35, #f7931e) !important; color: white !important; border-radius: 6px !important; margin: 5px !important; display: block !important; font-weight: bold !important; text-decoration: none !important; padding: 12px 15px !important; cursor: pointer !important;">
-        <i class="fab fa-google"></i> 🔐 SIGN IN WITH GOOGLE
-    </a>
-    <a href="#" class="dropdown-item" id="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <a href="#" class="dropdown-item" id="logout-btn" onclick="if(window.signOut) window.signOut(); return false;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
 </div>
 </header>
  <aside id="main-sidebar">
