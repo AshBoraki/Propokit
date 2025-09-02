@@ -91,7 +91,7 @@ function initializeAuthSystem() {
         console.warn('⚠️ Login button not found');
     }
 
-    // Setup logout button
+    // Setup logout button (only if present, mainly on marketing page)
     if (logoutBtn) {
         console.log('🔗 Setting up logout button');
         logoutBtn.addEventListener('click', (e) => {
@@ -99,8 +99,6 @@ function initializeAuthSystem() {
             e.preventDefault();
             signOut();
         });
-    } else {
-        console.warn('⚠️ Logout button not found');
     }
 
     // Setup pricing buttons (for marketing page)
@@ -273,10 +271,13 @@ function handleUserSignIn(user) {
     console.log('👤 Handling user sign in:', user.email);
     currentUser = user;
 
-    // Update UI elements
-    if (loginBtn) loginBtn.style.display = 'none';
-    if (logoutBtn) logoutBtn.style.display = 'flex';
-    if (userProfile) userProfile.style.display = 'flex';
+    // Update UI elements (marketing page only)
+    const isMarketing = !window.location.pathname.includes('Propokit');
+    if (isMarketing) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'flex';
+        if (userProfile) userProfile.style.display = 'flex';
+    }
 
     if (userAvatar) userAvatar.src = user.photoURL || 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg';
     if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
@@ -302,10 +303,13 @@ function handleUserSignOut() {
     console.log('👤 Handling user sign out');
     currentUser = null;
 
-    // Update UI elements
-    if (loginBtn) loginBtn.style.display = 'flex';
-    if (logoutBtn) logoutBtn.style.display = 'none';
-    if (userProfile) userProfile.style.display = 'none';
+    // Update UI elements (marketing page only)
+    const isMarketing = !window.location.pathname.includes('Propokit');
+    if (isMarketing) {
+        if (loginBtn) loginBtn.style.display = 'flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (userProfile) userProfile.style.display = 'none';
+    }
     
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
     if (userDropdownMenu) userDropdownMenu.classList.remove('show');
