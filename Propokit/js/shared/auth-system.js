@@ -213,9 +213,9 @@ async function signInWithLocalTest() {
         // Create a mock user object
         const mockUser = {
             uid: window.localFirebaseTest.testUID || 'test-user-123',
-            email: 'test@propokit.com',
-            displayName: 'Test User',
-            photoURL: 'https://via.placeholder.com/32'
+            email: 'alex@test.com',
+            displayName: 'Alex Hormozi',
+            photoURL: (typeof localStorage !== 'undefined' && localStorage.getItem('userPhotoURL')) || 'https://i.pravatar.cc/64?img=12'
         };
         
         // Handle the sign in
@@ -226,9 +226,9 @@ async function signInWithLocalTest() {
         // Create a simple test user
         const testUser = {
             uid: 'test-user-' + Date.now(),
-            email: 'test@propokit.com',
-            displayName: 'Test User',
-            photoURL: 'https://via.placeholder.com/32'
+            email: 'alex@test.com',
+            displayName: 'Alex Hormozi',
+            photoURL: 'https://i.pravatar.cc/64?img=12'
         };
         
         // Store test UID
