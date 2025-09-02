@@ -214,9 +214,18 @@ async function signInWithGoogle() {
             });
         }
 
-        // Try popup method first (more reliable than redirect for local development)
+        // Try popup method ONLY (no redirect fallback for safety)
         try {
-            console.log('🔄 Trying popup method...');
+            console.log('🔄 Attempting popup authentication...');
+            
+            // Check if popups are blocked
+            const popupTest = window.open('', '_blank', 'width=1,height=1');
+            if (!popupTest) {
+                throw new Error('Popups are blocked by browser');
+            }
+            popupTest.close();
+            
+            console.log('✅ Popup test successful, proceeding with Google sign-in...');
             const result = await firebase.auth().signInWithPopup(provider);
             console.log('✅ Google sign-in successful via popup:', result.user.email);
             showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
@@ -225,7 +234,7 @@ async function signInWithGoogle() {
             showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
 
         } catch (popupError) {
-            console.warn('⚠️ Firebase popup failed, trying redirect:', popupError);
+            console.warn('⚠️ Popup authentication failed:', popupError);
             
             // Check if it's the 403 API key blocked error
             if (popupError.code === 'auth/internal-error' || 
@@ -238,31 +247,20 @@ async function signInWithGoogle() {
                 await signInWithLocalTest();
                 return;
             }
-
-            try {
-                // Try redirect method as fallback
-                console.log('🔄 Trying redirect method...');
-                await firebase.auth().signInWithRedirect(provider);
-                console.log('✅ Google sign-in redirect initiated');
-
-            } catch (redirectError) {
-                console.warn('⚠️ Firebase redirect failed, using local test mode:', redirectError);
-                
-                // Check if it's the 403 API key blocked error
-                if (redirectError.code === 'auth/internal-error' || 
-                    redirectError.message.includes('403') || 
-                    redirectError.message.includes('API_KEY_SERVICE_BLOCKED') ||
-                    redirectError.message.includes('identitytoolkit')) {
-                    
-                    console.warn('🚫 Firebase API key is blocked from Identity Toolkit API');
-                    console.warn('🔄 Falling back to local test authentication...');
-                    await signInWithLocalTest();
-                    return;
-                }
-                
-                // Fall back to local test authentication
-                await signInWithLocalTest();
+            
+            // Check for popup-specific errors
+            if (popupError.code === 'auth/popup-blocked') {
+                showNotification('❌ Popup was blocked. Please allow pop-ups and try again.', 'error', 5000);
+            } else if (popupError.code === 'auth/popup-closed-by-user') {
+                showNotification('ℹ️ Sign-in was cancelled.', 'info', 3000);
+            } else if (popupError.message.includes('Popups are blocked')) {
+                showNotification('❌ Popups are blocked by your browser. Please enable popups and try again.', 'error', 5000);
+            } else {
+                showNotification('❌ Popup authentication failed. Please try again.', 'error', 5000);
             }
+            
+            // Don't fall back to redirect - only use popup for safety
+            console.log('🛡️ Using popup-only authentication for security');
         }
 
         // Redirect to main app if on marketing page
@@ -302,6 +300,8 @@ async function signInWithGoogle() {
             // Automatically fall back to local test
             await signInWithLocalTest();
             return;
+        } else if (error.message.includes('Popups are blocked')) {
+            errorMessage = 'Popups are blocked by your browser. Please enable popups and try again.';
         }
         
         showNotification(`❌ ${errorMessage}`, 'error', 5000);
