@@ -90,7 +90,7 @@ async function signInWithGoogle() {
         // Reset button
         if (loginBtn) {
             loginBtn.disabled = false;
-            loginBtn.innerHTML = 'Sign in with Google';
+            loginBtn.innerHTML = 'Sign In';
         }
         
     } catch (error) {
@@ -100,7 +100,7 @@ async function signInWithGoogle() {
         const loginBtn = document.getElementById('login-btn');
         if (loginBtn) {
             loginBtn.disabled = false;
-            loginBtn.innerHTML = 'Sign in with Google';
+            loginBtn.innerHTML = 'Sign In';
         }
         
         // Handle specific error types
