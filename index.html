@@ -8158,6 +8158,14 @@
                 
                 document.documentElement.setAttribute('data-theme', theme);
                 updateThemeToggle(theme);
+                
+                // Sync homepage dropdown toggle with current theme
+                const homepageThemeToggle = document.getElementById('homepage-theme-toggle-input');
+                if (homepageThemeToggle) {
+                    homepageThemeToggle.checked = theme === 'light';
+                }
+                
+                console.log('🎨 Homepage theme initialized:', theme);
             }
             
             // Update theme toggle button appearance
@@ -8246,6 +8254,23 @@
                 // Update homepage dropdown toggle
                 if (homepageThemeToggle) {
                     homepageThemeToggle.checked = newTheme === 'light'; // FIXED: checked = light mode (consistent with main app)
+                }
+            });
+            
+            // Listen for localStorage changes (when other tabs/pages change theme)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    const newTheme = e.newValue || 'dark';
+                    console.log('🔄 Homepage received localStorage theme change:', newTheme);
+                    
+                    // Update homepage theme
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    updateThemeToggle(newTheme);
+                    
+                    // Update homepage dropdown toggle
+                    if (homepageThemeToggle) {
+                        homepageThemeToggle.checked = newTheme === 'light';
+                    }
                 }
             });
             

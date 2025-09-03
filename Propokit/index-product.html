@@ -1523,6 +1523,22 @@
                         document.body.setAttribute('data-theme', newTheme);
                     }
                 });
+                
+                // Listen for localStorage changes (when other tabs/pages change theme)
+                window.addEventListener('storage', function(e) {
+                    if (e.key === 'theme') {
+                        const newTheme = e.newValue || 'dark';
+                        console.log('🔄 Main app received localStorage theme change:', newTheme);
+                        
+                        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+                        if (themeToggleCheckbox) {
+                            const isLightTheme = newTheme === 'light';
+                            themeToggleCheckbox.checked = isLightTheme;
+                            document.documentElement.setAttribute('data-theme', newTheme);
+                            document.body.setAttribute('data-theme', newTheme);
+                        }
+                    }
+                });
             });
             
             // =================================================================
@@ -1569,6 +1585,13 @@
                 const savedTheme = localStorage.getItem('theme') || 'dark';
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 document.body.setAttribute('data-theme', savedTheme);
+                
+                // Sync main app toggle with current theme
+                const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+                if (themeToggleCheckbox) {
+                    themeToggleCheckbox.checked = savedTheme === 'light';
+                }
+                
                 console.log('🎨 Main app theme initialized:', savedTheme);
             }
 
