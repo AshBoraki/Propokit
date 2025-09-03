@@ -173,38 +173,38 @@ function updateUIForSignedInUser(user) {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) logoutBtn.style.display = 'flex';
     
-    // Show user profile
+    // Show user profile (only if it exists - for main app)
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'flex';
     
-    // Show Launch App button
+    // Show Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'inline-flex';
     
-    // Show Dashboard navigation item
+    // Show Dashboard navigation item (only if it exists - for home page)
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'block';
     
-    // Update logo link to go to main app
+    // Update logo link to go to main app (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
     if (logoLink) {
         logoLink.href = 'Propokit/index-product.html';
         logoLink.title = 'Go to Dashboard';
     }
     
-    // Update user name
+    // Update user name (only if it exists - for main app)
     const userName = document.getElementById('user-name');
     if (userName) {
         userName.textContent = user.displayName || user.email.split('@')[0];
     }
     
-    // Update user avatar
+    // Update user avatar (only if it exists - for main app)
     const userAvatar = document.getElementById('user-avatar');
     if (userAvatar && user.photoURL) {
         userAvatar.src = user.photoURL;
     }
     
-    // Auto-redirect to main app after successful login
+    // Auto-redirect to main app after successful login (only on home page)
     setTimeout(() => {
         if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
             console.log('🚀 Redirecting to main app after successful login...');
@@ -225,19 +225,19 @@ function updateUIForSignedOutUser() {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) logoutBtn.style.display = 'none';
     
-    // Hide user profile
+    // Hide user profile (only if it exists - for main app)
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'none';
     
-    // Hide Launch App button
+    // Hide Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'none';
     
-    // Hide Dashboard navigation item
+    // Hide Dashboard navigation item (only if it exists - for home page)
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'none';
     
-    // Reset logo link to home page
+    // Reset logo link to home page (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
     if (logoLink) {
         logoLink.href = '#';
