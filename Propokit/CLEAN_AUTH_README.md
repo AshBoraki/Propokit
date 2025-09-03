@@ -8,7 +8,6 @@ This is a clean, simplified authentication system that replaces the complex prev
 
 ### Core Files
 - `Propokit/js/shared/clean-auth-system.js` - Main authentication system
-- `Propokit/clean-auth-test.html` - Test page for debugging
 
 ### Updated Files
 - `index.html` - Updated to use clean auth system
@@ -66,19 +65,11 @@ const user = window.CleanAuth.getCurrentUser();
 
 ## Testing
 
-### Test Page
-Visit `Propokit/clean-auth-test.html` to test the authentication system:
-- Check if Firebase is loaded
-- Check if Clean Auth is loaded
-- Test sign in/out functionality
-- View current user status
-
 ### Manual Testing
 1. Go to the main page (`index.html`)
 2. Click "Sign in with Google"
 3. Complete Google sign-in
-4. Should redirect to main app
-5. Test sign out functionality
+4. Test sign out functionality
 
 ## Troubleshooting
 
