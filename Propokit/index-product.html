@@ -1501,6 +1501,7 @@
             
             // Initialize dropdown when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
+                initializeMainAppTheme(); // Initialize theme first
                 initBulletproofMainAppDropdown();
                 initThemeToggle();
                 
@@ -1508,6 +1509,24 @@
                 setInterval(() => {
                     ensureProfileVisibility();
                 }, 2000); // Check every 2 seconds
+                
+                // Listen for theme changes from homepage
+                window.addEventListener('themeChanged', function(e) {
+                    const newTheme = e.detail.theme;
+                    console.log('🔄 Main app received theme change:', newTheme);
+                    
+                    const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+                    if (themeToggleCheckbox) {
+                        const isLightTheme = newTheme === 'light';
+                        themeToggleCheckbox.checked = isLightTheme;
+                        
+                        if (isLightTheme) {
+                            document.body.classList.add('light-theme');
+                        } else {
+                            document.body.classList.remove('light-theme');
+                        }
+                    }
+                });
             });
             
             // =================================================================
@@ -1519,15 +1538,24 @@
                 const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
                 
                 if (themeToggleCheckbox) {
-                    // Set initial state based on current theme
-                    const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-                    themeToggleCheckbox.checked = currentTheme === 'light';
+                    // Get theme from localStorage or default to dark
+                    const savedTheme = localStorage.getItem('theme') || 'dark';
+                    const isLightTheme = savedTheme === 'light';
+                    
+                    // Set initial state
+                    themeToggleCheckbox.checked = isLightTheme;
+                    if (isLightTheme) {
+                        document.body.classList.add('light-theme');
+                    } else {
+                        document.body.classList.remove('light-theme');
+                    }
                     
                     // Handle theme toggle
                     themeToggleCheckbox.addEventListener('change', (e) => {
-                        const isLightTheme = e.target.checked;
+                        const newIsLightTheme = e.target.checked;
+                        const newTheme = newIsLightTheme ? 'light' : 'dark';
                         
-                        if (isLightTheme) {
+                        if (newIsLightTheme) {
                             document.body.classList.add('light-theme');
                             localStorage.setItem('theme', 'light');
                             console.log('🌞 Switched to light theme');
@@ -1536,10 +1564,29 @@
                             localStorage.setItem('theme', 'dark');
                             console.log('🌙 Switched to dark theme');
                         }
+                        
+                        // Dispatch custom event for other theme toggles to listen to
+                        window.dispatchEvent(new CustomEvent('themeChanged', { 
+                            detail: { theme: newTheme } 
+                        }));
                     });
                     
-                    console.log('✅ Theme toggle functionality initialized');
+                    console.log('✅ Main app theme toggle initialized with theme:', savedTheme);
                 }
+            }
+            
+            // Initialize theme on page load
+            function initializeMainAppTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                const isLightTheme = savedTheme === 'light';
+                
+                if (isLightTheme) {
+                    document.body.classList.add('light-theme');
+                } else {
+                    document.body.classList.remove('light-theme');
+                }
+                
+                console.log('🎨 Main app theme initialized:', savedTheme);
             }
 
             // =================================================================

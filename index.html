@@ -8178,6 +8178,11 @@
                 localStorage.setItem('theme', newTheme);
                 updateThemeToggle(newTheme);
                 
+                // Dispatch custom event for other theme toggles to listen to
+                window.dispatchEvent(new CustomEvent('themeChanged', { 
+                    detail: { theme: newTheme } 
+                }));
+                
                 // Add smooth transition effect
                 document.body.style.transition = 'all 0.5s ease';
                 setTimeout(() => {
@@ -8216,6 +8221,11 @@
                         updateThemeToggle(newTheme);
                     }
                     
+                    // Dispatch custom event for other theme toggles to listen to
+                    window.dispatchEvent(new CustomEvent('themeChanged', { 
+                        detail: { theme: newTheme } 
+                    }));
+                    
                     // Add smooth transition effect
                     document.body.style.transition = 'all 0.5s ease';
                     setTimeout(() => {
@@ -8223,6 +8233,21 @@
                     }, 500);
                 });
             }
+            
+            // Listen for theme changes from other pages
+            window.addEventListener('themeChanged', function(e) {
+                const newTheme = e.detail.theme;
+                console.log('🔄 Homepage received theme change:', newTheme);
+                
+                // Update homepage theme
+                document.documentElement.setAttribute('data-theme', newTheme);
+                updateThemeToggle(newTheme);
+                
+                // Update homepage dropdown toggle
+                if (homepageThemeToggle) {
+                    homepageThemeToggle.checked = newTheme === 'dark';
+                }
+            });
             
             // Sync homepage theme toggle with current theme
             function syncHomepageThemeToggle() {
