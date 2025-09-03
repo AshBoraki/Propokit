@@ -9647,60 +9647,56 @@
                // === 👤 USER PROFILE DROPDOWN FUNCTIONALITY (HOME PAGE)
                // =================================================================
                
-               // Initialize user profile dropdown functionality for home page
-               function initHomePageUserProfileDropdown() {
-                   console.log('🔍 Initializing home page user profile dropdown...');
+               // Simple test function to check what's happening
+               function testDropdownElements() {
+                   console.log('🧪 TESTING DROPDOWN ELEMENTS...');
                    
-                   const userAvatarTrigger = document.getElementById('home-user-avatar-trigger');
-                   const userProfileDropdown = document.getElementById('home-user-profile-dropdown');
-                   const userProfileMenu = document.getElementById('home-user-profile-menu');
+                   // Check all possible elements
+                   const elements = {
+                       'home-user-profile-menu': document.getElementById('home-user-profile-menu'),
+                       'home-user-avatar-trigger': document.getElementById('home-user-avatar-trigger'),
+                       'home-user-profile-dropdown': document.getElementById('home-user-profile-dropdown'),
+                       'login-btn': document.getElementById('login-btn'),
+                       'theme-toggle': document.getElementById('theme-toggle')
+                   };
                    
-                   console.log('🔍 Found elements:', {
-                       userAvatarTrigger: !!userAvatarTrigger,
-                       userProfileDropdown: !!userProfileDropdown,
-                       userProfileMenu: !!userProfileMenu
-                   });
+                   console.log('🧪 Elements found:', elements);
                    
-                   if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
-                       console.log('✅ All elements found, setting up dropdown...');
-                       
-                       // Toggle dropdown when avatar is clicked
-                       userAvatarTrigger.addEventListener('click', (e) => {
+                   // Check if user profile is visible
+                   const userProfileMenu = elements['home-user-profile-menu'];
+                   if (userProfileMenu) {
+                       console.log('🧪 User profile menu display:', userProfileMenu.style.display);
+                       console.log('🧪 User profile menu classes:', userProfileMenu.className);
+                   }
+                   
+                   // Try to manually show the user profile
+                   if (userProfileMenu) {
+                       userProfileMenu.style.display = 'flex';
+                       console.log('🧪 Manually set user profile to display: flex');
+                   }
+                   
+                   // Test click event
+                   const avatarTrigger = elements['home-user-avatar-trigger'];
+                   if (avatarTrigger) {
+                       console.log('🧪 Adding test click to avatar...');
+                       avatarTrigger.onclick = function(e) {
                            e.preventDefault();
                            e.stopPropagation();
+                           console.log('🧪 AVATAR CLICKED!');
                            
-                           const isOpen = userProfileMenu.classList.contains('open');
-                           
-                           if (isOpen) {
-                               userProfileMenu.classList.remove('open');
-                               console.log('🔽 Closing dropdown');
+                           const dropdown = document.getElementById('home-user-profile-dropdown');
+                           if (dropdown) {
+                               if (dropdown.style.display === 'block') {
+                                   dropdown.style.display = 'none';
+                                   console.log('🧪 Hiding dropdown');
+                               } else {
+                                   dropdown.style.display = 'block';
+                                   console.log('🧪 Showing dropdown');
+                               }
                            } else {
-                               userProfileMenu.classList.add('open');
-                               console.log('🔼 Opening dropdown');
+                               console.log('🧪 Dropdown element not found!');
                            }
-                           
-                           console.log('👤 Home page user profile dropdown toggled:', isOpen ? 'closed' : 'opened');
-                       });
-                       
-                       // Close dropdown when clicking outside
-                       document.addEventListener('click', (e) => {
-                           if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
-                               userProfileMenu.classList.remove('open');
-                               console.log('🔽 Closing dropdown (click outside)');
-                           }
-                       });
-                       
-                       // Close dropdown when pressing Escape
-                       document.addEventListener('keydown', (e) => {
-                           if (e.key === 'Escape') {
-                               userProfileMenu.classList.remove('open');
-                               console.log('🔽 Closing dropdown (Escape key)');
-                           }
-                       });
-                       
-                       console.log('✅ Home page user profile dropdown functionality initialized');
-                   } else {
-                       console.log('❌ Missing elements for dropdown initialization');
+                       };
                    }
                }
                
@@ -9833,7 +9829,7 @@
                            console.log('✅ Manually updated UI for logged-in user');
                        }
                        
-                       initHomePageUserProfileDropdown();
+                       testDropdownElements();
                        initHomePageThemeToggle();
                        console.log('✅ Home page functionality initialized');
                    }, 1000); // Increased delay to 1 second
