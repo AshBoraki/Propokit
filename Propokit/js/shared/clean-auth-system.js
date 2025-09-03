@@ -181,6 +181,10 @@ function updateUIForSignedInUser(user) {
     const userProfileMenu = document.getElementById('user-profile-menu');
     if (userProfileMenu) userProfileMenu.style.display = 'flex';
     
+    // Hide theme circle (only if it exists - for home page)
+    const themeCircle = document.getElementById('theme-toggle');
+    if (themeCircle) themeCircle.style.display = 'none';
+    
     // Show Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'inline-flex';
@@ -231,6 +235,14 @@ function updateUIForSignedInUser(user) {
     const homePageProfileUserEmail = document.getElementById('profile-user-email');
     if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
+    
+    // Auto-redirect to main app after successful login (only on home page)
+    setTimeout(() => {
+        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+            console.log('🚀 Redirecting to main app after successful login...');
+            window.location.href = 'Propokit/index-product.html';
+        }
+    }, 1000); // 1 second delay to show success state
 }
 
 /**
@@ -252,6 +264,10 @@ function updateUIForSignedOutUser() {
     // Hide user profile menu (only if it exists - for home page)
     const userProfileMenu = document.getElementById('user-profile-menu');
     if (userProfileMenu) userProfileMenu.style.display = 'none';
+    
+    // Show theme circle (only if it exists - for home page)
+    const themeCircle = document.getElementById('theme-toggle');
+    if (themeCircle) themeCircle.style.display = 'flex';
     
     // Hide Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
