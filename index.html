@@ -9649,11 +9649,21 @@
                
                // Initialize user profile dropdown functionality for home page
                function initHomePageUserProfileDropdown() {
+                   console.log('🔍 Initializing home page user profile dropdown...');
+                   
                    const userAvatarTrigger = document.getElementById('user-avatar-trigger');
                    const userProfileDropdown = document.getElementById('user-profile-dropdown');
                    const userProfileMenu = document.getElementById('user-profile-menu');
                    
+                   console.log('🔍 Found elements:', {
+                       userAvatarTrigger: !!userAvatarTrigger,
+                       userProfileDropdown: !!userProfileDropdown,
+                       userProfileMenu: !!userProfileMenu
+                   });
+                   
                    if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
+                       console.log('✅ All elements found, setting up dropdown...');
+                       
                        // Toggle dropdown when avatar is clicked
                        userAvatarTrigger.addEventListener('click', (e) => {
                            e.preventDefault();
@@ -9663,8 +9673,10 @@
                            
                            if (isOpen) {
                                userProfileMenu.classList.remove('open');
+                               console.log('🔽 Closing dropdown');
                            } else {
                                userProfileMenu.classList.add('open');
+                               console.log('🔼 Opening dropdown');
                            }
                            
                            console.log('👤 Home page user profile dropdown toggled:', isOpen ? 'closed' : 'opened');
@@ -9674,6 +9686,7 @@
                        document.addEventListener('click', (e) => {
                            if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
                                userProfileMenu.classList.remove('open');
+                               console.log('🔽 Closing dropdown (click outside)');
                            }
                        });
                        
@@ -9681,10 +9694,13 @@
                        document.addEventListener('keydown', (e) => {
                            if (e.key === 'Escape') {
                                userProfileMenu.classList.remove('open');
+                               console.log('🔽 Closing dropdown (Escape key)');
                            }
                        });
                        
                        console.log('✅ Home page user profile dropdown functionality initialized');
+                   } else {
+                       console.log('❌ Missing elements for dropdown initialization');
                    }
                }
                
@@ -9718,8 +9734,14 @@
                
                // Initialize home page functionality when DOM is loaded
                document.addEventListener('DOMContentLoaded', () => {
-                   initHomePageUserProfileDropdown();
-                   initHomePageThemeToggle();
+                   console.log('🏠 DOM loaded, initializing home page functionality...');
+                   
+                   // Wait a bit for authentication system to update UI
+                   setTimeout(() => {
+                       initHomePageUserProfileDropdown();
+                       initHomePageThemeToggle();
+                       console.log('✅ Home page functionality initialized');
+                   }, 500);
                });
 
         });
