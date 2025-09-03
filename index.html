@@ -493,6 +493,33 @@
             gap: 15px;
         }
         
+        /* Dashboard Navigation Link */
+        .nav-dashboard-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+        }
+        
+        .nav-dashboard-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-dashboard-link svg {
+            width: 16px;
+            height: 16px;
+        }
+        
         .auth-btn {
             display: flex !important;
             align-items: center;
@@ -7063,7 +7090,7 @@
 
     <header class="site-header">
         <div class="container">
-            <a href="#" class="logo">
+            <a href="Propokit/index-product.html" class="logo" id="logo-link">
                 <img src="https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg" alt="PropoKit Logo Icon">
                 <div class="logo-text-wrapper">
                     <span class="logo-text">Propo<span class="logo-kit">Kit</span></span>
@@ -7090,6 +7117,18 @@
                             </svg>
                             <span>Theme</span>
                         </button>
+                    </li>
+                    <!-- Dashboard Link (shown when logged in) -->
+                    <li id="dashboard-nav-item" style="display: none;">
+                        <a href="Propokit/index-product.html" class="nav-dashboard-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 3h7v9H3z"></path>
+                                <path d="M14 3h7v5h-7z"></path>
+                                <path d="M14 12h7v9h-7z"></path>
+                                <path d="M3 16h7v6H3z"></path>
+                            </svg>
+                            Dashboard
+                        </a>
                     </li>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#features">Features</a></li>
@@ -7126,6 +7165,16 @@
                                     </svg>
                                 </button>
                                 <div class="dropdown-menu" id="user-dropdown-menu">
+                                    <a href="Propokit/index-product.html" class="dropdown-item" id="go-to-app-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 3h7v9H3z"></path>
+                                            <path d="M14 3h7v5h-7z"></path>
+                                            <path d="M14 12h7v9h-7z"></path>
+                                            <path d="M3 16h7v6H3z"></path>
+                                        </svg>
+                                        Go to App
+                                    </a>
+                                    <div class="dropdown-divider"></div>
                                     <a href="#" class="dropdown-item" id="upgrade-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>

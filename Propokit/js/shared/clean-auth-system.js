@@ -175,6 +175,17 @@ function updateUIForSignedInUser(user) {
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'inline-flex';
     
+    // Show Dashboard navigation item
+    const dashboardNavItem = document.getElementById('dashboard-nav-item');
+    if (dashboardNavItem) dashboardNavItem.style.display = 'block';
+    
+    // Update logo link to go to main app
+    const logoLink = document.getElementById('logo-link');
+    if (logoLink) {
+        logoLink.href = 'Propokit/index-product.html';
+        logoLink.title = 'Go to Dashboard';
+    }
+    
     // Update user name
     const userName = document.getElementById('user-name');
     if (userName) {
@@ -215,6 +226,17 @@ function updateUIForSignedOutUser() {
     // Hide Launch App button
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'none';
+    
+    // Hide Dashboard navigation item
+    const dashboardNavItem = document.getElementById('dashboard-nav-item');
+    if (dashboardNavItem) dashboardNavItem.style.display = 'none';
+    
+    // Reset logo link to home page
+    const logoLink = document.getElementById('logo-link');
+    if (logoLink) {
+        logoLink.href = '#';
+        logoLink.title = 'PropoKit Home';
+    }
 }
 
 // ==================================================
