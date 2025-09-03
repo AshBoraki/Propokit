@@ -530,7 +530,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(0, 0, 0, 0.1);
             display: none; /* SIMPLE: Hide by default */
-            z-index: 1000;
+            z-index: 9999; /* HIGHER Z-INDEX */
             overflow: hidden;
         }
         
@@ -7313,7 +7313,7 @@
                         
                         <!-- User Profile (shown when logged in) -->
                         <div id="homepage-user-profile-container" style="display: none; position: relative;">
-                            <div class="user-avatar" id="homepage-user-avatar-button" style="cursor: pointer;">
+                            <div class="user-avatar" id="homepage-user-avatar-button" style="cursor: pointer;" onclick="toggleHomepageDropdown()">
                                 <span id="homepage-user-avatar-initials">GU</span>
                                 <div class="user-status-indicator online"></div>
                             </div>
@@ -9635,6 +9635,27 @@
                    
                    checkAuthAndSetupButtons();
                });
+               
+               // =================================================================
+               // === 👤 SIMPLE DROPDOWN TOGGLE FUNCTION
+               // =================================================================
+               
+               function toggleHomepageDropdown() {
+                   console.log('🎯 toggleHomepageDropdown() called!');
+                   const dropdown = document.getElementById('homepage-user-dropdown-menu');
+                   if (dropdown) {
+                       console.log('🎯 Found dropdown, current display:', dropdown.style.display);
+                       if (dropdown.style.display === 'block') {
+                           dropdown.style.display = 'none';
+                           console.log('🎯 Hiding dropdown');
+                       } else {
+                           dropdown.style.display = 'block';
+                           console.log('🎯 Showing dropdown');
+                       }
+                   } else {
+                       console.log('🎯 Dropdown element not found!');
+                   }
+               }
                
                // =================================================================
                // === 👤 USER PROFILE DROPDOWN FUNCTIONALITY (HOME PAGE)
