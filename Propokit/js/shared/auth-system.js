@@ -16,7 +16,7 @@
 let currentUser = null;
 let userSubscriptionStatus = 'free';
 let isProductionMode = true; // Set to true for production
-let redirectHandled = false; // Flag to prevent multiple redirects
+let authInitialized = false; // Flag to prevent multiple initializations
 
 // DOM elements
 let loginBtn = null;
@@ -31,6 +31,11 @@ let userStatus = null;
  * Sets up all authentication functionality for the current page
  */
 function initializeAuthSystem() {
+    if (authInitialized) {
+        console.log('🔐 Authentication system already initialized');
+        return;
+    }
+    
     console.log('🔐 Initializing Propokit Authentication System...');
 
     // Get DOM elements
@@ -57,35 +62,18 @@ function initializeAuthSystem() {
             console.error('❌ Failed to set persistence:', error);
         });
 
-    // Listen for authentication state changes
+    // SINGLE authentication listener - no duplicates
     firebase.auth().onAuthStateChanged((user) => {
+        console.log('🔍 Auth state changed:', user ? user.email : 'No user');
+        
         if (user) {
             console.log('✅ User signed in:', user.email);
-            if (!redirectHandled) {
-                redirectHandled = true;
-                handleUserSignIn(user);
-            }
+            currentUser = user;
+            handleUserSignIn(user);
         } else {
             console.log('❌ User signed out');
-            redirectHandled = false; // Reset flag on sign out
+            currentUser = null;
             handleUserSignOut();
-        }
-    });
-    
-    // Handle redirect result for Google sign-in (ONLY if not already handled by onAuthStateChanged)
-    firebase.auth().getRedirectResult().then((result) => {
-        if (result.user) {
-            console.log('✅ Redirect sign-in successful:', result.user.email);
-            // Don't call handleUserSignIn here - let onAuthStateChanged handle it
-            showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
-            showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
-        } else if (result.credential) {
-            console.log('✅ Redirect completed but no user (might be sign-out)');
-        }
-    }).catch((error) => {
-        if (error.code !== 'auth/no-redirect-result') {
-            console.error('❌ Redirect sign-in failed:', error);
-            showNotification('❌ Sign-in failed. Please try again.', 'error', 3000);
         }
     });
 
@@ -98,14 +86,6 @@ function initializeAuthSystem() {
             e.stopPropagation();
             signInWithGoogle();
         });
-
-        // Add backup onclick
-        loginBtn.onclick = function(e) {
-            console.log('🔥 DIRECT ONCLICK: Login button clicked!');
-            e.preventDefault();
-            e.stopPropagation();
-            signInWithGoogle();
-        };
     } else {
         console.warn('⚠️ Login button not found');
     }
@@ -129,6 +109,7 @@ function initializeAuthSystem() {
     // Initialize main app user menu if on main app
     initializeMainAppUserMenu();
 
+    authInitialized = true;
     console.log('✅ Authentication system initialized');
 }
 
@@ -146,16 +127,6 @@ function initializeMainAppUserMenu() {
         if (storedUID && currentUser) {
             console.log('👤 User already signed in, updating main app UI...');
             handleUserSignIn(currentUser);
-        } else if (storedUID && !isProductionMode) {
-            console.log('👤 Found stored UID, setting up test user...');
-            // Create a test user object for the stored UID
-            const testUser = {
-                uid: storedUID,
-                email: 'alex.hormozi@test.com',
-                displayName: 'Alex Hormozi',
-                photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
-            };
-            handleUserSignIn(testUser);
         }
     }
 }
@@ -199,40 +170,9 @@ async function signInWithGoogle() {
         }
 
         // Use redirect method for better compatibility
-        try {
-            console.log('🔄 Redirecting to Google sign-in...');
-            
-            // Check if we're already on the login page
-            if (window.location.pathname.includes('login.html')) {
-                console.log('✅ Already on login page, proceeding with Google sign-in...');
-                
-                // Use redirect method for login page
-                await firebase.auth().signInWithRedirect(provider);
-                console.log('✅ Google sign-in redirect initiated');
-                
-            } else {
-                // For marketing page, redirect to login page
-                console.log('🔄 Marketing page detected, redirecting to login page...');
-                window.location.href = 'Propokit/login.html';
-                return;
-            }
-
-        } catch (redirectError) {
-            console.error('❌ Google sign-in redirect failed:', redirectError);
-            
-            // Only fall back to local test if we're in development mode
-            if (!isProductionMode) {
-                console.warn('🔄 Falling back to local test authentication...');
-                await signInWithLocalTest();
-                return;
-            } else {
-                // In production, show error and don't fall back
-                throw redirectError;
-            }
-        }
-
-        // Note: Removed problematic redirect that was causing authentication loop
-        // The login page now handles its own redirects properly
+        console.log('🔄 Redirecting to Google sign-in...');
+        await firebase.auth().signInWithRedirect(provider);
+        console.log('✅ Google sign-in redirect initiated');
 
     } catch (error) {
         console.error('❌ Authentication failed:', error);
@@ -268,65 +208,6 @@ async function signInWithGoogle() {
 }
 
 /**
- * 🔐 Sign in with local test system (only for development)
- * Uses the local Firebase test system for authentication
- */
-async function signInWithLocalTest() {
-    if (isProductionMode) {
-        console.error('❌ Local test mode not available in production');
-        return;
-    }
-    
-    console.log('🧪 Using local test authentication...');
-    
-    // Show a notification about the fallback
-    showNotification('🔄 Using local authentication mode', 'info', 2000);
-    
-    // Show local mode status indicator
-    showAuthStatusIndicator('local-mode', 'Local Mode');
-    
-    // Check if local Firebase test system is available
-    if (window.localFirebaseTest) {
-        console.log('✅ Local Firebase test system found');
-        
-        // Create a mock user object
-        const mockUser = {
-            uid: window.localFirebaseTest.testUID || 'test-user-123',
-            email: 'alex.hormozi@test.com',
-            displayName: 'Alex Hormozi',
-            photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
-        };
-        
-        // Handle the sign in
-        handleUserSignIn(mockUser);
-        showNotification('🧪 Signed in with test account! All features available.', 'success', 4000);
-        
-    } else {
-        // Create a simple test user
-        const testUser = {
-            uid: 'test-user-' + Date.now(),
-            email: 'alex.hormozi@test.com',
-            displayName: 'Alex Hormozi',
-            photoURL: 'https://static.wixstatic.com/shapes/a1b7fb_6605f9bff7e2408ba18fae25075bfa8c.svg'
-        };
-        
-        // Store test UID
-        localStorage.setItem('firebaseUID', testUser.uid);
-        window.currentFirebaseUID = testUser.uid;
-        
-        // Handle the sign in
-        handleUserSignIn(testUser);
-        showNotification('🧪 Signed in with test account! All features available.', 'success', 4000);
-    }
-    
-    // Show additional info about the fallback
-    setTimeout(() => {
-        console.log('💡 Local authentication mode active - all app features will work normally');
-        console.log('💡 To fix Firebase authentication, check your Firebase Console settings');
-    }, 1000);
-}
-
-/**
  * 🔍 Show authentication status indicator
  * Displays the current authentication mode in the header
  */
@@ -351,8 +232,6 @@ function showAuthStatusIndicator(mode, text) {
         }
     }
 }
-
-/**
 
 /**
  * 🔐 Sign out
@@ -386,7 +265,7 @@ function handleUserSignIn(user) {
     console.log('👤 Handling user sign in:', user.email);
     currentUser = user;
 
-    // Check if we're on the login page and need to redirect
+    // CRITICAL: Check if we're on the login page and need to redirect
     if (window.location.pathname.includes('login.html')) {
         console.log('🔄 Login page detected, redirecting to main app...');
         console.log('🔄 Target URL: index-product.html');
@@ -394,11 +273,15 @@ function handleUserSignIn(user) {
         // Show success notification before redirect
         showNotification('🎉 Successfully signed in with Google!', 'success', 2000);
         
-        // Reset redirect flag before redirecting
-        redirectHandled = false;
+        // Store user UID before redirect
+        localStorage.setItem('firebaseUID', user.uid);
+        window.currentFirebaseUID = user.uid;
         
-        // Redirect to main app
-        window.location.href = 'index-product.html';
+        // Redirect to main app with a small delay to ensure notification shows
+        setTimeout(() => {
+            window.location.href = 'index-product.html';
+        }, 1000);
+        
         return; // Exit early to prevent UI updates on login page
     }
 
@@ -438,22 +321,6 @@ function handleUserSignIn(user) {
             logoutBtn.style.opacity = '1';
             logoutBtn.style.pointerEvents = 'auto';
             console.log('🔍 Logout button should now be visible');
-            
-            // Don't force the dropdown to be open - let user click to open it
-            // const userMenu = document.getElementById('user-profile-menu');
-            // if (userMenu) {
-            //     userMenu.classList.add('open');
-            //     console.log('🔍 User menu forced open');
-            //     
-            //     // Also make sure the dropdown content is visible
-            //     const dropdown = userMenu.querySelector('.profile-dropdown');
-            //     if (dropdown) {
-            //         dropdown.style.opacity = '1';
-            //         dropdown.style.visibility = 'visible';
-            //         dropdown.style.transform = 'translateY(0)';
-            //         console.log('🔍 Dropdown content forced visible');
-            //     }
-            // }
         } else {
             console.warn('⚠️ Logout button not found in main app');
         }
@@ -798,18 +665,6 @@ window.forceShowLogout = function() {
         logoutBtn.style.opacity = '1';
         logoutBtn.style.pointerEvents = 'auto';
         console.log('✅ Logout button forced visible');
-        
-        // Don't force the dropdown to be open - let user click to open it
-        // const userMenu = document.getElementById('user-profile-menu');
-        // if (userMenu) {
-        //     userMenu.classList.add('open');
-        //     const dropdown = userMenu.querySelector('.profile-dropdown');
-        //     if (dropdown) {
-        //         dropdown.style.opacity = '1';
-        //         dropdown.style.visibility = 'visible';
-        //         dropdown.style.transform = 'translateY(0)';
-        //     }
-        // }
     } else {
         console.warn('❌ Logout button not found');
     }
