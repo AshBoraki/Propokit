@@ -616,74 +616,91 @@ body.theme-hybrid {
     --button-hover: #4b5563;
 }
 
-/* Apply theme variables to elements */
-body {
+/* Apply theme variables to elements - ONLY for dark/light mode */
+[data-theme="dark"] body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
 }
 
-#top-application-header {
+[data-theme="dark"] #top-application-header {
     background-color: var(--header-bg);
     border-bottom: 1px solid var(--border-color);
 }
 
-#main-sidebar {
+[data-theme="dark"] #main-sidebar {
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
 }
 
-.profile-dropdown {
+[data-theme="dark"] .profile-dropdown {
     background-color: var(--dropdown-bg);
     border: 1px solid var(--dropdown-border);
 }
 
-.dropdown-item {
+[data-theme="dark"] .dropdown-item {
     color: var(--text-primary);
 }
 
-.dropdown-item:hover {
+[data-theme="dark"] .dropdown-item:hover {
     background-color: var(--button-hover);
 }
 
-/* Additional main app elements */
-.header-btn {
+/* Additional main app elements - ONLY for dark mode */
+[data-theme="dark"] .header-btn {
     background-color: var(--button-bg);
     color: var(--button-text);
     border: 1px solid var(--border-color);
 }
 
-.header-btn:hover {
+[data-theme="dark"] .header-btn:hover {
     background-color: var(--button-hover);
 }
 
-#header-document-title {
+[data-theme="dark"] #header-document-title {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
 
-.nav-link {
+[data-theme="dark"] .nav-link {
     color: var(--text-primary);
 }
 
-.nav-link:hover {
+[data-theme="dark"] .nav-link:hover {
     background-color: var(--button-hover);
 }
 
-#page-content {
+[data-theme="dark"] #page-content {
     background-color: var(--bg-primary);
     color: var(--text-primary);
 }
 
-/* Theme toggle specific styles */
-.dropdown-item-toggle {
+/* Theme toggle specific styles - ONLY for dark mode */
+[data-theme="dark"] .dropdown-item-toggle {
     background-color: var(--dropdown-bg);
 }
 
-.dropdown-item-label {
+[data-theme="dark"] .dropdown-item-label {
     color: var(--text-primary);
 }
 
-.dropdown-item-label i {
+[data-theme="dark"] .dropdown-item-label i {
     color: var(--text-secondary);
+}
+
+/* Header text elements - ONLY for dark mode */
+[data-theme="dark"] .logo-text {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .document-icon {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] #zoom-level-display {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .header-divider {
+    background-color: var(--border-color);
 }
