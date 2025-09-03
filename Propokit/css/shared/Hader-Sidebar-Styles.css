@@ -666,20 +666,20 @@ html, body {
     color: #2D3748;
 }
 
-/* Ensure logo-kit stays yellow in light mode too */
-[data-theme="light"] .logo-kit {
-    background: linear-gradient(45deg, #FFC300, #FFD644);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* Ensure logo-kit stays yellow in light mode too - more specific selector */
+[data-theme="light"] #propokit-icon-logo .logo-kit {
+    background: linear-gradient(45deg, #FFC300, #FFD644) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     color: #FFC300 !important;
 }
 
 [data-theme="light"] #propokit-icon-logo:hover .logo-kit {
-    background: linear-gradient(45deg, #FFD644, #FFE066);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: linear-gradient(45deg, #FFD644, #FFE066) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     color: #FFD644 !important;
 }
 
@@ -688,20 +688,20 @@ html, body {
     color: #E2E8F0;
 }
 
-/* Ensure logo-kit stays yellow in dark mode */
-[data-theme="dark"] .logo-kit {
-    background: linear-gradient(45deg, #FFC300, #FFD644);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* Ensure logo-kit stays yellow in dark mode - more specific selector */
+[data-theme="dark"] #propokit-icon-logo .logo-kit {
+    background: linear-gradient(45deg, #FFC300, #FFD644) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     color: #FFC300 !important;
 }
 
 [data-theme="dark"] #propokit-icon-logo:hover .logo-kit {
-    background: linear-gradient(45deg, #FFD644, #FFE066);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: linear-gradient(45deg, #FFD644, #FFE066) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     color: #FFD644 !important;
 }
 
