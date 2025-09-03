@@ -82,6 +82,11 @@
             color: #4285f4;
         }
 
+        .google-btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
         .divider {
             margin: 30px 0;
             display: flex;
@@ -116,15 +121,6 @@
 
         .back-link a:hover {
             color: #333;
-        }
-
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .loading .google-btn {
-            background: #f5f5f5;
         }
 
         .notification {
@@ -162,7 +158,7 @@
             }
         }
 
-        .auth-status {
+        .status {
             margin-top: 20px;
             padding: 12px;
             border-radius: 8px;
@@ -170,22 +166,22 @@
             font-weight: 500;
         }
 
-        .auth-status.firebase-mode {
+        .status.success {
             background: rgba(16, 185, 129, 0.1);
             color: #065f46;
             border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
-        .auth-status.local-mode {
-            background: rgba(245, 158, 11, 0.1);
-            color: #92400e;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        .auth-status.error-mode {
+        .status.error {
             background: rgba(239, 68, 68, 0.1);
             color: #991b1b;
             border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status.info {
+            background: rgba(59, 130, 246, 0.1);
+            color: #1e40af;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
     </style>
 </head>
@@ -201,11 +197,9 @@
                 <i class="fab fa-google"></i>
                 <span>Sign in with Google</span>
             </button>
-
-            <!-- Local mode button removed for production -->
         </div>
 
-        <div id="auth-status" class="auth-status" style="display: none;"></div>
+        <div id="status" class="status" style="display: none;"></div>
 
         <div class="back-link">
             <a href="../index.html">← Back to Home</a>
@@ -215,102 +209,134 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
 
     <!-- Firebase Config -->
     <script src="js/shared/firebase-config.js"></script>
-    
-    <!-- Local Firebase Test -->
-    <script src="js/shared/local-firebase-test.js"></script>
-
-    <!-- Authentication System -->
-    <script src="js/shared/auth-system.js"></script>
 
     <script>
-        // Login page specific functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const googleBtn = document.getElementById('google-signin-btn');
-            const authStatus = document.getElementById('auth-status');
+        // Simple notification function
+        function showNotification(message, type = 'info', duration = 3000) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
 
-            // Show notification function
-            function showNotification(message, type = 'info', duration = 3000) {
-                const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                notification.textContent = message;
-                document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, duration);
+        }
 
-                setTimeout(() => {
-                    notification.remove();
-                }, duration);
-            }
+        // Show status
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.className = `status ${type}`;
+            status.textContent = message;
+        }
 
-            // Show auth status
-            function showAuthStatus(mode, text) {
-                authStatus.style.display = 'block';
-                authStatus.className = `auth-status ${mode}`;
-                authStatus.textContent = text;
-            }
-
-                        // Google sign-in - use shared module function directly
-            googleBtn.addEventListener('click', async function() {
-                try {
-                    googleBtn.classList.add('loading');
-                    googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Signing in...</span>';
-                    
-                    console.log('🔐 Starting Google sign-in from login page...');
-                    console.log('🔍 Current domain:', window.location.hostname);
-                    console.log('🔍 Current URL:', window.location.href);
-                    
-                    // Use the shared module's sign-in function
-                    if (window.PropoKitAuth && window.PropoKitAuth.signIn) {
-                        await window.PropoKitAuth.signIn();
+        // Wait for Firebase to be ready
+        function waitForFirebase() {
+            return new Promise((resolve) => {
+                const check = () => {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        console.log('✅ Firebase ready');
+                        resolve();
                     } else {
-                        // Fallback to direct Firebase call
-                        if (typeof firebase === 'undefined' || !firebase.auth) {
-                            throw new Error('Firebase Auth not available');
-                        }
-
-                        const provider = new firebase.auth.GoogleAuthProvider();
-                        provider.addScope('email');
-                        provider.addScope('profile');
-
-                        if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
-                            provider.setCustomParameters({
-                                client_id: firebaseConfig.clientId
-                            });
-                        }
-
-                        console.log('🔄 Redirecting to Google sign-in...');
-                        await firebase.auth().signInWithRedirect(provider);
+                        console.log('⏳ Waiting for Firebase...');
+                        setTimeout(check, 100);
                     }
-                    
-                } catch (error) {
-                    console.error('❌ Google sign-in failed:', error);
-                    console.error('❌ Error details:', {
-                        code: error.code,
-                        message: error.message,
-                        email: error.email,
-                        credential: error.credential
-                    });
-                    
-                    // Reset button
-                    googleBtn.classList.remove('loading');
-                    googleBtn.innerHTML = '<i class="fab fa-google"></i><span>Sign in with Google</span>';
-                    
-                    if (error.message.includes('403') || error.message.includes('API_KEY_SERVICE_BLOCKED')) {
-                        showNotification('❌ Firebase authentication unavailable. Using local mode.', 'error', 5000);
-                        showAuthStatus('error-mode', 'Firebase Unavailable');
-                    } else {
-                        showNotification('❌ Sign-in failed. Please try again.', 'error', 5000);
-                    }
-                }
+                };
+                check();
             });
+        }
 
-            // Local sign-in functionality removed for production
+        // Handle redirect result
+        async function handleRedirectResult() {
+            try {
+                console.log('🔄 Checking for redirect result...');
+                const result = await firebase.auth().getRedirectResult();
+                
+                if (result.user) {
+                    console.log('✅ User signed in:', result.user.email);
+                    showNotification('🎉 Successfully signed in!', 'success', 2000);
+                    
+                    // Store user data
+                    localStorage.setItem('firebaseUID', result.user.uid);
+                    window.currentFirebaseUID = result.user.uid;
+                    
+                    // Redirect to main app
+                    setTimeout(() => {
+                        window.location.href = 'index-product.html';
+                    }, 1500);
+                } else {
+                    console.log('🔍 No redirect result found');
+                }
+            } catch (error) {
+                console.error('❌ Redirect result error:', error);
+                
+                if (error.code === 'auth/unauthorized-domain') {
+                    showStatus('❌ Domain not authorized. Please contact support.', 'error');
+                } else if (error.code === 'auth/operation-not-allowed') {
+                    showStatus('❌ Google Sign-In not enabled. Please contact support.', 'error');
+                } else {
+                    showStatus('❌ Authentication error. Please try again.', 'error');
+                }
+            }
+        }
 
-            // Authentication is now handled by the shared auth-system.js module
-            // This prevents duplicate listeners and conflicting redirects
+        // Sign in with Google
+        async function signInWithGoogle() {
+            try {
+                const googleBtn = document.getElementById('google-signin-btn');
+                
+                // Show loading state
+                googleBtn.classList.add('loading');
+                googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Signing in...</span>';
+                
+                console.log('🔐 Starting Google sign-in...');
+                
+                // Create provider
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('email');
+                provider.addScope('profile');
+                
+                // Sign in with redirect
+                await firebase.auth().signInWithRedirect(provider);
+                console.log('✅ Sign-in redirect initiated');
+                
+            } catch (error) {
+                console.error('❌ Sign-in failed:', error);
+                
+                // Reset button
+                const googleBtn = document.getElementById('google-signin-btn');
+                googleBtn.classList.remove('loading');
+                googleBtn.innerHTML = '<i class="fab fa-google"></i><span>Sign in with Google</span>';
+                
+                if (error.code === 'auth/unauthorized-domain') {
+                    showStatus('❌ Domain not authorized. Please contact support.', 'error');
+                } else if (error.code === 'auth/operation-not-allowed') {
+                    showStatus('❌ Google Sign-In not enabled. Please contact support.', 'error');
+                } else {
+                    showStatus('❌ Sign-in failed. Please try again.', 'error');
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔧 Login page loaded');
+            
+            // Wait for Firebase
+            await waitForFirebase();
+            
+            // Handle any redirect result
+            await handleRedirectResult();
+            
+            // Setup login button
+            const googleBtn = document.getElementById('google-signin-btn');
+            googleBtn.addEventListener('click', signInWithGoogle);
+            
+            console.log('✅ Login page ready');
         });
     </script>
 </body>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Firebase Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #3367d6; }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Simple Firebase Test</h1>
+        <p>This will test Firebase authentication directly without any complex code.</p>
+        
+        <button onclick="testFirebase()">Test Firebase Setup</button>
+        <button onclick="testGoogleSignIn()">Test Google Sign-In</button>
+        <button onclick="clearResults()">Clear Results</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="js/shared/firebase-config.js"></script>
+
+    <script>
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            results.appendChild(div);
+            console.log(message);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function testFirebase() {
+            clearResults();
+            addResult('🔧 Testing Firebase configuration...', 'info');
+            
+            try {
+                // Test 1: Firebase SDK
+                if (typeof firebase === 'undefined') {
+                    addResult('❌ Firebase SDK not loaded', 'error');
+                    return;
+                }
+                addResult('✅ Firebase SDK loaded', 'success');
+                
+                // Test 2: Firebase App
+                const app = firebase.app();
+                addResult(`✅ Firebase app: ${app.options.projectId}`, 'success');
+                
+                // Test 3: Firebase Auth
+                if (!firebase.auth) {
+                    addResult('❌ Firebase Auth not available', 'error');
+                    return;
+                }
+                addResult('✅ Firebase Auth available', 'success');
+                
+                // Test 4: Domain check
+                const currentDomain = window.location.hostname;
+                const authDomain = app.options.authDomain;
+                addResult(`Current domain: ${currentDomain}`, 'info');
+                addResult(`Auth domain: ${authDomain}`, 'info');
+                
+                if (authDomain && authDomain.includes(currentDomain)) {
+                    addResult('✅ Domain is authorized', 'success');
+                } else {
+                    addResult('❌ Domain NOT authorized - This is your problem!', 'error');
+                    addResult('💡 Fix: Add your domain to Firebase Console > Authentication > Settings > Authorized domains', 'info');
+                }
+                
+                // Test 5: Google Provider
+                try {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    addResult('✅ Google Auth Provider created', 'success');
+                } catch (error) {
+                    addResult(`❌ Google Auth Provider failed: ${error.message}`, 'error');
+                }
+                
+            } catch (error) {
+                addResult(`❌ Firebase test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testGoogleSignIn() {
+            addResult('🔐 Testing Google Sign-In...', 'info');
+            
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('email');
+                provider.addScope('profile');
+                
+                addResult('✅ Provider created, starting sign-in...', 'info');
+                
+                // This will actually redirect to Google
+                firebase.auth().signInWithRedirect(provider)
+                    .then(() => {
+                        addResult('✅ Sign-in redirect initiated successfully', 'success');
+                    })
+                    .catch((error) => {
+                        addResult(`❌ Sign-in failed: ${error.message}`, 'error');
+                        
+                        if (error.code === 'auth/unauthorized-domain') {
+                            addResult('🚫 UNAUTHORIZED DOMAIN ERROR - Add your domain to Firebase!', 'error');
+                        } else if (error.code === 'auth/operation-not-allowed') {
+                            addResult('🚫 GOOGLE SIGN-IN NOT ENABLED - Enable it in Firebase Console!', 'error');
+                        }
+                    });
+                    
+            } catch (error) {
+                addResult(`❌ Sign-in test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            addResult('🔧 Page loaded, running automatic test...', 'info');
+            setTimeout(testFirebase, 1000);
+        });
+    </script>
+</body>
+</html>
+

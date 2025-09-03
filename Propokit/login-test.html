@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #3367d6; }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.authenticated { background: #d4edda; color: #155724; }
+        .status.not-authenticated { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Login System Test</h1>
+        <p>This page tests the simplified authentication system.</p>
+        
+        <div class="test-section">
+            <h3>Current Status</h3>
+            <div id="auth-status" class="status not-authenticated">
+                Checking authentication status...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Test Actions</h3>
+            <button onclick="testLoginPage()">Test Login Page</button>
+            <button onclick="testMainApp()">Test Main App</button>
+            <button onclick="checkFirebase()">Check Firebase</button>
+            <button onclick="clearResults()">Clear Results</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="js/shared/firebase-config.js"></script>
+
+    <script>
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            results.appendChild(div);
+            console.log(message);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function updateAuthStatus() {
+            const statusDiv = document.getElementById('auth-status');
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                const currentUser = firebase.auth().currentUser;
+                const storedUID = localStorage.getItem('firebaseUID');
+                
+                if (currentUser || storedUID) {
+                    statusDiv.className = 'status authenticated';
+                    statusDiv.textContent = `✅ Authenticated: ${currentUser ? currentUser.email : 'Stored UID found'}`;
+                } else {
+                    statusDiv.className = 'status not-authenticated';
+                    statusDiv.textContent = '❌ Not authenticated';
+                }
+            } else {
+                statusDiv.className = 'status not-authenticated';
+                statusDiv.textContent = '⏳ Firebase not loaded';
+            }
+        }
+
+        function testLoginPage() {
+            addResult('🔗 Opening login page...', 'info');
+            window.open('login.html', '_blank');
+        }
+
+        function testMainApp() {
+            addResult('🔗 Opening main app...', 'info');
+            window.open('index-product.html', '_blank');
+        }
+
+        function checkFirebase() {
+            addResult('🔧 Checking Firebase configuration...', 'info');
+            
+            try {
+                if (typeof firebase === 'undefined') {
+                    addResult('❌ Firebase SDK not loaded', 'error');
+                    return;
+                }
+                addResult('✅ Firebase SDK loaded', 'success');
+                
+                const app = firebase.app();
+                addResult(`✅ Firebase app: ${app.options.projectId}`, 'success');
+                
+                if (!firebase.auth) {
+                    addResult('❌ Firebase Auth not available', 'error');
+                    return;
+                }
+                addResult('✅ Firebase Auth available', 'success');
+                
+                const currentUser = firebase.auth().currentUser;
+                const storedUID = localStorage.getItem('firebaseUID');
+                
+                if (currentUser) {
+                    addResult(`✅ Current user: ${currentUser.email}`, 'success');
+                } else if (storedUID) {
+                    addResult(`✅ Stored UID: ${storedUID}`, 'success');
+                } else {
+                    addResult('❌ No authenticated user', 'error');
+                }
+                
+                // Check domain authorization
+                const currentDomain = window.location.hostname;
+                const authDomain = app.options.authDomain;
+                addResult(`Current domain: ${currentDomain}`, 'info');
+                addResult(`Auth domain: ${authDomain}`, 'info');
+                
+                if (authDomain && authDomain.includes(currentDomain)) {
+                    addResult('✅ Domain is authorized', 'success');
+                } else {
+                    addResult('❌ Domain NOT authorized - This is likely the issue!', 'error');
+                    addResult('💡 Fix: Add your domain to Firebase Console > Authentication > Settings > Authorized domains', 'info');
+                }
+                
+            } catch (error) {
+                addResult(`❌ Firebase check failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addResult('🔧 Page loaded, checking authentication...', 'info');
+            
+            // Wait for Firebase and update status
+            const checkFirebase = () => {
+                if (typeof firebase !== 'undefined' && firebase.auth) {
+                    updateAuthStatus();
+                    
+                    // Listen for auth state changes
+                    firebase.auth().onAuthStateChanged((user) => {
+                        addResult(`🔍 Auth state changed: ${user ? user.email : 'No user'}`, 'info');
+                        updateAuthStatus();
+                    });
+                } else {
+                    setTimeout(checkFirebase, 100);
+                }
+            };
+            
+            checkFirebase();
+        });
+    </script>
+</body>
+</html>

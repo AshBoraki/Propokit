@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication System Test - Propokit</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h2 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            background: #0056b3;
+        }
+        
+        .button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+        
+        .log-entry.error {
+            color: #dc3545;
+        }
+        
+        .log-entry.success {
+            color: #28a745;
+        }
+        
+        .log-entry.warning {
+            color: #ffc107;
+        }
+        
+        .log-entry.info {
+            color: #17a2b8;
+        }
+        
+        .user-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .user-info h3 {
+            margin-top: 0;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Propokit Authentication System Test</h1>
+        
+        <div class="test-section">
+            <h2>📊 System Status</h2>
+            <div id="system-status" class="status info">Initializing...</div>
+            <div id="firebase-status" class="status info">Checking Firebase...</div>
+            <div id="auth-status" class="status info">Checking Auth System...</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>👤 Current User</h2>
+            <div id="user-info" class="user-info">
+                <h3>No user signed in</h3>
+                <p>Click "Test Sign In" to authenticate</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Test Actions</h2>
+            <button class="button" onclick="testSignIn()">🔐 Test Sign In</button>
+            <button class="button" onclick="testSignOut()">🚪 Test Sign Out</button>
+            <button class="button" onclick="testAuthSystem()">🔍 Test Auth System</button>
+            <button class="button" onclick="clearLog()">🗑️ Clear Log</button>
+            <button class="button" onclick="checkRedirects()">🔄 Test Redirects</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>📝 Test Log</h2>
+            <div id="test-log" class="log"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Debug Info</h2>
+            <div id="debug-info" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/shared/firebase-config.js"></script>
+    
+    <!-- Local Firebase Test -->
+    <script src="js/shared/local-firebase-test.js"></script>
+
+    <!-- Authentication System -->
+    <script src="js/shared/auth-system.js"></script>
+
+    <script>
+        // Test page functionality
+        let testLog = [];
+        
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            testLog.push({ message: logEntry, type });
+            
+            const logContainer = document.getElementById('test-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = logEntry;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+        
+        function updateUserInfo(user) {
+            const userInfo = document.getElementById('user-info');
+            if (user) {
+                userInfo.innerHTML = `
+                    <h3>✅ User Signed In</h3>
+                    <p><strong>Name:</strong> ${user.displayName || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+                    <p><strong>UID:</strong> ${user.uid || 'N/A'}</p>
+                    <p><strong>Photo:</strong> ${user.photoURL ? 'Available' : 'Not available'}</p>
+                    <p><strong>Email Verified:</strong> ${user.emailVerified ? 'Yes' : 'No'}</p>
+                `;
+            } else {
+                userInfo.innerHTML = `
+                    <h3>❌ No User Signed In</h3>
+                    <p>Click "Test Sign In" to authenticate</p>
+                `;
+            }
+        }
+        
+        function updateDebugInfo() {
+            const debugInfo = document.getElementById('debug-info');
+            const info = {
+                'Current URL': window.location.href,
+                'Current Path': window.location.pathname,
+                'Domain': window.location.hostname,
+                'Protocol': window.location.protocol,
+                'Firebase Ready': typeof firebase !== 'undefined' && firebase.auth ? 'Yes' : 'No',
+                'Auth System Ready': window.PropoKitAuth && window.PropoKitAuth.isReady ? window.PropoKitAuth.isReady() : 'No',
+                'Current User': window.PropoKitAuth && window.PropoKitAuth.getCurrentUser ? (window.PropoKitAuth.getCurrentUser() ? 'Yes' : 'No') : 'Unknown',
+                'Stored UID': localStorage.getItem('firebaseUID') || 'None',
+                'Window UID': window.currentFirebaseUID || 'None'
+            };
+            
+            debugInfo.innerHTML = Object.entries(info)
+                .map(([key, value]) => `<div><strong>${key}:</strong> ${value}</div>`)
+                .join('');
+        }
+        
+        async function testSignIn() {
+            addLog('🔐 Starting sign-in test...', 'info');
+            
+            try {
+                if (!window.PropoKitAuth || !window.PropoKitAuth.signIn) {
+                    throw new Error('Auth system not available');
+                }
+                
+                addLog('✅ Auth system available, initiating sign-in...', 'success');
+                await window.PropoKitAuth.signIn();
+                addLog('✅ Sign-in initiated successfully', 'success');
+                
+            } catch (error) {
+                addLog(`❌ Sign-in failed: ${error.message}`, 'error');
+                console.error('Sign-in error:', error);
+            }
+        }
+        
+        async function testSignOut() {
+            addLog('🚪 Starting sign-out test...', 'info');
+            
+            try {
+                if (!window.PropoKitAuth || !window.PropoKitAuth.signOut) {
+                    throw new Error('Auth system not available');
+                }
+                
+                await window.PropoKitAuth.signOut();
+                addLog('✅ Sign-out completed successfully', 'success');
+                updateUserInfo(null);
+                
+            } catch (error) {
+                addLog(`❌ Sign-out failed: ${error.message}`, 'error');
+                console.error('Sign-out error:', error);
+            }
+        }
+        
+        function testAuthSystem() {
+            addLog('🔍 Testing auth system...', 'info');
+            
+            const tests = [
+                {
+                    name: 'Firebase SDK',
+                    test: () => typeof firebase !== 'undefined' && firebase.auth
+                },
+                {
+                    name: 'Auth System Object',
+                    test: () => window.PropoKitAuth !== undefined
+                },
+                {
+                    name: 'Sign In Function',
+                    test: () => window.PropoKitAuth && typeof window.PropoKitAuth.signIn === 'function'
+                },
+                {
+                    name: 'Sign Out Function',
+                    test: () => window.PropoKitAuth && typeof window.PropoKitAuth.signOut === 'function'
+                },
+                {
+                    name: 'Get Current User',
+                    test: () => window.PropoKitAuth && typeof window.PropoKitAuth.getCurrentUser === 'function'
+                },
+                {
+                    name: 'Is Ready Function',
+                    test: () => window.PropoKitAuth && typeof window.PropoKitAuth.isReady === 'function'
+                }
+            ];
+            
+            tests.forEach(test => {
+                const passed = test.test();
+                addLog(`${passed ? '✅' : '❌'} ${test.name}: ${passed ? 'PASS' : 'FAIL'}`, passed ? 'success' : 'error');
+            });
+            
+            // Test auth system readiness
+            if (window.PropoKitAuth && window.PropoKitAuth.isReady) {
+                const isReady = window.PropoKitAuth.isReady();
+                addLog(`${isReady ? '✅' : '⏳'} Auth System Ready: ${isReady ? 'YES' : 'NO'}`, isReady ? 'success' : 'warning');
+            }
+            
+            // Test current user
+            if (window.PropoKitAuth && window.PropoKitAuth.getCurrentUser) {
+                const user = window.PropoKitAuth.getCurrentUser();
+                addLog(`${user ? '✅' : '❌'} Current User: ${user ? user.email : 'None'}`, user ? 'success' : 'warning');
+                updateUserInfo(user);
+            }
+        }
+        
+        function clearLog() {
+            testLog = [];
+            document.getElementById('test-log').innerHTML = '';
+            addLog('🗑️ Log cleared', 'info');
+        }
+        
+        function checkRedirects() {
+            addLog('🔄 Checking redirect logic...', 'info');
+            
+            const currentPath = window.location.pathname;
+            addLog(`📍 Current path: ${currentPath}`, 'info');
+            
+            if (currentPath.includes('login.html')) {
+                addLog('🎯 On login page - should redirect to main app after sign-in', 'info');
+            } else if (currentPath.includes('index.html') && !currentPath.includes('Propokit')) {
+                addLog('🎯 On marketing page - should redirect to main app after sign-in', 'info');
+            } else if (currentPath.includes('Propokit')) {
+                addLog('🎯 On main app - should stay here after sign-in', 'info');
+            } else {
+                addLog('🎯 On unknown page - redirect behavior unclear', 'warning');
+            }
+        }
+        
+        // Initialize test page
+        document.addEventListener('DOMContentLoaded', () => {
+            addLog('🚀 Test page loaded', 'info');
+            
+            // Update system status
+            updateStatus('system-status', 'Test page loaded successfully', 'success');
+            
+            // Check Firebase status
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                updateStatus('firebase-status', 'Firebase SDK loaded successfully', 'success');
+                addLog('✅ Firebase SDK loaded', 'success');
+            } else {
+                updateStatus('firebase-status', 'Firebase SDK not loaded', 'error');
+                addLog('❌ Firebase SDK not loaded', 'error');
+            }
+            
+            // Check auth system status
+            const checkAuthSystem = () => {
+                if (window.PropoKitAuth && window.PropoKitAuth.isReady && window.PropoKitAuth.isReady()) {
+                    updateStatus('auth-status', 'Authentication system ready', 'success');
+                    addLog('✅ Authentication system ready', 'success');
+                    
+                    // Update user info
+                    const user = window.PropoKitAuth.getCurrentUser();
+                    updateUserInfo(user);
+                    
+                    // Update debug info
+                    updateDebugInfo();
+                } else {
+                    updateStatus('auth-status', 'Waiting for authentication system...', 'warning');
+                    setTimeout(checkAuthSystem, 100);
+                }
+            };
+            
+            checkAuthSystem();
+            
+            // Update debug info periodically
+            setInterval(updateDebugInfo, 2000);
+        });
+        
+        // Listen for auth state changes
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            firebase.auth().onAuthStateChanged((user) => {
+                addLog(`👤 Auth state changed: ${user ? user.email : 'No user'}`, 'info');
+                updateUserInfo(user);
+            });
+        }
+    </script>
+</body>
+</html>
+

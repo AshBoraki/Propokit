@@ -79,7 +79,7 @@
     <script src="Propokit/js/shared/local-firebase-test.js"></script>
     
     <!-- Propokit Shared Authentication System -->
-    <script src="Propokit/js/shared/auth-system.js"></script>
+    <!-- Simplified authentication - no longer using complex shared module -->
 
     <style>
         :root {
@@ -9406,16 +9406,94 @@
             }
             
             // =================================================================
-            // === 🔐 AUTHENTICATION SYSTEM (USING SHARED MODULE)
+            // === 🔐 SIMPLIFIED AUTHENTICATION SYSTEM
             // =================================================================
             
-            // The authentication system is now handled by the shared auth-system.js module
-            // This ensures consistent behavior across marketing page and main application
-            
-            // Initialize authentication when DOM is loaded
+            // Simple authentication check for marketing page
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 Marketing page loaded, authentication handled by shared module');
+                console.log('🔍 Marketing page loaded, checking authentication...');
+                
+                // Check if user is already signed in
+                const checkAuth = () => {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        const currentUser = firebase.auth().currentUser;
+                        const storedUID = localStorage.getItem('firebaseUID');
+                        
+                        if (currentUser || storedUID) {
+                            console.log('✅ User authenticated on marketing page:', currentUser ? currentUser.email : 'Stored UID found');
+                            
+                            // Update UI to show user is signed in
+                            const loginBtn = document.getElementById('login-btn');
+                            const logoutBtn = document.getElementById('logout-btn');
+                            const userProfile = document.getElementById('user-profile');
+                            
+                            if (loginBtn) loginBtn.style.display = 'none';
+                            if (logoutBtn) logoutBtn.style.display = 'flex';
+                            if (userProfile) userProfile.style.display = 'flex';
+                            
+                            // Update user info
+                            if (currentUser) {
+                                const userName = document.getElementById('user-name');
+                                if (userName) userName.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+                                
+                                const userAvatar = document.getElementById('user-avatar');
+                                if (userAvatar && currentUser.photoURL) {
+                                    userAvatar.src = currentUser.photoURL;
+                                }
+                            }
+                        } else {
+                            console.log('❌ No authenticated user on marketing page');
+                        }
+                    } else {
+                        console.log('⏳ Waiting for Firebase...');
+                        setTimeout(checkAuth, 100);
+                    }
+                };
+                
+                checkAuth();
             });
+
+            // Handle auth state changes
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().onAuthStateChanged((user) => {
+                    console.log('🔍 Auth state changed on marketing page:', user ? user.email : 'No user');
+                    
+                    if (user) {
+                        console.log('✅ User signed in on marketing page:', user.email);
+                        localStorage.setItem('firebaseUID', user.uid);
+                        
+                        // Update UI
+                        const loginBtn = document.getElementById('login-btn');
+                        const logoutBtn = document.getElementById('logout-btn');
+                        const userProfile = document.getElementById('user-profile');
+                        
+                        if (loginBtn) loginBtn.style.display = 'none';
+                        if (logoutBtn) logoutBtn.style.display = 'flex';
+                        if (userProfile) userProfile.style.display = 'flex';
+                        
+                        // Update user info
+                        const userName = document.getElementById('user-name');
+                        if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
+                        
+                        const userAvatar = document.getElementById('user-avatar');
+                        if (userAvatar && user.photoURL) {
+                            userAvatar.src = user.photoURL;
+                        }
+                    } else {
+                        console.log('❌ User signed out on marketing page');
+                        localStorage.removeItem('firebaseUID');
+                        
+                        // Update UI
+                        const loginBtn = document.getElementById('login-btn');
+                        const logoutBtn = document.getElementById('logout-btn');
+                        const userProfile = document.getElementById('user-profile');
+                        
+                        if (loginBtn) loginBtn.style.display = 'flex';
+                        if (logoutBtn) logoutBtn.style.display = 'none';
+                        if (userProfile) userProfile.style.display = 'none';
+                    }
+                });
+            }
 
         });
     </script>

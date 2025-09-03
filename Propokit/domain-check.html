@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Domain Check</title>
+</head>
+<body>
+    <h1>Current Domain Information</h1>
+    <div id="info"></div>
+    
+    <script>
+        const info = document.getElementById('info');
+        info.innerHTML = `
+            <p><strong>Current Domain:</strong> ${window.location.hostname}</p>
+            <p><strong>Full URL:</strong> ${window.location.href}</p>
+            <p><strong>Protocol:</strong> ${window.location.protocol}</p>
+            <p><strong>Port:</strong> ${window.location.port}</p>
+            <hr>
+            <p><strong>Firebase Auth Domain:</strong> denali-tech-f22e8.firebaseapp.com</p>
+            <p><strong>Status:</strong> ${window.location.hostname === 'denali-tech-f22e8.firebaseapp.com' ? '✅ MATCH' : '❌ MISMATCH - Add to authorized domains!'}</p>
+        `;
+    </script>
+</body>
+</html>

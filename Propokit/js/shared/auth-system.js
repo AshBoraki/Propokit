@@ -186,8 +186,7 @@ function initializeMainAppUserMenu() {
 }
 
 /**
- * 🔄 Handle redirect result
- * Checks for redirect result and handles it immediately
+ * 🔄 Handle redirect result from Google sign-in
  */
 async function handleRedirectResult() {
     try {
@@ -196,39 +195,51 @@ async function handleRedirectResult() {
         
         if (result.user) {
             console.log('✅ Redirect result found:', result.user.email);
-            console.log('🔍 Current page:', window.location.pathname);
-            
-            // Store user data immediately
-            localStorage.setItem('firebaseUID', result.user.uid);
-            window.currentFirebaseUID = result.user.uid;
-            
-            // Check current page and redirect if needed
-            const currentPath = window.location.pathname;
-            
-            if (currentPath.includes('login.html')) {
-                console.log('🚨 REDIRECT RESULT: Login page, redirecting to main app');
-                window.location.href = 'index-product.html';
-                return;
-            }
-            
-            if (currentPath.includes('index.html') && !currentPath.includes('Propokit')) {
-                console.log('🚨 REDIRECT RESULT: Marketing page, redirecting to main app');
-                window.location.href = 'Propokit/index-product.html';
-                return;
-            }
-            
-            if (currentPath.includes('test-auth.html')) {
-                console.log('🚨 REDIRECT RESULT: Test page, redirecting to main app');
-                window.location.href = 'index-product.html';
-                return;
-            }
-            
-            console.log('✅ Redirect result handled, staying on current page');
+            AuthState.redirectHandled = true;
         } else {
             console.log('🔍 No redirect result found');
+            
+            // Enhanced diagnostic information
+            console.log('🔍 Diagnostic information:');
+            console.log('   - Current URL:', window.location.href);
+            console.log('   - Current domain:', window.location.hostname);
+            console.log('   - Firebase auth domain:', firebase.app().options.authDomain);
+            console.log('   - Firebase project ID:', firebase.app().options.projectId);
+            
+            // Check if we're on an authorized domain
+            const authDomain = firebase.app().options.authDomain;
+            const currentDomain = window.location.hostname;
+            
+            if (authDomain && !authDomain.includes(currentDomain)) {
+                console.error('❌ DOMAIN MISMATCH: Current domain not authorized in Firebase');
+                console.error('   Current domain:', currentDomain);
+                console.error('   Auth domain:', authDomain);
+                console.error('💡 Fix: Add your domain to Firebase Console > Authentication > Settings > Authorized domains');
+            }
         }
     } catch (error) {
         console.error('❌ Error handling redirect result:', error);
+        
+        // Enhanced error analysis
+        if (error.code === 'auth/unauthorized-domain') {
+            console.error('🚫 UNAUTHORIZED DOMAIN ERROR');
+            console.error('💡 Fix: Add your domain to Firebase Console > Authentication > Settings > Authorized domains');
+            showNotification('❌ Domain not authorized for authentication. Please contact support.', 'error', 10000);
+        } else if (error.code === 'auth/operation-not-allowed') {
+            console.error('🚫 GOOGLE SIGN-IN NOT ENABLED');
+            console.error('💡 Fix: Enable Google Sign-In in Firebase Console > Authentication > Sign-in method');
+            showNotification('❌ Google Sign-In is not enabled. Please contact support.', 'error', 10000);
+        } else if (error.message.includes('403') || error.message.includes('API_KEY_SERVICE_BLOCKED')) {
+            console.error('🚫 API KEY RESTRICTED');
+            console.error('💡 Fix: Check Google Cloud Console > APIs & Services > Credentials > API Keys');
+            showNotification('❌ Authentication service blocked. Please contact support.', 'error', 10000);
+        } else {
+            console.error('💡 Common fixes:');
+            console.error('   1. Check Firebase Console > Authentication > Settings > Authorized domains');
+            console.error('   2. Enable Google Sign-In in Firebase Console > Authentication > Sign-in method');
+            console.error('   3. Check Google Cloud Console > APIs & Services > Credentials > API Keys');
+            console.error('   4. Ensure Identity Toolkit API is enabled in Google Cloud Console');
+        }
     }
 }
 

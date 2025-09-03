@@ -19,7 +19,7 @@
     â”œâ”€â”€ HTML BODY: Main app structure with header, sidebar, and content area
     â””â”€â”€ JAVASCRIPT: Organized by feature (Templates, Firebase, UI, Routing)
 
-    ðŸ”§ KEY TECHNOLOGIES:
+    ðŸ"§ KEY TECHNOLOGIES:
     - Frontend: HTML5, CSS3, JavaScript (ES6+)
     - Backend: Firebase (Database, Storage, Authentication)
     - Libraries: jQuery, Bootstrap 4.5.2, Font Awesome, QR Code generators
@@ -30,7 +30,7 @@
     - 3 corner styles (Sharp, Curvy, Hybrid)
     - CSS custom properties for easy customization
 
-    ðŸ“± FEATURES:
+    ðŸ"± FEATURES:
     - Cover page with company/customer info
     - Company introduction page
     - Image management and cropping
@@ -45,7 +45,7 @@
     - All external dependencies are documented
     - Firebase configuration is clearly explained
 
-    ðŸ“ LAST UPDATED: [Current Date]
+    ðŸ" LAST UPDATED: [Current Date]
     ==================================================
 -->
 <html lang="en">
@@ -384,13 +384,13 @@
     <script>
         (() => {
             // =================================================================
-            // === ðŸ“„ VIRTUAL FILE SYSTEM (HTML Templates)
+            // === ðŸ"„ VIRTUAL FILE SYSTEM (HTML Templates)
             // =================================================================
             // AI NOTE: This section contains HTML templates stored as JavaScript strings.
             // These templates are loaded dynamically when users navigate between pages.
             // This approach allows for a single-page application experience.
 
-            // ðŸ  COVER PAGE TEMPLATE
+            // ðŸ" COVER PAGE TEMPLATE
             // This is the main landing page with company info, customer details, and QR codes
             const coverPageHTML = `
                 <div class="container">
@@ -416,7 +416,7 @@
                                 <div class="scan-for-pdf-message">Document QR Code</div>
                                 <div class="qr-code-container">
                                     <div id="pdfQrcode">
-                                        <div class="sample-qr-placeholder">ðŸ“„</div>
+                                        <div class="sample-qr-placeholder">ðŸ"„</div>
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +426,7 @@
                                 <div class="scan-for-custom-message" id="customQrMessage">Custom Link</div>
                                 <div class="qr-code-container">
                                     <div id="customQrcode">
-                                        <div class="sample-qr-placeholder">ðŸ”—</div>
+                                        <div class="sample-qr-placeholder">ðŸ"—</div>
                                     </div>
                                 </div>
                             </div>
@@ -939,7 +939,7 @@
             };
 
             // =================================================================
-            // === ðŸ”¥ FIREBASE CONFIGURATION & GLOBAL STATE
+            // === ðŸ"¥ FIREBASE CONFIGURATION & GLOBAL STATE
             // =================================================================
             // AI NOTE: Firebase configuration has been moved to js/shared/firebase-config.js
             // This provides better organization and makes the config reusable across files.
@@ -992,7 +992,7 @@
             }
 
             /**
-             * ðŸ“‹ Updates proposal data in the UI
+             * ðŸ"‹ Updates proposal data in the UI
              * This function updates customer information and proposal details
              * It also handles showing/hiding optional fields based on checkbox states
              * @param {Object} data - Proposal data object with customer and proposal details
@@ -1188,38 +1188,65 @@
             }
 
             // =================================================================
-            // === 🔐 AUTHENTICATION SYSTEM (USING SHARED MODULE)
+            // === 🔐 SIMPLIFIED AUTHENTICATION SYSTEM
             // =================================================================
             
-            // The authentication system is now handled by the shared auth-system.js module
-            // This ensures consistent behavior across marketing page and main application
-            
-            // Initialize authentication when DOM is loaded
+            // Simple authentication check and redirect
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 Main app loaded, checking authentication state...');
-                console.log('🔍 Current URL:', window.location.href);
-                console.log('🔍 Current domain:', window.location.hostname);
-                
-                // Check current auth state immediately
-                const currentUser = firebase.auth().currentUser;
-                console.log('🔍 Current user on page load:', currentUser ? currentUser.email : 'None');
+                console.log('🔍 Main app loaded, checking authentication...');
                 
                 // Check if user is authenticated
-                if (!currentUser) {
-                    console.log('❌ No authenticated user found, redirecting to login...');
-                    const storedUID = localStorage.getItem('firebaseUID');
-                    if (!storedUID) {
-                        console.log('🚨 No stored UID found, redirecting to login page');
-                        window.location.href = 'login.html';
-                        return;
+                const checkAuth = () => {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        const currentUser = firebase.auth().currentUser;
+                        const storedUID = localStorage.getItem('firebaseUID');
+                        
+                        if (currentUser || storedUID) {
+                            console.log('✅ User authenticated:', currentUser ? currentUser.email : 'Stored UID found');
+                            
+                            // Set global UID
+                            if (currentUser) {
+                                window.currentFirebaseUID = currentUser.uid;
+                                localStorage.setItem('firebaseUID', currentUser.uid);
+                            } else if (storedUID) {
+                                window.currentFirebaseUID = storedUID;
+                            }
+                            
+                            // Initialize Firebase refs
+                            if (window.currentFirebaseUID) {
+                                reinitializeFirebaseRefs(window.currentFirebaseUID);
+                            }
+                        } else {
+                            console.log('❌ No authenticated user found, redirecting to login...');
+                            window.location.href = 'login.html';
+                        }
+                    } else {
+                        console.log('⏳ Waiting for Firebase...');
+                        setTimeout(checkAuth, 100);
                     }
-                }
+                };
                 
-                // Authentication is now handled by the shared auth-system.js module
-                // This prevents duplicate listeners and conflicting redirects
+                checkAuth();
             });
-            
 
+            // Handle auth state changes
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().onAuthStateChanged((user) => {
+                    console.log('🔍 Auth state changed:', user ? user.email : 'No user');
+                    
+                    if (user) {
+                        console.log('✅ User signed in:', user.email);
+                        window.currentFirebaseUID = user.uid;
+                        localStorage.setItem('firebaseUID', user.uid);
+                        reinitializeFirebaseRefs(user.uid);
+                    } else {
+                        console.log('❌ User signed out');
+                        window.currentFirebaseUID = null;
+                        localStorage.removeItem('firebaseUID');
+                        reinitializeFirebaseRefs('');
+                    }
+                });
+            }
 
             // =================================================================
             // === WIX SESSION CONTROLLER (EVENT LISTENER)
@@ -1263,7 +1290,7 @@
             // They initialize data, event handlers, and UI elements
 
             /**
-             * ðŸ  Initializes the cover page functionality
+             * ðŸ" Initializes the cover page functionality
              * This function sets up the main landing page with:
              * - Company information display
              * - Customer proposal details
@@ -1777,13 +1804,13 @@
             }
 
             // =================================================================
-            // === ðŸ› ï¸ UTILITY & HELPER FUNCTIONS
+            // === ðŸ›"ï¸ UTILITY & HELPER FUNCTIONS
             // =================================================================
             // These functions provide common utilities used throughout the application
             // They handle formatting, validation, and other helper tasks
 
             /**
-             * ðŸ“… Formats a date object to MM/DD/YYYY format
+             * ðŸ"… Formats a date object to MM/DD/YYYY format
              * This function is made global so it can be used in modal dialogs
              * @param {Date} date - Date object to format
              * @returns {string} Formatted date string in MM/DD/YYYY format
@@ -1939,7 +1966,7 @@
                     updateStyleMenuUI(style, savedTheme);
                     updateCornerStyleButton(style);
 
-                    showNotification(`ðŸ”² Applied ${style} corner style!`, 'success');
+                    showNotification(`ðŸ"² Applied ${style} corner style!`, 'success');
                 });
 
                 // Add click handlers for theme options
@@ -2840,7 +2867,7 @@ function resetCrop() {
                 };
 
                 // =================================================================
-                // === ðŸ” PAGE ZOOM FUNCTIONALITY
+                // === ðŸ" PAGE ZOOM FUNCTIONALITY
                 // =================================================================
                 // AI NOTE: This section implements page zoom functionality that allows
                 // users to scale the page content. The zoom level is:
@@ -2855,7 +2882,7 @@ function resetCrop() {
                 let currentZoom = parseFloat(localStorage.getItem('propokitPageZoom')) || 1.0;
 
                 /**
-                 * ðŸ” Applies zoom transformation to the current page
+                 * ðŸ" Applies zoom transformation to the current page
                  * This function scales the page content to the specified zoom level
                  * The zoom is applied to the main content container
                  * @param {number} zoomLevel - Zoom level to apply (0.5 = 50%, 1.0 = 100%, 1.5 = 150%)
@@ -2915,7 +2942,7 @@ function resetCrop() {
                 });
 
                 /**
-                 * ðŸ“„ Loads a page by name and initializes its functionality
+                 * ðŸ"„ Loads a page by name and initializes its functionality
                  * This function handles page navigation and sets up the appropriate
                  * functionality for each page type (cover page, company intro, etc.)
                  * @param {string} pageName - Name of the page to load (e.g., 'cover-page', 'company-intro')
@@ -3088,7 +3115,7 @@ function resetCrop() {
                 });
 
                 // =================================================================
-                // === ðŸ“ž CONTACT FIELD TOGGLE FUNCTIONALITY
+                // === ðŸ"ž CONTACT FIELD TOGGLE FUNCTIONALITY
                 // =================================================================
                 // AI NOTE: This section implements dynamic contact field visibility
                 // that allows users to show/hide optional customer information:
@@ -3102,7 +3129,7 @@ function resetCrop() {
                 // Users can choose which customer information to display on proposals
 
                 /**
-                 * ðŸ“ž Global function for toggling contact field visibility
+                 * ðŸ" Global function for toggling contact field visibility
                  * This function shows or hides contact fields based on checkbox selections
                  * It also clears the field content when hiding to maintain data integrity
                  * @param {string} type - Type of contact field ('phone', 'email', 'address')
@@ -3172,23 +3199,23 @@ function resetCrop() {
                 // ðŸŒ Notify parent window that iframe is ready (for Wix integration)
                 window.parent.postMessage("iframeReady", "*");
 
-                // ðŸ”¥ Load stored Firebase UID if available (for returning users)
+                // ðŸ"¥ Load stored Firebase UID if available (for returning users)
                 const storedUID = localStorage.getItem("firebaseUID");
                 if (storedUID) {
                     reinitializeFirebaseRefs(storedUID);
                 }
 
-                // ðŸ“„ Load initial page (cover page) as the default landing page
+                // ðŸ"„ Load initial page (cover page) as the default landing page
                 const initialActiveLink = document.querySelector('#main-sidebar a.nav-link[data-page="cover-page"]');
                 if (initialActiveLink) {
                     setActiveLink(initialActiveLink);
                     loadPage(initialActiveLink.dataset.page);
                 }
 
-                // ðŸ” Apply initial zoom after page loads (restore user's zoom preference)
+                // ðŸ" Apply initial zoom after page loads (restore user's zoom preference)
                 setTimeout(() => applyZoom(currentZoom), 200);
 
-                // ðŸ“± Test QR code library availability (ensure QR functionality works)
+                // ðŸ"± Test QR code library availability (ensure QR functionality works)
                 setTimeout(() => {
                     if (typeof QRCode === 'undefined') {
                         console.error('QRCode library not loaded! QR functionality will not work.');
@@ -3199,7 +3226,7 @@ function resetCrop() {
 
 
                 // =================================================================
-                // === ðŸ“ EXTERNAL MODAL LOADING
+                // === ðŸ" EXTERNAL MODAL LOADING
                 // =================================================================
                 // AI NOTE: This section loads modal dialogs from external HTML files
                 // to keep the main file modular and maintainable. The approach:
@@ -3212,7 +3239,7 @@ function resetCrop() {
                 // This section loads modal dialogs from external HTML files
                 // This keeps the main file cleaner and allows for modular modal management
 
-                // ðŸ  Load cover page modals (image management, QR codes, customer details)
+                // ðŸ" Load cover page modals (image management, QR codes, customer details)
                 $.get('pages/cover-page-Models.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
@@ -3221,7 +3248,7 @@ function resetCrop() {
                     })
                     .fail(() => console.error("Failed to load external modals for the cover page."));
 
-                // ðŸ¢ Load company intro modals (text editing, footer editing, image cropping)
+                // ðŸ"¢ Load company intro modals (text editing, footer editing, image cropping)
                 $.get('pages/Company-intro-Models.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
@@ -3236,17 +3263,17 @@ function resetCrop() {
 
 
     <!-- ==================================================
-         ðŸ“ EXTERNAL SCRIPTS & FINAL INITIALIZATION
+         ðŸ" EXTERNAL SCRIPTS & FINAL INITIALIZATION
          ================================================== -->
 
-    <!-- ðŸ”§ Local Firebase Testing (only works locally, not on Wix) -->
+    <!-- ðŸ"§ Local Firebase Testing (only works locally, not on Wix) -->
     <!-- This script provides local testing capabilities for Firebase functionality -->
     <script>
         // ðŸš€ Initialize local Firebase testing environment
         // const localTest = new LocalFirebaseTest();
         // localTest.init();
 
-        // ðŸ”¥ Set the Firebase UID from localStorage if it exists (for returning users)
+        // ðŸ"¥ Set the Firebase UID from localStorage if it exists (for returning users)
         const savedUID = localStorage.getItem("firebaseUID");
         if (savedUID && !window.currentFirebaseUID) {
             window.currentFirebaseUID = savedUID;
@@ -3264,7 +3291,7 @@ function resetCrop() {
     <!--
         ðŸš€ QUICK START FOR AI DEVELOPERS:
 
-        ðŸ“ KEY SECTIONS TO MODIFY:
+        ðŸ" KEY SECTIONS TO MODIFY:
         - CSS THEMES: Lines ~150-300 (color variables and theme classes)
         - HTML TEMPLATES: Lines ~2750-2850 (page content templates)
         - FIREBASE CONFIG: Lines ~3320-3350 (backend configuration)
@@ -3272,13 +3299,13 @@ function resetCrop() {
         - PAGE INIT: Lines ~3560-3650 (page setup functions)
         - EVENT HANDLERS: Lines ~4200-4300 (user interaction handling)
 
-        ðŸ”§ COMMON MODIFICATIONS:
+        ðŸ"§ COMMON MODIFICATIONS:
         - Add new color theme: Copy existing theme class and modify colors
         - Add new page: Create HTML template + add to pageTemplates object
         - Add new feature: Create function + add to appropriate section
         - Modify styling: Find CSS section and update properties
 
-        ðŸ“± FEATURE LOCATIONS:
+        ðŸ"± FEATURE LOCATIONS:
         - QR Code generation: Lines ~4000-4100
         - Image management: Lines ~4100-4200
         - PDF export: Lines ~4200-4300
