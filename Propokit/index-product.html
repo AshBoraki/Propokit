@@ -1386,6 +1386,31 @@
                 
                 checkCleanAuth();
             });
+            
+            // Also listen for Firebase auth state changes directly
+            document.addEventListener('DOMContentLoaded', () => {
+                const waitForFirebase = () => {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        console.log('🔥 Firebase ready, setting up auth listener for main app...');
+                        
+                        firebase.auth().onAuthStateChanged((user) => {
+                            console.log('🔍 Main app auth state changed:', user ? user.email : 'No user');
+                            updateMainAppUserProfile(user);
+                        });
+                        
+                        // Also check current user immediately
+                        const currentUser = firebase.auth().currentUser;
+                        if (currentUser) {
+                            console.log('✅ Current user found in main app:', currentUser.email);
+                            updateMainAppUserProfile(currentUser);
+                        }
+                    } else {
+                        setTimeout(waitForFirebase, 100);
+                    }
+                };
+                
+                waitForFirebase();
+            });
 
             // =================================================================
             // === ðŸš€ PAGE INITIALIZATION FUNCTIONS
