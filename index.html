@@ -7139,16 +7139,49 @@
                             Sign In
                         </button>
                         
-                        <!-- Go to Dashboard Button (shown when logged in) -->
-                        <a href="Propokit/index-product.html" class="auth-btn dashboard-btn" id="dashboard-btn" style="display: none; position: relative; z-index: 1000; pointer-events: auto; cursor: pointer; text-decoration: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 3h7v9H3z"></path>
-                                <path d="M14 3h7v5h-7z"></path>
-                                <path d="M14 12h7v9h-7z"></path>
-                                <path d="M3 16h7v6H3z"></path>
-                            </svg>
-                            Go to Dashboard
-                        </a>
+                        <!-- User Profile (shown when logged in) -->
+                        <div id="user-profile-menu" style="display: none; position: relative;">
+                            <div class="user-avatar" id="user-avatar-trigger" style="cursor: pointer;">
+                                <span id="user-avatar-text">GU</span>
+                                <div class="user-status-indicator online"></div>
+                            </div>
+                            
+                            <!-- User Profile Dropdown -->
+                            <div class="profile-dropdown" id="user-profile-dropdown">
+                                <div class="dropdown-header">
+                                    <strong id="profile-user-name">Guest User</strong>
+                                    <span id="profile-user-email">Not logged in</span>
+                                </div>
+                                <a href="Propokit/index-product.html" class="dropdown-item"><i class="fas fa-th-large"></i> Go to Dashboard</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item"><i class="fas fa-life-ring"></i> Help Center</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-gift"></i> What's New?</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-comment-dots"></i> Give Feedback</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-bug"></i> Report a Bug</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item"><i class="fas fa-credit-card"></i> Manage Subscription</a>
+                                <div class="dropdown-item dropdown-item-toggle">
+                                    <div class="dropdown-item-label">
+                                        <i class="fas fa-adjust"></i>
+                                        <span>Theme</span>
+                                    </div>
+                                    <div id="theme-switcher-dropdown">
+                                        <input type="checkbox" id="theme-toggle-checkbox" title="Toggle between light and dark theme">
+                                        <label for="theme-toggle-checkbox" class="theme-toggle-label">
+                                            <i class="fas fa-moon"></i>
+                                            <i class="fas fa-sun"></i>
+                                            <span class="ball"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Log Out
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Dark Mode Toggle -->
@@ -9412,48 +9445,131 @@
             // =================================================================
             
             // The clean authentication system is now handled by clean-auth-system.js
-            // This removes all the complex authentication logic and uses the simplified version
-            console.log('🔐 Using clean authentication system from clean-auth-system.js');
+                           // This removes all the complex authentication logic and uses the simplified version
+               console.log('🔐 Using clean authentication system from clean-auth-system.js');
             
-            // =================================================================
-            // === 🚀 GET STARTED BUTTONS HANDLING
-            // =================================================================
-            
-            // Handle Get Started buttons - redirect to main app if logged in
-            document.addEventListener('DOMContentLoaded', () => {
-                // Wait for auth system to be ready
-                const checkAuthAndSetupButtons = () => {
-                    if (typeof firebase !== 'undefined' && firebase.auth) {
-                        console.log('✅ Setting up Get Started buttons...');
-                        
-                        // Get all Get Started buttons
-                        const getStartedButtons = document.querySelectorAll('a[href="#pricing"], .btn[href="#pricing"], .btn:contains("Start")');
-                        
-                        getStartedButtons.forEach(button => {
-                            button.addEventListener('click', function(e) {
-                                // Check if user is logged in
-                                const currentUser = firebase.auth().currentUser;
-                                const storedUID = localStorage.getItem('firebaseUID');
-                                
-                                if (currentUser || storedUID) {
-                                    e.preventDefault();
-                                    console.log('🚀 User logged in, redirecting to main app...');
-                                    window.location.href = 'Propokit/index-product.html';
-                                } else {
-                                    console.log('ℹ️ User not logged in, scrolling to pricing...');
-                                    // Let the default behavior happen (scroll to pricing)
-                                }
-                            });
-                        });
-                        
-                        console.log('✅ Get Started buttons configured');
-                    } else {
-                        setTimeout(checkAuthAndSetupButtons, 100);
-                    }
-                };
-                
-                checkAuthAndSetupButtons();
-            });
+               // =================================================================
+               // === 🚀 GET STARTED BUTTONS HANDLING
+               // =================================================================
+               
+               // Handle Get Started buttons - redirect to main app if logged in
+               document.addEventListener('DOMContentLoaded', () => {
+                   // Wait for auth system to be ready
+                   const checkAuthAndSetupButtons = () => {
+                       if (typeof firebase !== 'undefined' && firebase.auth) {
+                           console.log('✅ Setting up Get Started buttons...');
+                           
+                           // Get all Get Started buttons
+                           const getStartedButtons = document.querySelectorAll('a[href="#pricing"], .btn[href="#pricing"], .btn:contains("Start")');
+                           
+                           getStartedButtons.forEach(button => {
+                               button.addEventListener('click', function(e) {
+                                   // Check if user is logged in
+                                   const currentUser = firebase.auth().currentUser;
+                                   const storedUID = localStorage.getItem('firebaseUID');
+                                   
+                                   if (currentUser || storedUID) {
+                                       e.preventDefault();
+                                       console.log('🚀 User logged in, redirecting to main app...');
+                                       window.location.href = 'Propokit/index-product.html';
+                                   } else {
+                                       console.log('ℹ️ User not logged in, scrolling to pricing...');
+                                       // Let the default behavior happen (scroll to pricing)
+                                   }
+                               });
+                           });
+                           
+                           console.log('✅ Get Started buttons configured');
+                       } else {
+                           setTimeout(checkAuthAndSetupButtons, 100);
+                       }
+                   };
+                   
+                   checkAuthAndSetupButtons();
+               });
+               
+               // =================================================================
+               // === 👤 USER PROFILE DROPDOWN FUNCTIONALITY (HOME PAGE)
+               // =================================================================
+               
+               // Initialize user profile dropdown functionality for home page
+               function initHomePageUserProfileDropdown() {
+                   const userAvatarTrigger = document.getElementById('user-avatar-trigger');
+                   const userProfileDropdown = document.getElementById('user-profile-dropdown');
+                   const userProfileMenu = document.getElementById('user-profile-menu');
+                   
+                   if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
+                       // Toggle dropdown when avatar is clicked
+                       userAvatarTrigger.addEventListener('click', (e) => {
+                           e.preventDefault();
+                           e.stopPropagation();
+                           
+                           const isOpen = userProfileMenu.classList.contains('open');
+                           
+                           if (isOpen) {
+                               userProfileMenu.classList.remove('open');
+                           } else {
+                               userProfileMenu.classList.add('open');
+                           }
+                           
+                           console.log('👤 Home page user profile dropdown toggled:', isOpen ? 'closed' : 'opened');
+                       });
+                       
+                       // Close dropdown when clicking outside
+                       document.addEventListener('click', (e) => {
+                           if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
+                               userProfileMenu.classList.remove('open');
+                           }
+                       });
+                       
+                       // Close dropdown when pressing Escape
+                       document.addEventListener('keydown', (e) => {
+                           if (e.key === 'Escape') {
+                               userProfileMenu.classList.remove('open');
+                           }
+                       });
+                       
+                       console.log('✅ Home page user profile dropdown functionality initialized');
+                   }
+               }
+               
+               // =================================================================
+               // === 🌙 THEME TOGGLE FUNCTIONALITY (HOME PAGE)
+               // =================================================================
+               
+               // Initialize theme toggle functionality for home page
+               function initHomePageThemeToggle() {
+                   const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+                   
+                   if (themeToggleCheckbox) {
+                       // Set initial state based on current theme
+                       const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+                       themeToggleCheckbox.checked = currentTheme === 'light';
+                       
+                       // Handle theme toggle
+                       themeToggleCheckbox.addEventListener('change', (e) => {
+                           const isLightTheme = e.target.checked;
+                           
+                           if (isLightTheme) {
+                               document.body.classList.add('light-theme');
+                               localStorage.setItem('theme', 'light');
+                               console.log('🌞 Switched to light theme');
+                           } else {
+                               document.body.classList.remove('light-theme');
+                               localStorage.setItem('theme', 'dark');
+                               console.log('🌙 Switched to dark theme');
+                           }
+                       });
+                       
+                       console.log('✅ Home page theme toggle functionality initialized');
+                   }
+               }
+               
+               // Initialize home page functionality when DOM is loaded
+               document.addEventListener('DOMContentLoaded', () => {
+                   initHomePageUserProfileDropdown();
+                   initHomePageThemeToggle();
+               });
 
         });
     </script>

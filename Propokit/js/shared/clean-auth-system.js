@@ -177,6 +177,10 @@ function updateUIForSignedInUser(user) {
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'flex';
     
+    // Show user profile menu (only if it exists - for home page)
+    const userProfileMenu = document.getElementById('user-profile-menu');
+    if (userProfileMenu) userProfileMenu.style.display = 'flex';
+    
     // Show Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'inline-flex';
@@ -184,10 +188,6 @@ function updateUIForSignedInUser(user) {
     // Show Dashboard navigation item (only if it exists - for home page)
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'block';
-    
-    // Show Dashboard button (only if it exists - for home page)
-    const dashboardBtn = document.getElementById('dashboard-btn');
-    if (dashboardBtn) dashboardBtn.style.display = 'flex';
     
     // Update logo link to go to main app (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
@@ -225,6 +225,10 @@ function updateUIForSignedOutUser() {
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'none';
     
+    // Hide user profile menu (only if it exists - for home page)
+    const userProfileMenu = document.getElementById('user-profile-menu');
+    if (userProfileMenu) userProfileMenu.style.display = 'none';
+    
     // Hide Launch App button (only if it exists - for home page)
     const launchAppBtn = document.getElementById('launch-app-btn');
     if (launchAppBtn) launchAppBtn.style.display = 'none';
@@ -232,10 +236,6 @@ function updateUIForSignedOutUser() {
     // Hide Dashboard navigation item (only if it exists - for home page)
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'none';
-    
-    // Hide Dashboard button (only if it exists - for home page)
-    const dashboardBtn = document.getElementById('dashboard-btn');
-    if (dashboardBtn) dashboardBtn.style.display = 'none';
     
     // Reset logo link to home page (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
