@@ -69,13 +69,20 @@ function initializeFirebaseServices() {
         const app = initializeFirebase();
         
         if (app) {
-            // Initialize database reference
-            database = firebase.database();
-            console.log('📊 Firebase Database initialized');
+            // Only initialize services that are available
+            if (typeof firebase.database === 'function') {
+                database = firebase.database();
+                console.log('📊 Firebase Database initialized');
+            } else {
+                console.log('⚠️ Firebase Database module not loaded - skipping database initialization');
+            }
             
-            // Initialize storage reference
-            storage = firebase.storage();
-            console.log('💾 Firebase Storage initialized');
+            if (typeof firebase.storage === 'function') {
+                storage = firebase.storage();
+                console.log('💾 Firebase Storage initialized');
+            } else {
+                console.log('⚠️ Firebase Storage module not loaded - skipping storage initialization');
+            }
             
             return true;
         } else {
@@ -173,7 +180,7 @@ function getFirebaseStorage() {
  * @returns {boolean} True if Firebase is initialized, false otherwise
  */
 function isFirebaseInitialized() {
-    return firebase.apps.length > 0 && database !== null && storage !== null;
+    return firebase.apps.length > 0;
 }
 
 // ==================================================

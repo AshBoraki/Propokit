@@ -78,8 +78,8 @@
     <!-- Propokit Local Firebase Test System -->
     <script src="Propokit/js/shared/local-firebase-test.js"></script>
     
-    <!-- Propokit Shared Authentication System -->
-    <!-- Simplified authentication - no longer using complex shared module -->
+    <!-- Propokit Clean Authentication System -->
+    <script src="Propokit/js/shared/clean-auth-system.js"></script>
 
     <style>
         :root {
@@ -7106,7 +7106,7 @@
                     <!-- User Authentication -->
                     <div class="auth-section">
                         <!-- Login Button (shown when logged out) -->
-                        <button class="auth-btn login-btn" id="login-btn" style="display: flex; position: relative; z-index: 1000; pointer-events: auto; cursor: pointer;" onclick="window.location.href='Propokit/login.html';">
+                        <button class="auth-btn login-btn" id="login-btn" style="display: flex; position: relative; z-index: 1000; pointer-events: auto; cursor: pointer;" onclick="window.location.href='Propokit/clean-login.html';">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                                 <polyline points="10,17 15,12 10,7"></polyline>
@@ -9406,94 +9406,12 @@
             }
             
             // =================================================================
-            // === 🔐 SIMPLIFIED AUTHENTICATION SYSTEM
+            // === 🔐 CLEAN AUTHENTICATION SYSTEM
             // =================================================================
             
-            // Simple authentication check for marketing page
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔍 Marketing page loaded, checking authentication...');
-                
-                // Check if user is already signed in
-                const checkAuth = () => {
-                    if (typeof firebase !== 'undefined' && firebase.auth) {
-                        const currentUser = firebase.auth().currentUser;
-                        const storedUID = localStorage.getItem('firebaseUID');
-                        
-                        if (currentUser || storedUID) {
-                            console.log('✅ User authenticated on marketing page:', currentUser ? currentUser.email : 'Stored UID found');
-                            
-                            // Update UI to show user is signed in
-                            const loginBtn = document.getElementById('login-btn');
-                            const logoutBtn = document.getElementById('logout-btn');
-                            const userProfile = document.getElementById('user-profile');
-                            
-                            if (loginBtn) loginBtn.style.display = 'none';
-                            if (logoutBtn) logoutBtn.style.display = 'flex';
-                            if (userProfile) userProfile.style.display = 'flex';
-                            
-                            // Update user info
-                            if (currentUser) {
-                                const userName = document.getElementById('user-name');
-                                if (userName) userName.textContent = currentUser.displayName || currentUser.email.split('@')[0];
-                                
-                                const userAvatar = document.getElementById('user-avatar');
-                                if (userAvatar && currentUser.photoURL) {
-                                    userAvatar.src = currentUser.photoURL;
-                                }
-                            }
-                        } else {
-                            console.log('❌ No authenticated user on marketing page');
-                        }
-                    } else {
-                        console.log('⏳ Waiting for Firebase...');
-                        setTimeout(checkAuth, 100);
-                    }
-                };
-                
-                checkAuth();
-            });
-
-            // Handle auth state changes
-            if (typeof firebase !== 'undefined' && firebase.auth) {
-                firebase.auth().onAuthStateChanged((user) => {
-                    console.log('🔍 Auth state changed on marketing page:', user ? user.email : 'No user');
-                    
-                    if (user) {
-                        console.log('✅ User signed in on marketing page:', user.email);
-                        localStorage.setItem('firebaseUID', user.uid);
-                        
-                        // Update UI
-                        const loginBtn = document.getElementById('login-btn');
-                        const logoutBtn = document.getElementById('logout-btn');
-                        const userProfile = document.getElementById('user-profile');
-                        
-                        if (loginBtn) loginBtn.style.display = 'none';
-                        if (logoutBtn) logoutBtn.style.display = 'flex';
-                        if (userProfile) userProfile.style.display = 'flex';
-                        
-                        // Update user info
-                        const userName = document.getElementById('user-name');
-                        if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
-                        
-                        const userAvatar = document.getElementById('user-avatar');
-                        if (userAvatar && user.photoURL) {
-                            userAvatar.src = user.photoURL;
-                        }
-                    } else {
-                        console.log('❌ User signed out on marketing page');
-                        localStorage.removeItem('firebaseUID');
-                        
-                        // Update UI
-                        const loginBtn = document.getElementById('login-btn');
-                        const logoutBtn = document.getElementById('logout-btn');
-                        const userProfile = document.getElementById('user-profile');
-                        
-                        if (loginBtn) loginBtn.style.display = 'flex';
-                        if (logoutBtn) logoutBtn.style.display = 'none';
-                        if (userProfile) userProfile.style.display = 'none';
-                    }
-                });
-            }
+            // The clean authentication system is now handled by clean-auth-system.js
+            // This removes all the complex authentication logic and uses the simplified version
+            console.log('🔐 Using clean authentication system from clean-auth-system.js');
 
         });
     </script>

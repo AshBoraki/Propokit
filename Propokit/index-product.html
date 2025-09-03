@@ -1195,16 +1195,41 @@
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('🔍 Main app loaded, checking authentication...');
                 
-                // Check if user is authenticated
-                const checkAuth = () => {
+                // Wait for Firebase to be ready before checking auth
+                const waitForFirebaseAndCheckAuth = () => {
                     if (typeof firebase !== 'undefined' && firebase.auth) {
+                        console.log('✅ Firebase ready, checking auth state...');
+                        
+                        // Listen for auth state changes
+                        firebase.auth().onAuthStateChanged((user) => {
+                            console.log('🔍 Auth state changed:', user ? user.email : 'No user');
+                            
+                            if (user) {
+                                console.log('✅ User authenticated:', user.email);
+                                window.currentFirebaseUID = user.uid;
+                                localStorage.setItem('firebaseUID', user.uid);
+                                reinitializeFirebaseRefs(user.uid);
+                            } else {
+                                // Check if we have a stored UID as fallback
+                                const storedUID = localStorage.getItem('firebaseUID');
+                                if (storedUID) {
+                                    console.log('⚠️ No current user but found stored UID, using fallback');
+                                    window.currentFirebaseUID = storedUID;
+                                    reinitializeFirebaseRefs(storedUID);
+                                } else {
+                                    console.log('❌ No authenticated user found, redirecting to login...');
+                                    window.location.href = 'login.html';
+                                }
+                            }
+                        });
+                        
+                        // Also check current user immediately
                         const currentUser = firebase.auth().currentUser;
                         const storedUID = localStorage.getItem('firebaseUID');
                         
                         if (currentUser || storedUID) {
-                            console.log('✅ User authenticated:', currentUser ? currentUser.email : 'Stored UID found');
+                            console.log('✅ User authenticated (immediate check):', currentUser ? currentUser.email : 'Stored UID found');
                             
-                            // Set global UID
                             if (currentUser) {
                                 window.currentFirebaseUID = currentUser.uid;
                                 localStorage.setItem('firebaseUID', currentUser.uid);
@@ -1212,41 +1237,18 @@
                                 window.currentFirebaseUID = storedUID;
                             }
                             
-                            // Initialize Firebase refs
                             if (window.currentFirebaseUID) {
                                 reinitializeFirebaseRefs(window.currentFirebaseUID);
                             }
-                        } else {
-                            console.log('❌ No authenticated user found, redirecting to login...');
-                            window.location.href = 'login.html';
                         }
                     } else {
                         console.log('⏳ Waiting for Firebase...');
-                        setTimeout(checkAuth, 100);
+                        setTimeout(waitForFirebaseAndCheckAuth, 100);
                     }
                 };
                 
-                checkAuth();
+                waitForFirebaseAndCheckAuth();
             });
-
-            // Handle auth state changes
-            if (typeof firebase !== 'undefined' && firebase.auth) {
-                firebase.auth().onAuthStateChanged((user) => {
-                    console.log('🔍 Auth state changed:', user ? user.email : 'No user');
-                    
-                    if (user) {
-                        console.log('✅ User signed in:', user.email);
-                        window.currentFirebaseUID = user.uid;
-                        localStorage.setItem('firebaseUID', user.uid);
-                        reinitializeFirebaseRefs(user.uid);
-                    } else {
-                        console.log('❌ User signed out');
-                        window.currentFirebaseUID = null;
-                        localStorage.removeItem('firebaseUID');
-                        reinitializeFirebaseRefs('');
-                    }
-                });
-            }
 
             // =================================================================
             // === WIX SESSION CONTROLLER (EVENT LISTENER)
