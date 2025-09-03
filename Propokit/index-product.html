@@ -317,7 +317,7 @@
         <!-- Authentication Section - Moved to far right -->
         <div class="auth-section" style="display: flex; align-items: center; margin-left: auto; position: relative;">
             <!-- User Profile (shown when logged in) -->
-            <div id="user-profile" style="display: none; position: relative;">
+            <div id="user-profile-menu" style="display: none; position: relative;">
                 <div class="user-avatar" id="user-avatar-trigger" style="cursor: pointer;">
                     <span id="user-avatar-text">GU</span>
                     <div class="user-status-indicator online"></div>
@@ -1289,7 +1289,7 @@
                     if (profileUserEmail) profileUserEmail.textContent = user.email;
                     
                     // Show user profile
-                    const authUserProfile = document.getElementById('user-profile');
+                    const authUserProfile = document.getElementById('user-profile-menu');
                     if (authUserProfile) authUserProfile.style.display = 'flex';
                     
                     // Update user avatar with profile picture or initials
@@ -1308,7 +1308,7 @@
                     console.log('✅ Main app user profile updated:', user.email);
                 } else {
                     // Hide user profile
-                    const authUserProfile = document.getElementById('user-profile');
+                    const authUserProfile = document.getElementById('user-profile-menu');
                     if (authUserProfile) authUserProfile.style.display = 'none';
                     
                     // Reset user avatar to guest
@@ -1388,20 +1388,20 @@
             function initUserProfileDropdown() {
                 const userAvatarTrigger = document.getElementById('user-avatar-trigger');
                 const userProfileDropdown = document.getElementById('user-profile-dropdown');
-                const userProfile = document.getElementById('user-profile');
+                const userProfileMenu = document.getElementById('user-profile-menu');
                 
-                if (userAvatarTrigger && userProfileDropdown && userProfile) {
+                if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
                     // Toggle dropdown when avatar is clicked
                     userAvatarTrigger.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         
-                        const isOpen = userProfile.classList.contains('open');
+                        const isOpen = userProfileMenu.classList.contains('open');
                         
                         if (isOpen) {
-                            userProfile.classList.remove('open');
+                            userProfileMenu.classList.remove('open');
                         } else {
-                            userProfile.classList.add('open');
+                            userProfileMenu.classList.add('open');
                         }
                         
                         console.log('👤 User profile dropdown toggled:', isOpen ? 'closed' : 'opened');
@@ -1410,14 +1410,14 @@
                     // Close dropdown when clicking outside
                     document.addEventListener('click', (e) => {
                         if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
-                            userProfile.classList.remove('open');
+                            userProfileMenu.classList.remove('open');
                         }
                     });
                     
                     // Close dropdown when pressing Escape
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'Escape') {
-                            userProfile.classList.remove('open');
+                            userProfileMenu.classList.remove('open');
                         }
                     });
                     
