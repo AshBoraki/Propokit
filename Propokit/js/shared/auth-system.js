@@ -65,6 +65,7 @@ function initializeAuthSystem() {
     // SINGLE authentication listener - no duplicates
     firebase.auth().onAuthStateChanged((user) => {
         console.log('🔍 Auth state changed:', user ? user.email : 'No user');
+        console.log('🔍 Current page:', window.location.pathname);
         
         if (user) {
             console.log('✅ User signed in:', user.email);
@@ -263,6 +264,7 @@ async function signOut() {
  */
 function handleUserSignIn(user) {
     console.log('👤 Handling user sign in:', user.email);
+    console.log('🔍 Current page:', window.location.pathname);
     currentUser = user;
 
     // CRITICAL: Check if we're on the login page and need to redirect
@@ -283,6 +285,26 @@ function handleUserSignIn(user) {
         }, 1000);
         
         return; // Exit early to prevent UI updates on login page
+    }
+
+    // Check if we're on the marketing page and need to redirect to main app
+    if (window.location.pathname.includes('index.html') && !window.location.pathname.includes('Propokit')) {
+        console.log('🔄 Marketing page detected, redirecting to main app...');
+        console.log('🔄 Target URL: Propokit/index-product.html');
+        
+        // Show success notification before redirect
+        showNotification('🎉 Successfully signed in with Google!', 'success', 2000);
+        
+        // Store user UID before redirect
+        localStorage.setItem('firebaseUID', user.uid);
+        window.currentFirebaseUID = user.uid;
+        
+        // Redirect to main app with a small delay to ensure notification shows
+        setTimeout(() => {
+            window.location.href = 'Propokit/index-product.html';
+        }, 1000);
+        
+        return; // Exit early to prevent UI updates on marketing page
     }
 
     // Update UI elements based on page type
