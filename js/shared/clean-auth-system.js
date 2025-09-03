@@ -12,6 +12,7 @@
 let currentUser = null;
 let authInitialized = false;
 let isInitialLogin = true; // Track if this is the first login
+let hasVisitedApp = false; // Track if user has visited the app after login
 
 /**
  * 🔐 Initialize the clean authentication system
@@ -160,6 +161,7 @@ function handleUserSignedOut() {
     
     // Reset initial login flag for next login
     isInitialLogin = true;
+    hasVisitedApp = false; // Reset app visit flag
     
     // Update UI
     updateUIForSignedOutUser();
@@ -279,10 +281,11 @@ function updateUIForSignedInUser(user) {
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
     // Auto-redirect to main app only on initial login (not when returning to home page)
-    if (isInitialLogin && window.location.pathname.includes('index.html')) {
+    if (isInitialLogin && window.location.pathname.includes('index.html') && !hasVisitedApp) {
         setTimeout(() => {
             console.log('🚀 Initial login - redirecting to main app...');
             window.location.href = 'Propokit/index-product.html';
+            hasVisitedApp = true; // Mark that user has visited the app
         }, 1000); // 1 second delay to show success state
         isInitialLogin = false; // Mark that initial login is done
     }
@@ -343,6 +346,12 @@ function updateUIForSignedOutUser() {
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🔍 DOM loaded, initializing clean auth...');
+    
+    // Check if we're on the main app page and user is logged in
+    if (window.location.pathname.includes('index-product.html') && currentUser) {
+        hasVisitedApp = true; // Mark that user has visited the app
+        console.log('📱 User has visited the app area');
+    }
     
     // Wait for Firebase
     const checkFirebase = () => {
