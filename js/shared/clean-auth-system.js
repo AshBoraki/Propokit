@@ -219,6 +219,26 @@ function updateUIForSignedInUser(user) {
         userAvatar.src = user.photoURL;
     }
     
+    // Update main app user avatar trigger (only if it exists - for main app)
+    const userAvatarTrigger = document.getElementById('user-avatar-trigger');
+    if (userAvatarTrigger) {
+        if (user.photoURL) {
+            // If user has profile picture, show it
+            userAvatarTrigger.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"><div class="user-status-indicator online"></div>`;
+        } else {
+            // If no profile picture, show initials
+            const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+            userAvatarTrigger.innerHTML = `<span>${initials}</span><div class="user-status-indicator online"></div>`;
+        }
+        
+        // Re-add click handler after innerHTML update for main app
+        if (typeof window.forceReinitMainAppDropdown === 'function') {
+            setTimeout(() => {
+                window.forceReinitMainAppDropdown();
+            }, 50);
+        }
+    }
+    
     // Update home page user profile elements
     const homePageUserAvatarText = document.getElementById('homepage-user-avatar-initials');
     if (homePageUserAvatarText) {

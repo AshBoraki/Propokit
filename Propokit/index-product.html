@@ -1399,53 +1399,93 @@
             });
             
             // =================================================================
-            // === 👤 USER PROFILE DROPDOWN FUNCTIONALITY
+            // === 👤 BULLETPROOF USER PROFILE DROPDOWN FUNCTIONALITY
             // =================================================================
             
-            // Initialize user profile dropdown functionality
-            function initUserProfileDropdown() {
+            // Global dropdown state for main app
+            let mainAppDropdownState = {
+                isOpen: false,
+                isInitialized: false
+            };
+            
+            // Bulletproof dropdown initialization for main app
+            function initBulletproofMainAppDropdown() {
+                console.log('🛡️ Initializing bulletproof main app dropdown...');
+                
+                // Remove any existing listeners to prevent duplicates
+                document.removeEventListener('click', handleMainAppGlobalClick);
+                
+                // Add global click listener
+                document.addEventListener('click', handleMainAppGlobalClick);
+                
+                // Mark as initialized
+                mainAppDropdownState.isInitialized = true;
+                
+                console.log('✅ Bulletproof main app dropdown initialized');
+            }
+            
+            // Global click handler for main app dropdown
+            function handleMainAppGlobalClick(e) {
                 const userAvatarTrigger = document.getElementById('user-avatar-trigger');
                 const userProfileDropdown = document.getElementById('user-profile-dropdown');
                 const userProfileMenu = document.getElementById('user-profile-menu');
                 
-                if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
-                    // Toggle dropdown when avatar is clicked
-                    userAvatarTrigger.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const isOpen = userProfileMenu.classList.contains('open');
-                        
-                        if (isOpen) {
-                            userProfileMenu.classList.remove('open');
-                        } else {
-                            userProfileMenu.classList.add('open');
-                        }
-                        
-                        console.log('👤 User profile dropdown toggled:', isOpen ? 'closed' : 'opened');
-                    });
-                    
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
-                            userProfileMenu.classList.remove('open');
-                        }
-                    });
-                    
-                    // Close dropdown when pressing Escape
-                    document.addEventListener('keydown', (e) => {
-                        if (e.key === 'Escape') {
-                            userProfileMenu.classList.remove('open');
-                        }
-                    });
-                    
-                    console.log('✅ User profile dropdown functionality initialized');
+                if (!userAvatarTrigger || !userProfileDropdown || !userProfileMenu) {
+                    return;
                 }
+                
+                // Check if click is on avatar trigger or its children
+                if (e.target.closest('#user-avatar-trigger')) {
+                    console.log('🎯 Main app avatar clicked!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    toggleMainAppDropdown(userProfileMenu);
+                }
+                // Check if click is outside dropdown and avatar
+                else if (mainAppDropdownState.isOpen && !e.target.closest('#user-profile-dropdown')) {
+                    console.log('🎯 Clicked outside main app dropdown, closing');
+                    closeMainAppDropdown(userProfileMenu);
+                }
+            }
+            
+            // Toggle main app dropdown function
+            function toggleMainAppDropdown(userProfileMenu) {
+                if (!userProfileMenu) return;
+                
+                if (mainAppDropdownState.isOpen) {
+                    closeMainAppDropdown(userProfileMenu);
+                } else {
+                    openMainAppDropdown(userProfileMenu);
+                }
+            }
+            
+            // Open main app dropdown function
+            function openMainAppDropdown(userProfileMenu) {
+                userProfileMenu.style.display = 'block';
+                userProfileMenu.classList.add('open');
+                mainAppDropdownState.isOpen = true;
+                console.log('🎯 Main app dropdown opened');
+            }
+            
+            // Close main app dropdown function
+            function closeMainAppDropdown(userProfileMenu) {
+                userProfileMenu.style.display = 'none';
+                userProfileMenu.classList.remove('open');
+                mainAppDropdownState.isOpen = false;
+                console.log('🎯 Main app dropdown closed');
+            }
+            
+            // Force reinitialize main app dropdown (for auth system)
+            function forceReinitMainAppDropdown() {
+                console.log('🔄 Force reinitializing main app dropdown...');
+                mainAppDropdownState.isInitialized = false;
+                initBulletproofMainAppDropdown();
             }
             
             // Initialize dropdown when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
-                initUserProfileDropdown();
+                initBulletproofMainAppDropdown();
                 initThemeToggle();
             });
             
@@ -3464,6 +3504,38 @@ function resetCrop() {
 
             });
         })();
+        
+        // Make dropdown functions globally available
+        window.forceReinitMainAppDropdown = forceReinitMainAppDropdown;
+        window.initBulletproofMainAppDropdown = initBulletproofMainAppDropdown;
+        
+        // Manual test function for main app dropdown
+        function testMainAppDropdown() {
+            console.log('🧪 MANUAL MAIN APP DROPDOWN TEST...');
+            
+            const userAvatarTrigger = document.getElementById('user-avatar-trigger');
+            const userProfileDropdown = document.getElementById('user-profile-dropdown');
+            const userProfileMenu = document.getElementById('user-profile-menu');
+            
+            console.log('🧪 Elements:', { userAvatarTrigger, userProfileDropdown, userProfileMenu });
+            console.log('🧪 Dropdown state:', mainAppDropdownState);
+            
+            if (userAvatarTrigger && userProfileDropdown && userProfileMenu) {
+                console.log('🧪 Simulating click on main app avatar...');
+                userAvatarTrigger.click();
+                
+                setTimeout(() => {
+                    console.log('🧪 Dropdown display after click:', userProfileMenu.style.display);
+                    console.log('🧪 Dropdown classes after click:', userProfileMenu.className);
+                    console.log('🧪 Dropdown state after click:', mainAppDropdownState);
+                }, 100);
+            } else {
+                console.log('❌ Main app dropdown elements not found!');
+            }
+        }
+        
+        // Make test function globally available
+        window.testMainAppDropdown = testMainAppDropdown;
     </script>
 
 
