@@ -644,8 +644,8 @@ html, body {
 /* --- 1. Main Header Structure --- */
 #top-application-header {
     position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-    background-color: #2D3748; color: #E2E8F0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #FFFFFF; color: #2D3748; /* Changed default to light */
+    border-bottom: 1px solid #E2E8F0;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 25px; z-index: 2000; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -658,12 +658,17 @@ html, body {
 
 /* Dark theme header styles - ensure all header elements respond to dark mode */
 [data-theme="dark"] #top-application-header {
-    background-color: #2D3748; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1);
+    background-color: #1A202C; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1); /* Much darker background */
 }
 
 /* Light theme specific header element styles */
 [data-theme="light"] #propokit-icon-logo {
     color: #2D3748;
+}
+
+/* Dark theme specific header element styles */
+[data-theme="dark"] #propokit-icon-logo {
+    color: #E2E8F0;
 }
 
 [data-theme="light"] .header-btn {
@@ -725,7 +730,7 @@ html, body {
 #propokit-icon-logo {
     font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.7rem;
     text-decoration: none !important; display: flex; align-items: center;
-    gap: 4px; cursor: pointer; color: #E2E8F0;
+    gap: 4px; cursor: pointer; color: #2D3748; /* Changed to dark for light theme default */
 }
 
 .logo-text { display: flex; align-items: center; transition: color 0.3s ease; }
