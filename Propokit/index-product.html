@@ -1303,31 +1303,39 @@
             // Update user profile UI when auth state changes
             function updateMainAppUserProfile(user) {
                 if (user) {
-                    // Update user avatar
+                    // Update user avatar in main app header
                     const userAvatarText = document.getElementById('user-avatar-text');
                     if (userAvatarText) {
                         userAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
                     }
                     
-                    // Update profile dropdown
+                    // Update profile dropdown in main app
                     const profileUserName = document.getElementById('profile-user-name');
                     const profileUserEmail = document.getElementById('profile-user-email');
                     if (profileUserName) profileUserName.textContent = user.displayName || 'User';
                     if (profileUserEmail) profileUserEmail.textContent = user.email;
                     
-                    // Show user profile, hide login button
-                    const userProfile = document.getElementById('user-profile');
+                    // Show user profile menu, hide login button
+                    const userProfileMenu = document.getElementById('user-profile-menu');
                     const loginBtn = document.getElementById('login-btn');
-                    if (userProfile) userProfile.style.display = 'flex';
+                    if (userProfileMenu) userProfileMenu.style.display = 'block';
                     if (loginBtn) loginBtn.style.display = 'none';
+                    
+                    // Also update the auth section user profile
+                    const authUserProfile = document.getElementById('user-profile');
+                    if (authUserProfile) authUserProfile.style.display = 'flex';
                     
                     console.log('✅ Main app user profile updated:', user.email);
                 } else {
                     // Show login button, hide user profile
-                    const userProfile = document.getElementById('user-profile');
+                    const userProfileMenu = document.getElementById('user-profile-menu');
                     const loginBtn = document.getElementById('login-btn');
-                    if (userProfile) userProfile.style.display = 'none';
+                    if (userProfileMenu) userProfileMenu.style.display = 'none';
                     if (loginBtn) loginBtn.style.display = 'flex';
+                    
+                    // Also hide the auth section user profile
+                    const authUserProfile = document.getElementById('user-profile');
+                    if (authUserProfile) authUserProfile.style.display = 'none';
                     
                     console.log('✅ Main app user profile cleared');
                 }
@@ -1353,6 +1361,12 @@
                             originalUpdateUISignedOut();
                             updateMainAppUserProfile(null);
                         };
+                        
+                        // Check if user is already logged in
+                        const currentUser = firebase.auth().currentUser;
+                        if (currentUser) {
+                            updateMainAppUserProfile(currentUser);
+                        }
                     } else {
                         setTimeout(checkCleanAuth, 100);
                     }

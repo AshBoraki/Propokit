@@ -123,6 +123,12 @@ async function signOut() {
         await firebase.auth().signOut();
         console.log('✅ Signed out successfully');
         
+        // Redirect to home page after logout
+        setTimeout(() => {
+            console.log('🏠 Redirecting to home page after logout...');
+            window.location.href = '../index.html';
+        }, 500); // 0.5 second delay
+        
     } catch (error) {
         console.error('❌ Sign-out failed:', error);
         alert('Sign-out failed. Please try again.');
