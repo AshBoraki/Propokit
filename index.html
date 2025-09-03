@@ -1206,7 +1206,7 @@
         }
         
         [data-theme="dark"] .integration-info h4 {
-            color: var(--color-primary);
+            color: var(--color-dark-text);
         }
         
         [data-theme="dark"] .integration-category {
@@ -3887,7 +3887,7 @@
         .founder-bio p { 
             margin-bottom: 25px; 
             font-size: 1.15rem;
-            line-height: 1.8;
+            line-height: 1.8; 
             color: var(--color-text-dark);
         }
         .quote {
@@ -9849,10 +9849,10 @@
                                console.log('✅ Home page UI updated for logged-in user');
                                
                                // Initialize dropdown functionality after UI update
-                               setTimeout(() => {
-                                   initHomepageDropdown();
+                   setTimeout(() => {
+                           initHomepageDropdown();
                                }, 100);
-                           } else {
+                       } else {
                                console.log('👤 User logged out on home page, updating UI...');
                                
                                // Show login button
@@ -9917,7 +9917,7 @@
                function testDropdown() {
                    console.log('🧪 MANUAL DROPDOWN TEST...');
                    
-                   const avatarButton = document.getElementById('homepage-user-avatar-button');
+                           const avatarButton = document.getElementById('homepage-user-avatar-button');
                    const dropdown = document.getElementById('homepage-user-dropdown-menu');
                    
                    console.log('🧪 Elements:', { avatarButton, dropdown });
@@ -9936,11 +9936,46 @@
                
                // Make test function globally available
                window.testDropdown = testDropdown;
+               
+               // Simple, direct dropdown solution
+               function setupSimpleDropdown() {
+                   console.log('🎯 Setting up simple dropdown...');
+                   
+                   // Use event delegation to handle clicks on the avatar button
+                   document.addEventListener('click', function(e) {
+                       const avatarButton = document.getElementById('homepage-user-avatar-button');
+                       const dropdown = document.getElementById('homepage-user-dropdown-menu');
+                       
+                       if (e.target.closest('#homepage-user-avatar-button')) {
+                           console.log('🎯 Avatar button clicked via delegation!');
+                           e.preventDefault();
+                           e.stopPropagation();
+                           
+                           if (dropdown) {
+                               const isVisible = dropdown.style.display === 'block';
+                               dropdown.style.display = isVisible ? 'none' : 'block';
+                               console.log('🎯 Dropdown toggled:', isVisible ? 'hidden' : 'shown');
+                           }
+                       } else if (dropdown && dropdown.style.display === 'block') {
+                           // Close dropdown if clicking outside
+                           if (!e.target.closest('#homepage-user-dropdown-menu')) {
+                               dropdown.style.display = 'none';
+                               console.log('🎯 Clicked outside, hiding dropdown');
+                           }
+                       }
+                   });
+                   
+                   console.log('✅ Simple dropdown setup complete');
+               }
+               
+               // Initialize simple dropdown on page load
+               document.addEventListener('DOMContentLoaded', function() {
+                   console.log('🏠 DOM loaded, setting up simple dropdown...');
+                   setupSimpleDropdown();
+               });
 
         });
     </script>
     
 </body>
 </html>< ! - -   U p d a t e d :   0 8 / 3 1 / 2 0 2 5   1 2 : 3 5 : 0 2   - - > 
- 
- 
