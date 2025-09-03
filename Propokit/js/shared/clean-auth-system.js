@@ -231,14 +231,6 @@ function updateUIForSignedInUser(user) {
     const homePageProfileUserEmail = document.getElementById('profile-user-email');
     if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
-    
-    // Auto-redirect to main app after successful login (only on home page)
-    setTimeout(() => {
-        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
-            console.log('🚀 Redirecting to main app after successful login...');
-            window.location.href = 'Propokit/index-product.html';
-        }
-    }, 1000); // 1 second delay to show success state
 }
 
 /**
