@@ -656,6 +656,71 @@ html, body {
     background-color: #FFFFFF; color: #2D3748; border-color: #E2E8F0;
 }
 
+/* Dark theme header styles - ensure all header elements respond to dark mode */
+[data-theme="dark"] #top-application-header {
+    background-color: #2D3748; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Light theme specific header element styles */
+[data-theme="light"] #propokit-icon-logo {
+    color: #2D3748;
+}
+
+[data-theme="light"] .header-btn {
+    border-color: rgba(45, 55, 72, 0.2);
+    color: #2D3748;
+}
+
+[data-theme="light"] .header-btn:hover {
+    background-color: rgba(45, 55, 72, 0.1);
+    color: #2D3748;
+}
+
+[data-theme="light"] .header-divider {
+    background-color: rgba(45, 55, 72, 0.15);
+}
+
+[data-theme="light"] #header-document-title {
+    color: #2D3748;
+    background-color: transparent;
+}
+
+[data-theme="light"] #header-document-title:hover {
+    border-color: rgba(45, 55, 72, 0.2);
+}
+
+[data-theme="light"] #header-document-title:focus {
+    border-color: #3a8dff;
+    background-color: rgba(58, 141, 255, 0.1);
+}
+
+[data-theme="light"] .zoom-controls {
+    background-color: rgba(45, 55, 72, 0.15);
+    border-color: rgba(45, 55, 72, 0.2);
+}
+
+[data-theme="light"] .zoom-controls .header-btn-icon-only {
+    background-color: rgba(45, 55, 72, 0.05);
+    border-color: rgba(45, 55, 72, 0.2);
+}
+
+[data-theme="light"] .zoom-controls .header-btn-icon-only:hover {
+    background-color: rgba(45, 55, 72, 0.1);
+    border-color: rgba(45, 55, 72, 0.3);
+}
+
+[data-theme="light"] #zoom-level-display {
+    color: #2D3748;
+}
+
+[data-theme="light"] #header-title-container:hover {
+    background-color: rgba(45, 55, 72, 0.1);
+}
+
+[data-theme="light"] .header-document-title-wrapper .document-icon {
+    color: #6b7280;
+}
+
 /* --- 2. Logo Styles --- */
 #propokit-icon-logo {
     font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.7rem;
