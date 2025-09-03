@@ -315,16 +315,16 @@
         <div class="header-divider"></div>
         
         <!-- Authentication Section - Moved to far right -->
-        <div class="auth-section" style="display: flex; align-items: center; margin-left: auto;">
+        <div class="auth-section" style="display: flex; align-items: center; margin-left: auto; position: relative;">
             <!-- User Profile (shown when logged in) -->
-            <div id="user-profile" style="display: none;">
-                <div class="user-avatar" id="user-avatar-trigger">
+            <div id="user-profile" style="display: none; position: relative;">
+                <div class="user-avatar" id="user-avatar-trigger" style="cursor: pointer;">
                     <span id="user-avatar-text">GU</span>
                     <div class="user-status-indicator online"></div>
                 </div>
                 
                 <!-- User Profile Dropdown -->
-                <div class="profile-dropdown" id="user-profile-dropdown" style="display: none;">
+                <div class="profile-dropdown" id="user-profile-dropdown">
                     <div class="dropdown-header">
                         <strong id="profile-user-name">Guest User</strong>
                         <span id="profile-user-email">Not logged in</span>
@@ -1388,30 +1388,36 @@
             function initUserProfileDropdown() {
                 const userAvatarTrigger = document.getElementById('user-avatar-trigger');
                 const userProfileDropdown = document.getElementById('user-profile-dropdown');
+                const userProfile = document.getElementById('user-profile');
                 
-                if (userAvatarTrigger && userProfileDropdown) {
+                if (userAvatarTrigger && userProfileDropdown && userProfile) {
                     // Toggle dropdown when avatar is clicked
                     userAvatarTrigger.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         
-                        const isVisible = userProfileDropdown.style.display === 'block';
-                        userProfileDropdown.style.display = isVisible ? 'none' : 'block';
+                        const isOpen = userProfile.classList.contains('open');
                         
-                        console.log('👤 User profile dropdown toggled:', isVisible ? 'hidden' : 'shown');
+                        if (isOpen) {
+                            userProfile.classList.remove('open');
+                        } else {
+                            userProfile.classList.add('open');
+                        }
+                        
+                        console.log('👤 User profile dropdown toggled:', isOpen ? 'closed' : 'opened');
                     });
                     
                     // Close dropdown when clicking outside
                     document.addEventListener('click', (e) => {
                         if (!userAvatarTrigger.contains(e.target) && !userProfileDropdown.contains(e.target)) {
-                            userProfileDropdown.style.display = 'none';
+                            userProfile.classList.remove('open');
                         }
                     });
                     
                     // Close dropdown when pressing Escape
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'Escape') {
-                            userProfileDropdown.style.display = 'none';
+                            userProfile.classList.remove('open');
                         }
                     });
                     
