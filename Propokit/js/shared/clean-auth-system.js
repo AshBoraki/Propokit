@@ -4,7 +4,7 @@
 //
 // PURPOSE: Simple, reliable authentication system
 // This is a clean implementation that removes all complexity
-// and provides basic Google sign-in functionality
+// and provides basic Google sign-in functionality with popup
 //
 // ==================================================
 
@@ -65,11 +65,11 @@ function initializeCleanAuth() {
 }
 
 /**
- * 🔐 Sign in with Google
+ * 🔐 Sign in with Google using popup
  */
 async function signInWithGoogle() {
     try {
-        console.log('🔐 Starting Google sign-in...');
+        console.log('🔐 Starting Google sign-in with popup...');
         
         // Show loading state
         const loginBtn = document.getElementById('login-btn');
@@ -83,9 +83,15 @@ async function signInWithGoogle() {
         provider.addScope('email');
         provider.addScope('profile');
         
-        // Sign in with redirect
-        await firebase.auth().signInWithRedirect(provider);
-        console.log('✅ Sign-in redirect initiated');
+        // Sign in with popup
+        const result = await firebase.auth().signInWithPopup(provider);
+        console.log('✅ Sign-in successful:', result.user.email);
+        
+        // Reset button
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = 'Sign in with Google';
+        }
         
     } catch (error) {
         console.error('❌ Sign-in failed:', error);
@@ -97,7 +103,14 @@ async function signInWithGoogle() {
             loginBtn.innerHTML = 'Sign in with Google';
         }
         
-        alert('Sign-in failed. Please try again.');
+        // Handle specific error types
+        if (error.code === 'auth/popup-closed-by-user') {
+            console.log('👤 User closed popup');
+        } else if (error.code === 'auth/popup-blocked') {
+            alert('Popup was blocked. Please allow popups for this site and try again.');
+        } else {
+            alert('Sign-in failed. Please try again.');
+        }
     }
 }
 
@@ -109,9 +122,6 @@ async function signOut() {
         console.log('🔐 Signing out...');
         await firebase.auth().signOut();
         console.log('✅ Signed out successfully');
-        
-        // Redirect to home page
-        window.location.href = '../index.html';
         
     } catch (error) {
         console.error('❌ Sign-out failed:', error);
@@ -130,14 +140,6 @@ function handleUserSignedIn(user) {
     
     // Update UI
     updateUIForSignedInUser(user);
-    
-    // Redirect if on login page
-    if (window.location.pathname.includes('login.html')) {
-        console.log('🔄 Redirecting from login page...');
-        setTimeout(() => {
-            window.location.href = 'index-product.html';
-        }, 1000);
-    }
 }
 
 /**
@@ -199,24 +201,6 @@ function updateUIForSignedOutUser() {
     if (userProfile) userProfile.style.display = 'none';
 }
 
-/**
- * 🔄 Handle redirect result
- */
-async function handleRedirectResult() {
-    try {
-        console.log('🔄 Checking for redirect result...');
-        const result = await firebase.auth().getRedirectResult();
-        
-        if (result.user) {
-            console.log('✅ Redirect result found:', result.user.email);
-        } else {
-            console.log('🔍 No redirect result found');
-        }
-    } catch (error) {
-        console.error('❌ Redirect result error:', error);
-    }
-}
-
 // ==================================================
 // 🚀 AUTO-INITIALIZATION
 // ==================================================
@@ -230,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof firebase !== 'undefined' && firebase.auth) {
             console.log('🔥 Firebase ready, initializing auth...');
             initializeCleanAuth();
-            handleRedirectResult();
         } else {
             console.log('⏳ Waiting for Firebase...');
             setTimeout(checkFirebase, 100);
