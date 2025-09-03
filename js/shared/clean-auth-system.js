@@ -240,9 +240,9 @@ function updateUIForSignedInUser(user) {
         }
         
         // Re-add click handler after innerHTML update
-        if (typeof window.reinitDropdownAfterUpdate === 'function') {
+        if (typeof window.forceReinitDropdown === 'function') {
             setTimeout(() => {
-                window.reinitDropdownAfterUpdate();
+                window.forceReinitDropdown();
             }, 50);
         }
     }

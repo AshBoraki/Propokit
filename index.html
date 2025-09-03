@@ -3932,7 +3932,7 @@
         .pricing { 
             padding: 120px 0; 
             background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
-            position: relative;
+            position: relative; 
             overflow: hidden;
         }
         .pricing::before {
@@ -9633,93 +9633,85 @@
                });
                
                // =================================================================
-               // === 👤 SIMPLE DROPDOWN TOGGLE FUNCTION
+               // === 👤 BULLETPROOF DROPDOWN SOLUTION
                // =================================================================
                
-               function toggleHomepageDropdown() {
-                   console.log('🎯 toggleHomepageDropdown() called!');
-                   const dropdown = document.getElementById('homepage-user-dropdown-menu');
-                   if (dropdown) {
-                       console.log('🎯 Found dropdown, current display:', dropdown.style.display);
-                       if (dropdown.style.display === 'block') {
-                           dropdown.style.display = 'none';
-                           console.log('🎯 Hiding dropdown');
-                       } else {
-                           dropdown.style.display = 'block';
-                           console.log('🎯 Showing dropdown');
-                       }
-                   } else {
-                       console.log('🎯 Dropdown element not found!');
-                   }
+               // Global dropdown state
+               let dropdownState = {
+                   isOpen: false,
+                   isInitialized: false
+               };
+               
+               // Bulletproof dropdown initialization
+               function initBulletproofDropdown() {
+                   console.log('🛡️ Initializing bulletproof dropdown...');
+                   
+                   // Remove any existing listeners to prevent duplicates
+                   document.removeEventListener('click', handleGlobalClick);
+                   
+                   // Add global click listener
+                   document.addEventListener('click', handleGlobalClick);
+                   
+                   // Mark as initialized
+                   dropdownState.isInitialized = true;
+                   
+                   console.log('✅ Bulletproof dropdown initialized');
                }
                
-               // =================================================================
-               // === 👤 USER PROFILE DROPDOWN FUNCTIONALITY (HOME PAGE)
-               // =================================================================
-               
-               // Clean dropdown initialization function
-               function initHomepageDropdown() {
-                   console.log('🔧 Initializing homepage dropdown...');
-                   
+               // Global click handler that works regardless of DOM changes
+               function handleGlobalClick(e) {
                    const avatarButton = document.getElementById('homepage-user-avatar-button');
                    const dropdown = document.getElementById('homepage-user-dropdown-menu');
                    
                    if (!avatarButton || !dropdown) {
-                       console.log('❌ Dropdown elements not found:', {
-                           avatarButton: !!avatarButton,
-                           dropdown: !!dropdown
-                       });
                        return;
                    }
                    
-                   console.log('✅ Dropdown elements found, setting up click handler...');
-                   
-                   // Remove any existing click handlers to prevent conflicts
-                   avatarButton.onclick = null;
-                   avatarButton.removeEventListener('click', handleDropdownClick);
-                   
-                   // Add clean click handler
-                   avatarButton.addEventListener('click', handleDropdownClick);
-                   
-                   // Also add click handler to close dropdown when clicking outside
-                   document.removeEventListener('click', handleOutsideClick);
-                   document.addEventListener('click', handleOutsideClick);
-                   
-                   console.log('✅ Dropdown click handlers set up successfully');
-                   
-                   // Test the dropdown is working
-                   console.log('🧪 Testing dropdown functionality...');
-                   console.log('🧪 Avatar button:', avatarButton);
-                   console.log('🧪 Dropdown:', dropdown);
-                   console.log('🧪 Dropdown current display:', dropdown.style.display);
+                   // Check if click is on avatar button or its children
+                   if (e.target.closest('#homepage-user-avatar-button')) {
+                       console.log('🎯 Avatar clicked!');
+                       e.preventDefault();
+                       e.stopPropagation();
+                       
+                       toggleDropdown(dropdown);
+                   }
+                   // Check if click is outside dropdown and avatar
+                   else if (dropdownState.isOpen && !e.target.closest('#homepage-user-dropdown-menu')) {
+                       console.log('🎯 Clicked outside, closing dropdown');
+                       closeDropdown(dropdown);
+                   }
                }
                
-               function handleDropdownClick(e) {
-                   e.preventDefault();
-                   e.stopPropagation();
-                   console.log('🎯 Avatar button clicked!');
+               // Toggle dropdown function
+               function toggleDropdown(dropdown) {
+                   if (!dropdown) return;
                    
-                   const dropdown = document.getElementById('homepage-user-dropdown-menu');
-                   if (dropdown) {
-                       const isVisible = dropdown.style.display === 'block';
-                       dropdown.style.display = isVisible ? 'none' : 'block';
-                       console.log('🎯 Dropdown toggled:', isVisible ? 'hidden' : 'shown');
+                   if (dropdownState.isOpen) {
+                       closeDropdown(dropdown);
                    } else {
-                       console.log('❌ Dropdown element not found!');
+                       openDropdown(dropdown);
                    }
                }
                
-               function handleOutsideClick(e) {
-                   const dropdown = document.getElementById('homepage-user-dropdown-menu');
-                   const avatarButton = document.getElementById('homepage-user-avatar-button');
-                   
-                   if (dropdown && avatarButton) {
-                       // Check if click is outside both the dropdown and avatar button
-                       if (!dropdown.contains(e.target) && !avatarButton.contains(e.target)) {
-                           dropdown.style.display = 'none';
-                           console.log('🎯 Clicked outside, hiding dropdown');
-                       }
-                   }
+               // Open dropdown function
+               function openDropdown(dropdown) {
+                   dropdown.style.display = 'block';
+                   dropdownState.isOpen = true;
+                   console.log('🎯 Dropdown opened');
+               }
+               
+               // Close dropdown function
+               function closeDropdown(dropdown) {
+                   dropdown.style.display = 'none';
+                   dropdownState.isOpen = false;
+                   console.log('🎯 Dropdown closed');
+               }
+               
+               // Force reinitialize dropdown (for auth system)
+               function forceReinitDropdown() {
+                   console.log('🔄 Force reinitializing dropdown...');
+                   dropdownState.isInitialized = false;
+                   initBulletproofDropdown();
                }
                
                // Simple test function to check what's happening
@@ -9753,8 +9745,8 @@
                        console.log('🧪 Manually set user profile container to display: flex');
                    }
                    
-               // Initialize dropdown functionality
-               initHomepageDropdown();
+                                  // Initialize dropdown functionality
+                   initBulletproofDropdown();
                
                // Set up sign out button
                const signOutBtn = document.getElementById('homepage-signout-button');
@@ -9848,9 +9840,9 @@
                                
                                console.log('✅ Home page UI updated for logged-in user');
                                
-                               // Initialize dropdown functionality after UI update
-                   setTimeout(() => {
-                           initHomepageDropdown();
+                                                              // Initialize dropdown functionality after UI update
+                               setTimeout(() => {
+                                   forceReinitDropdown();
                                }, 100);
                        } else {
                                console.log('👤 User logged out on home page, updating UI...');
@@ -9907,20 +9899,22 @@
                            console.log('✅ Manually updated UI for logged-in user');
                        }
                        
-                       testDropdownElements();
+                       // Test dropdown functionality
+                       initBulletproofDropdown();
                        initHomePageThemeToggle();
                        console.log('✅ Home page functionality initialized');
                    }, 1000); // Increased delay to 1 second
                });
 
-               // Manual test function - can be called from browser console
+                              // Manual test function - can be called from browser console
                function testDropdown() {
                    console.log('🧪 MANUAL DROPDOWN TEST...');
                    
-                           const avatarButton = document.getElementById('homepage-user-avatar-button');
+                   const avatarButton = document.getElementById('homepage-user-avatar-button');
                    const dropdown = document.getElementById('homepage-user-dropdown-menu');
                    
                    console.log('🧪 Elements:', { avatarButton, dropdown });
+                   console.log('🧪 Dropdown state:', dropdownState);
                    
                    if (avatarButton && dropdown) {
                        console.log('🧪 Simulating click on avatar button...');
@@ -9928,6 +9922,7 @@
                        
                        setTimeout(() => {
                            console.log('🧪 Dropdown display after click:', dropdown.style.display);
+                           console.log('🧪 Dropdown state after click:', dropdownState);
                        }, 100);
                    } else {
                        console.log('❌ Elements not found!');
@@ -9937,41 +9932,14 @@
                // Make test function globally available
                window.testDropdown = testDropdown;
                
-               // Simple, direct dropdown solution
-               function setupSimpleDropdown() {
-                   console.log('🎯 Setting up simple dropdown...');
-                   
-                   // Use event delegation to handle clicks on the avatar button
-                   document.addEventListener('click', function(e) {
-                       const avatarButton = document.getElementById('homepage-user-avatar-button');
-                       const dropdown = document.getElementById('homepage-user-dropdown-menu');
-                       
-                       if (e.target.closest('#homepage-user-avatar-button')) {
-                           console.log('🎯 Avatar button clicked via delegation!');
-                           e.preventDefault();
-                           e.stopPropagation();
-                           
-                           if (dropdown) {
-                               const isVisible = dropdown.style.display === 'block';
-                               dropdown.style.display = isVisible ? 'none' : 'block';
-                               console.log('🎯 Dropdown toggled:', isVisible ? 'hidden' : 'shown');
-                           }
-                       } else if (dropdown && dropdown.style.display === 'block') {
-                           // Close dropdown if clicking outside
-                           if (!e.target.closest('#homepage-user-dropdown-menu')) {
-                               dropdown.style.display = 'none';
-                               console.log('🎯 Clicked outside, hiding dropdown');
-                           }
-                       }
-                   });
-                   
-                   console.log('✅ Simple dropdown setup complete');
-               }
+               // Make dropdown functions globally available
+               window.forceReinitDropdown = forceReinitDropdown;
+               window.initBulletproofDropdown = initBulletproofDropdown;
                
-               // Initialize simple dropdown on page load
+               // Initialize bulletproof dropdown on page load
                document.addEventListener('DOMContentLoaded', function() {
-                   console.log('🏠 DOM loaded, setting up simple dropdown...');
-                   setupSimpleDropdown();
+                   console.log('🏠 DOM loaded, initializing bulletproof dropdown...');
+                   initBulletproofDropdown();
                });
 
         });
