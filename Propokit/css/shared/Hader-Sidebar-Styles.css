@@ -666,9 +666,43 @@ html, body {
     color: #2D3748;
 }
 
+/* Ensure logo-kit stays yellow in light mode too */
+[data-theme="light"] .logo-kit {
+    background: linear-gradient(45deg, #FFC300, #FFD644);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFC300 !important;
+}
+
+[data-theme="light"] #propokit-icon-logo:hover .logo-kit {
+    background: linear-gradient(45deg, #FFD644, #FFE066);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFD644 !important;
+}
+
 /* Dark theme specific header element styles */
 [data-theme="dark"] #propokit-icon-logo {
     color: #E2E8F0;
+}
+
+/* Ensure logo-kit stays yellow in dark mode */
+[data-theme="dark"] .logo-kit {
+    background: linear-gradient(45deg, #FFC300, #FFD644);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFC300 !important;
+}
+
+[data-theme="dark"] #propokit-icon-logo:hover .logo-kit {
+    background: linear-gradient(45deg, #FFD644, #FFE066);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFD644 !important;
 }
 
 [data-theme="light"] .header-btn {
@@ -794,10 +828,22 @@ html, body {
     width: 1em; height: 1em; position: relative; top: -0.05em; stroke: #3a8dff;
     transition: transform 0.6s cubic-bezier(0.64, 0, 0.2, 1.5); margin: 0 -2px;
 }
-.logo-kit { color: #FFC300; }
+.logo-kit { 
+    background: linear-gradient(45deg, #FFC300, #FFD644);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFC300; 
+}
 #propokit-icon-logo:hover .logo-icon-svg { transform: rotate(360deg); }
 #propokit-icon-logo:hover .logo-text { color: #3a8dff; }
-#propokit-icon-logo:hover .logo-kit { color: #FFD644; }
+#propokit-icon-logo:hover .logo-kit { 
+    background: linear-gradient(45deg, #FFD644, #FFE066);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFD644; 
+}
 
 /* --- 3. Header Containers & Divider --- */
 .header-left, .header-right { display: flex; align-items: center; gap: 15px; }
