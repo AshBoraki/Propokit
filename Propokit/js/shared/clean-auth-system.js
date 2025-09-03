@@ -171,7 +171,10 @@ function handleUserSignedOut() {
 function updateUIForSignedInUser(user) {
     // Hide login button
     const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) loginBtn.style.display = 'none';
+    if (loginBtn) {
+        loginBtn.style.display = 'none';
+        loginBtn.innerHTML = 'Sign In'; // Reset text for when user logs out
+    }
     
     // Show logout button
     const logoutBtn = document.getElementById('logout-btn');
@@ -241,12 +244,10 @@ function updateUIForSignedInUser(user) {
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
     // Auto-redirect to main app only on initial login (not when returning to home page)
-    if (isInitialLogin) {
+    if (isInitialLogin && window.location.pathname.includes('index.html')) {
         setTimeout(() => {
-            if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
-                console.log('🚀 Initial login - redirecting to main app...');
-                window.location.href = 'Propokit/index-product.html';
-            }
+            console.log('🚀 Initial login - redirecting to main app...');
+            window.location.href = 'Propokit/index-product.html';
         }, 1000); // 1 second delay to show success state
         isInitialLogin = false; // Mark that initial login is done
     }
@@ -258,7 +259,10 @@ function updateUIForSignedInUser(user) {
 function updateUIForSignedOutUser() {
     // Show login button
     const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) loginBtn.style.display = 'flex';
+    if (loginBtn) {
+        loginBtn.style.display = 'flex';
+        loginBtn.innerHTML = 'Sign In'; // Ensure it shows "Sign In"
+    }
     
     // Hide logout button
     const logoutBtn = document.getElementById('logout-btn');
