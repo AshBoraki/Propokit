@@ -107,6 +107,9 @@
     
     <!-- Firebase Configuration -->
     <script src="js/shared/firebase-config.js"></script>
+    
+    <!-- Propokit Clean Authentication System -->
+    <script src="js/shared/clean-auth-system.js"></script>
 
     <!-- Utility Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
@@ -182,7 +185,23 @@
         </div>
         <div class="header-divider"></div>
         
-        <!-- App uses its built-in user menu; no extra login/logout controls here -->
+        <!-- Authentication Section -->
+        <div class="auth-section" style="display: flex; align-items: center;">
+            <!-- Login Button (shown when logged out) -->
+            <button class="header-btn" id="login-btn" style="display: none;">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Sign in</span>
+            </button>
+            
+            <!-- User Profile (shown when logged in) -->
+            <div id="user-profile" style="display: none;">
+                <div class="user-avatar" id="user-avatar-trigger">
+                    <span id="user-avatar-text">GU</span>
+                    <div class="user-status-indicator online"></div>
+                </div>
+            </div>
+        </div>
+        
         <div class="header-divider"></div>
 
         <!-- Unified PropoKit Menu System -->
@@ -349,7 +368,9 @@
     </div>
 
     <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item" id="logout-btn" onclick="if(window.signOut) window.signOut(); return false;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <a href="#" class="dropdown-item" id="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+    </a>
 </div>
 </header>
  <aside id="main-sidebar">
@@ -1187,11 +1208,12 @@
                 window.coverImageRef.on('value', snap => updateCoverImageUI(snap.val()));
             }
 
-            // =================================================================
-            // === 🔐 SIMPLIFIED AUTHENTICATION SYSTEM
+                        // =================================================================
+            // === 🔐 AUTHENTICATION CHECK (USING CLEAN AUTH)
             // =================================================================
             
-            // Simple authentication check and redirect
+            // Simple authentication check - no redirect needed
+            // The clean auth system handles all authentication
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('🔍 Main app loaded, checking authentication...');
                 
@@ -1217,8 +1239,8 @@
                                     window.currentFirebaseUID = storedUID;
                                     reinitializeFirebaseRefs(storedUID);
                                 } else {
-                                    console.log('❌ No authenticated user found, redirecting to login...');
-                                    window.location.href = 'login.html';
+                                    console.log('ℹ️ No authenticated user - user can still use the app');
+                                    // Don't redirect - let user stay and login when needed
                                 }
                             }
                         });
@@ -1272,11 +1294,72 @@
             }, false);
 
             // =================================================================
-            // === 🔐 AUTHENTICATION FUNCTIONS (USING SHARED MODULE)
+            // === 🔐 AUTHENTICATION SYSTEM (USING CLEAN AUTH)
             // =================================================================
             
-            // The authentication system is now handled by the shared auth-system.js module
+            // The authentication system is now handled by clean-auth-system.js
             // This ensures consistent behavior across marketing page and main application
+            
+            // Update user profile UI when auth state changes
+            function updateMainAppUserProfile(user) {
+                if (user) {
+                    // Update user avatar
+                    const userAvatarText = document.getElementById('user-avatar-text');
+                    if (userAvatarText) {
+                        userAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+                    }
+                    
+                    // Update profile dropdown
+                    const profileUserName = document.getElementById('profile-user-name');
+                    const profileUserEmail = document.getElementById('profile-user-email');
+                    if (profileUserName) profileUserName.textContent = user.displayName || 'User';
+                    if (profileUserEmail) profileUserEmail.textContent = user.email;
+                    
+                    // Show user profile, hide login button
+                    const userProfile = document.getElementById('user-profile');
+                    const loginBtn = document.getElementById('login-btn');
+                    if (userProfile) userProfile.style.display = 'flex';
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    
+                    console.log('✅ Main app user profile updated:', user.email);
+                } else {
+                    // Show login button, hide user profile
+                    const userProfile = document.getElementById('user-profile');
+                    const loginBtn = document.getElementById('login-btn');
+                    if (userProfile) userProfile.style.display = 'none';
+                    if (loginBtn) loginBtn.style.display = 'flex';
+                    
+                    console.log('✅ Main app user profile cleared');
+                }
+            }
+            
+            // Listen for auth state changes from clean auth system
+            document.addEventListener('DOMContentLoaded', () => {
+                // Wait for clean auth system to be ready
+                const checkCleanAuth = () => {
+                    if (typeof window.updateUIForSignedInUser !== 'undefined') {
+                        console.log('✅ Clean auth system ready in main app');
+                        
+                        // Override the updateUIForSignedInUser function to also update main app UI
+                        const originalUpdateUI = window.updateUIForSignedInUser;
+                        window.updateUIForSignedInUser = function(user) {
+                            originalUpdateUI(user);
+                            updateMainAppUserProfile(user);
+                        };
+                        
+                        // Override the updateUIForSignedOutUser function
+                        const originalUpdateUISignedOut = window.updateUIForSignedOutUser;
+                        window.updateUIForSignedOutUser = function() {
+                            originalUpdateUISignedOut();
+                            updateMainAppUserProfile(null);
+                        };
+                    } else {
+                        setTimeout(checkCleanAuth, 100);
+                    }
+                };
+                
+                checkCleanAuth();
+            });
 
             // =================================================================
             // === ðŸš€ PAGE INITIALIZATION FUNCTIONS
