@@ -10,7 +10,6 @@
 // - Firebase project configuration
 // - Firebase initialization logic
 // - Global Firebase service references
-// - Error handling for initialization
 //
 // ==================================================
 
@@ -96,56 +95,6 @@ function initializeFirebaseServices() {
 }
 
 /**
- * 🔍 Test Firebase Authentication Connectivity
- * Tests if Firebase Auth is properly configured and accessible
- * 
- * @returns {Promise<boolean>} True if authentication is working, false otherwise
- */
-async function testFirebaseAuth() {
-    try {
-        console.log('🔍 Testing Firebase Authentication connectivity...');
-        
-        // Check if Firebase Auth is available
-        if (typeof firebase === 'undefined' || !firebase.auth) {
-            console.error('❌ Firebase Auth not available');
-            return false;
-        }
-        
-        // Try to access Firebase Auth methods
-        const auth = firebase.auth();
-        
-        // Test basic auth functionality
-        const currentUser = auth.currentUser;
-        console.log('✅ Firebase Auth is accessible');
-        console.log('👤 Current user:', currentUser ? currentUser.email : 'None');
-        
-        // Test provider creation
-        const provider = new firebase.auth.GoogleAuthProvider();
-        console.log('✅ Google Auth Provider created successfully');
-        
-        return true;
-        
-    } catch (error) {
-        console.error('❌ Firebase Auth test failed:', error);
-        
-        // Check for specific error types
-        if (error.code === 'auth/internal-error' || 
-            error.message.includes('403') || 
-            error.message.includes('API_KEY_SERVICE_BLOCKED') ||
-            error.message.includes('identitytoolkit')) {
-            console.error('🚫 Firebase API key is blocked from Identity Toolkit API');
-            console.error('💡 To fix this:');
-            console.error('   1. Go to Firebase Console > Project Settings > General');
-            console.error('   2. Scroll down to "Your apps" section');
-            console.error('   3. Make sure your domain is added to authorized domains');
-            console.error('   4. Check that Google Sign-In is enabled in Authentication > Sign-in method');
-        }
-        
-        return false;
-    }
-}
-
-/**
  * 🔍 Get Firebase Database Reference
  * Returns the Firebase database instance
  * 
@@ -189,18 +138,12 @@ function isFirebaseInitialized() {
 // Automatically initialize Firebase when this script loads
 // This ensures Firebase is ready when other scripts need it
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('🔥 Starting Firebase initialization...');
     const success = initializeFirebaseServices();
     
     if (success) {
-        // Test authentication connectivity
-        const authWorking = await testFirebaseAuth();
-        if (authWorking) {
-            console.log('✅ Firebase Authentication is ready for production use');
-        } else {
-            console.warn('⚠️ Firebase Authentication may have configuration issues');
-        }
+        console.log('✅ Firebase is ready for production use');
     }
 });
 
@@ -210,11 +153,7 @@ if (document.readyState === 'loading') {
 } else {
     // DOM is already loaded, initialize immediately
     console.log('🔥 Starting Firebase initialization (DOM already loaded)...');
-    initializeFirebaseServices().then(async (success) => {
-        if (success) {
-            await testFirebaseAuth();
-        }
-    });
+    initializeFirebaseServices();
 }
 
 // ==================================================
@@ -228,7 +167,6 @@ window.FirebaseConfig = {
     getDatabase: getFirebaseDatabase,
     getStorage: getFirebaseStorage,
     isInitialized: isFirebaseInitialized,
-    testAuth: testFirebaseAuth,
     config: firebaseConfig
 };
 
