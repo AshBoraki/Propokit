@@ -494,12 +494,12 @@
         }
         
         /* Home Page User Profile Dropdown Styles */
-        #home-user-profile-menu {
+        #homepage-user-profile-container {
             position: relative;
             display: none;
         }
         
-        #home-user-profile-menu .user-avatar {
+        #homepage-user-profile-container .user-avatar {
             cursor: pointer;
             width: 40px;
             height: 40px;
@@ -515,12 +515,12 @@
             transition: all 0.3s ease;
         }
         
-        #home-user-profile-menu .user-avatar:hover {
+        #homepage-user-profile-container .user-avatar:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
         }
         
-        #home-user-profile-menu .profile-dropdown {
+        #homepage-user-profile-container .profile-dropdown {
             position: absolute;
             top: calc(100% + 10px);
             right: 0;
@@ -537,32 +537,32 @@
             overflow: hidden;
         }
         
-        #home-user-profile-menu.open .profile-dropdown {
+        #homepage-user-profile-container.open .profile-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
         
-        #home-user-profile-menu .dropdown-header {
+        #homepage-user-profile-container .dropdown-header {
             padding: 16px 20px;
             border-bottom: 1px solid #f0f0f0;
             background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
             color: white;
         }
         
-        #home-user-profile-menu .dropdown-header strong {
+        #homepage-user-profile-container .dropdown-header strong {
             display: block;
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 4px;
         }
         
-        #home-user-profile-menu .dropdown-header span {
+        #homepage-user-profile-container .dropdown-header span {
             font-size: 13px;
             opacity: 0.9;
         }
         
-        #home-user-profile-menu .dropdown-item {
+        #homepage-user-profile-container .dropdown-item {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -574,27 +574,27 @@
             border-bottom: 1px solid #f5f5f5;
         }
         
-        #home-user-profile-menu .dropdown-item:hover {
+        #homepage-user-profile-container .dropdown-item:hover {
             background: #f8f9fa;
             color: var(--color-primary);
         }
         
-        #home-user-profile-menu .dropdown-item i {
+        #homepage-user-profile-container .dropdown-item i {
             width: 16px;
             color: #666;
         }
         
-        #home-user-profile-menu .dropdown-item:hover i {
+        #homepage-user-profile-container .dropdown-item:hover i {
             color: var(--color-primary);
         }
         
-        #home-user-profile-menu .dropdown-divider {
+        #homepage-user-profile-container .dropdown-divider {
             height: 1px;
             background: #f0f0f0;
             margin: 8px 0;
         }
         
-        #home-user-profile-menu .dropdown-item-toggle {
+        #homepage-user-profile-container .dropdown-item-toggle {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -602,7 +602,7 @@
             border-bottom: 1px solid #f5f5f5;
         }
         
-        #home-user-profile-menu .dropdown-item-label {
+        #homepage-user-profile-container .dropdown-item-label {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -610,20 +610,20 @@
             font-size: 14px;
         }
         
-        #home-user-profile-menu .dropdown-item-label i {
+        #homepage-user-profile-container .dropdown-item-label i {
             width: 16px;
             color: #666;
         }
         
-        #home-user-profile-menu #home-theme-switcher-dropdown {
+        #homepage-user-profile-container #homepage-theme-switch-container {
             position: relative;
         }
         
-        #home-user-profile-menu #home-theme-toggle-checkbox {
+        #homepage-user-profile-container #homepage-theme-toggle-input {
             display: none;
         }
         
-        #home-user-profile-menu .theme-toggle-label {
+        #homepage-user-profile-container .theme-toggle-label {
             position: relative;
             display: inline-block;
             width: 50px;
@@ -634,7 +634,7 @@
             transition: all 0.3s ease;
         }
         
-        #home-user-profile-menu .theme-toggle-label .ball {
+        #homepage-user-profile-container .theme-toggle-label .ball {
             position: absolute;
             top: 2px;
             left: 2px;
@@ -645,15 +645,15 @@
             transition: all 0.3s ease;
         }
         
-        #home-user-profile-menu #home-theme-toggle-checkbox:checked + .theme-toggle-label {
+        #homepage-user-profile-container #homepage-theme-toggle-input:checked + .theme-toggle-label {
             background: var(--color-primary);
         }
         
-        #home-user-profile-menu #home-theme-toggle-checkbox:checked + .theme-toggle-label .ball {
+        #homepage-user-profile-container #homepage-theme-toggle-input:checked + .theme-toggle-label .ball {
             transform: translateX(26px);
         }
         
-        #home-user-profile-menu .theme-toggle-label i {
+        #homepage-user-profile-container .theme-toggle-label i {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -661,43 +661,43 @@
             color: #666;
         }
         
-        #home-user-profile-menu .theme-toggle-label .fas.fa-sun {
+        #homepage-user-profile-container .theme-toggle-label .fas.fa-sun {
             left: 6px;
         }
         
-        #home-user-profile-menu .theme-toggle-label .fas.fa-moon {
+        #homepage-user-profile-container .theme-toggle-label .fas.fa-moon {
             right: 6px;
         }
         
         /* Dark theme adjustments */
-        [data-theme="dark"] #home-user-profile-menu .profile-dropdown {
+        [data-theme="dark"] #homepage-user-profile-container .profile-dropdown {
             background: #2d3748;
             border-color: rgba(255, 255, 255, 0.1);
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-item {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-item {
             color: #e2e8f0;
             border-bottom-color: rgba(255, 255, 255, 0.1);
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-item:hover {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-item:hover {
             background: rgba(255, 255, 255, 0.05);
             color: var(--color-primary);
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-item i {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-item i {
             color: #9ab0c9;
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-divider {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-divider {
             background: rgba(255, 255, 255, 0.1);
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-item-label {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-item-label {
             color: #e2e8f0;
         }
         
-        [data-theme="dark"] #home-user-profile-menu .dropdown-item-label i {
+        [data-theme="dark"] #homepage-user-profile-container .dropdown-item-label i {
             color: #9ab0c9;
         }
         
@@ -7319,17 +7319,17 @@
                         </button>
                         
                         <!-- User Profile (shown when logged in) -->
-                        <div id="home-user-profile-menu" style="display: none; position: relative;">
-                            <div class="user-avatar" id="home-user-avatar-trigger" style="cursor: pointer;">
-                                <span id="home-user-avatar-text">GU</span>
+                        <div id="homepage-user-profile-container" style="display: none; position: relative;">
+                            <div class="user-avatar" id="homepage-user-avatar-button" style="cursor: pointer;">
+                                <span id="homepage-user-avatar-initials">GU</span>
                                 <div class="user-status-indicator online"></div>
                             </div>
                             
                             <!-- User Profile Dropdown -->
-                            <div class="profile-dropdown" id="home-user-profile-dropdown">
+                            <div class="profile-dropdown" id="homepage-user-dropdown-menu">
                                 <div class="dropdown-header">
-                                    <strong id="home-profile-user-name">Guest User</strong>
-                                    <span id="home-profile-user-email">Not logged in</span>
+                                    <strong id="homepage-user-display-name">Guest User</strong>
+                                    <span id="homepage-user-email-address">Not logged in</span>
                                 </div>
                                 <a href="Propokit/index-product.html" class="dropdown-item"><i class="fas fa-th-large"></i> Go to Dashboard</a>
                                 <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
@@ -7346,9 +7346,9 @@
                                         <i class="fas fa-adjust"></i>
                                         <span>Theme</span>
                                     </div>
-                                    <div id="home-theme-switcher-dropdown">
-                                        <input type="checkbox" id="home-theme-toggle-checkbox" title="Toggle between light and dark theme">
-                                        <label for="home-theme-toggle-checkbox" class="theme-toggle-label">
+                                    <div id="homepage-theme-switch-container">
+                                        <input type="checkbox" id="homepage-theme-toggle-input" title="Toggle between light and dark theme">
+                                        <label for="homepage-theme-toggle-input" class="theme-toggle-label">
                                             <i class="fas fa-moon"></i>
                                             <i class="fas fa-sun"></i>
                                             <span class="ball"></span>
@@ -7356,7 +7356,7 @@
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item" id="home-logout-btn">
+                                <a href="#" class="dropdown-item" id="homepage-signout-button">
                                     <i class="fas fa-sign-out-alt"></i> Log Out
                                 </a>
                             </div>
@@ -9651,11 +9651,14 @@
                function testDropdownElements() {
                    console.log('🧪 TESTING DROPDOWN ELEMENTS...');
                    
-                   // Check all possible elements
+                   // Check all possible elements with NEW IDs
                    const elements = {
-                       'home-user-profile-menu': document.getElementById('home-user-profile-menu'),
-                       'home-user-avatar-trigger': document.getElementById('home-user-avatar-trigger'),
-                       'home-user-profile-dropdown': document.getElementById('home-user-profile-dropdown'),
+                       'homepage-user-profile-container': document.getElementById('homepage-user-profile-container'),
+                       'homepage-user-avatar-button': document.getElementById('homepage-user-avatar-button'),
+                       'homepage-user-dropdown-menu': document.getElementById('homepage-user-dropdown-menu'),
+                       'homepage-user-avatar-initials': document.getElementById('homepage-user-avatar-initials'),
+                       'homepage-user-display-name': document.getElementById('homepage-user-display-name'),
+                       'homepage-user-email-address': document.getElementById('homepage-user-email-address'),
                        'login-btn': document.getElementById('login-btn'),
                        'theme-toggle': document.getElementById('theme-toggle')
                    };
@@ -9663,41 +9666,41 @@
                    console.log('🧪 Elements found:', elements);
                    
                    // Check if user profile is visible
-                   const userProfileMenu = elements['home-user-profile-menu'];
-                   if (userProfileMenu) {
-                       console.log('🧪 User profile menu display:', userProfileMenu.style.display);
-                       console.log('🧪 User profile menu classes:', userProfileMenu.className);
+                   const userProfileContainer = elements['homepage-user-profile-container'];
+                   if (userProfileContainer) {
+                       console.log('🧪 User profile container display:', userProfileContainer.style.display);
+                       console.log('🧪 User profile container classes:', userProfileContainer.className);
                    }
                    
                    // Try to manually show the user profile
-                   if (userProfileMenu) {
-                       userProfileMenu.style.display = 'flex';
-                       console.log('🧪 Manually set user profile to display: flex');
+                   if (userProfileContainer) {
+                       userProfileContainer.style.display = 'flex';
+                       console.log('🧪 Manually set user profile container to display: flex');
                    }
                    
                    // Test click event - WORK WITH CSS CLASSES
-                   const avatarTrigger = elements['home-user-avatar-trigger'];
-                   if (avatarTrigger) {
-                       console.log('🧪 Adding test click to avatar...');
-                       avatarTrigger.onclick = function(e) {
+                   const avatarButton = elements['homepage-user-avatar-button'];
+                   if (avatarButton) {
+                       console.log('🧪 Adding test click to avatar button...');
+                       avatarButton.onclick = function(e) {
                            e.preventDefault();
                            e.stopPropagation();
-                           console.log('🧪 AVATAR CLICKED!');
+                           console.log('🧪 AVATAR BUTTON CLICKED!');
                            
                            // Work with CSS classes instead of direct display
-                           const userProfileMenu = document.getElementById('home-user-profile-menu');
-                           if (userProfileMenu) {
-                               const isOpen = userProfileMenu.classList.contains('open');
+                           const userProfileContainer = document.getElementById('homepage-user-profile-container');
+                           if (userProfileContainer) {
+                               const isOpen = userProfileContainer.classList.contains('open');
                                
                                if (isOpen) {
-                                   userProfileMenu.classList.remove('open');
+                                   userProfileContainer.classList.remove('open');
                                    console.log('🧪 Removed "open" class - hiding dropdown');
                                } else {
-                                   userProfileMenu.classList.add('open');
+                                   userProfileContainer.classList.add('open');
                                    console.log('🧪 Added "open" class - showing dropdown');
                                }
                            } else {
-                               console.log('🧪 User profile menu element not found!');
+                               console.log('🧪 User profile container element not found!');
                            }
                        };
                    }
@@ -9748,7 +9751,7 @@
                                if (loginBtn) loginBtn.style.display = 'none';
                                
                                // Show user profile
-                               const userProfileMenu = document.getElementById('home-user-profile-menu');
+                               const userProfileMenu = document.getElementById('homepage-user-profile-container');
                                if (userProfileMenu) userProfileMenu.style.display = 'flex';
                                
                                // Hide theme circle
@@ -9756,12 +9759,12 @@
                                if (themeCircle) themeCircle.style.display = 'none';
                                
                                // Update user info
-                               const homePageUserAvatarText = document.getElementById('home-user-avatar-text');
+                               const homePageUserAvatarText = document.getElementById('homepage-user-avatar-initials');
                                if (homePageUserAvatarText) {
                                    homePageUserAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
                                }
                                
-                               const homePageUserAvatarTrigger = document.getElementById('home-user-avatar-trigger');
+                               const homePageUserAvatarTrigger = document.getElementById('homepage-user-avatar-button');
                                if (homePageUserAvatarTrigger) {
                                    if (user.photoURL) {
                                        homePageUserAvatarTrigger.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"><div class="user-status-indicator online"></div>`;
@@ -9771,8 +9774,8 @@
                                    }
                                }
                                
-                               const homePageProfileUserName = document.getElementById('home-profile-user-name');
-                               const homePageProfileUserEmail = document.getElementById('home-profile-user-email');
+                               const homePageProfileUserName = document.getElementById('homepage-user-display-name');
+                               const homePageProfileUserEmail = document.getElementById('homepage-user-email-address');
                                if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
                                if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
                                
@@ -9785,7 +9788,7 @@
                                if (loginBtn) loginBtn.style.display = 'flex';
                                
                                // Hide user profile
-                               const userProfileMenu = document.getElementById('home-user-profile-menu');
+                               const userProfileMenu = document.getElementById('homepage-user-profile-container');
                                if (userProfileMenu) userProfileMenu.style.display = 'none';
                                
                                // Show theme circle
