@@ -644,3 +644,46 @@ body {
 .dropdown-item:hover {
     background-color: var(--button-hover);
 }
+
+/* Additional main app elements */
+.header-btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--border-color);
+}
+
+.header-btn:hover {
+    background-color: var(--button-hover);
+}
+
+#header-document-title {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.nav-link {
+    color: var(--text-primary);
+}
+
+.nav-link:hover {
+    background-color: var(--button-hover);
+}
+
+#page-content {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Theme toggle specific styles */
+.dropdown-item-toggle {
+    background-color: var(--dropdown-bg);
+}
+
+.dropdown-item-label {
+    color: var(--text-primary);
+}
+
+.dropdown-item-label i {
+    color: var(--text-secondary);
+}

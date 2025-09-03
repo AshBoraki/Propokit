@@ -150,7 +150,7 @@
          ================================================== -->
    
 </head>
-<body class="theme-ocean-blue theme-sharp">
+<body class="theme-ocean-blue theme-sharp" data-theme="light">
 
     <!-- YOUR SVG ICONS, HEADER, AND SIDEBAR HTML GO HERE -->
   <header id="top-application-header">
@@ -1520,6 +1520,7 @@
                         const isLightTheme = newTheme === 'light';
                         themeToggleCheckbox.checked = isLightTheme;
                         document.documentElement.setAttribute('data-theme', newTheme);
+                        document.body.setAttribute('data-theme', newTheme);
                     }
                 });
             });
@@ -1540,6 +1541,7 @@
                     // Set initial state
                     themeToggleCheckbox.checked = isLightTheme;
                     document.documentElement.setAttribute('data-theme', savedTheme);
+                    document.body.setAttribute('data-theme', savedTheme);
                     
                     // Handle theme toggle
                     themeToggleCheckbox.addEventListener('change', (e) => {
@@ -1547,6 +1549,7 @@
                         const newTheme = newIsLightTheme ? 'light' : 'dark';
                         
                         document.documentElement.setAttribute('data-theme', newTheme);
+                        document.body.setAttribute('data-theme', newTheme);
                         localStorage.setItem('theme', newTheme);
                         
                         if (newIsLightTheme) {
@@ -1569,6 +1572,7 @@
             function initializeMainAppTheme() {
                 const savedTheme = localStorage.getItem('theme') || 'dark';
                 document.documentElement.setAttribute('data-theme', savedTheme);
+                document.body.setAttribute('data-theme', savedTheme);
                 console.log('🎨 Main app theme initialized:', savedTheme);
             }
 
