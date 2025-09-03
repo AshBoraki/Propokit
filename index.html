@@ -9736,12 +9736,107 @@
                document.addEventListener('DOMContentLoaded', () => {
                    console.log('🏠 DOM loaded, initializing home page functionality...');
                    
+                   // Set up Firebase auth listener for home page
+                   if (typeof firebase !== 'undefined' && firebase.auth) {
+                       firebase.auth().onAuthStateChanged((user) => {
+                           console.log('🔥 Firebase auth state changed on home page:', user ? user.email : 'No user');
+                           
+                           if (user) {
+                               console.log('👤 User logged in on home page, updating UI...');
+                               
+                               // Hide login button
+                               const loginBtn = document.getElementById('login-btn');
+                               if (loginBtn) loginBtn.style.display = 'none';
+                               
+                               // Show user profile
+                               const userProfileMenu = document.getElementById('home-user-profile-menu');
+                               if (userProfileMenu) userProfileMenu.style.display = 'flex';
+                               
+                               // Hide theme circle
+                               const themeCircle = document.getElementById('theme-toggle');
+                               if (themeCircle) themeCircle.style.display = 'none';
+                               
+                               // Update user info
+                               const homePageUserAvatarText = document.getElementById('home-user-avatar-text');
+                               if (homePageUserAvatarText) {
+                                   homePageUserAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+                               }
+                               
+                               const homePageUserAvatarTrigger = document.getElementById('home-user-avatar-trigger');
+                               if (homePageUserAvatarTrigger) {
+                                   if (user.photoURL) {
+                                       homePageUserAvatarTrigger.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"><div class="user-status-indicator online"></div>`;
+                                   } else {
+                                       const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+                                       homePageUserAvatarTrigger.innerHTML = `<span>${initials}</span><div class="user-status-indicator online"></div>`;
+                                   }
+                               }
+                               
+                               const homePageProfileUserName = document.getElementById('home-profile-user-name');
+                               const homePageProfileUserEmail = document.getElementById('home-profile-user-email');
+                               if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
+                               if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
+                               
+                               console.log('✅ Home page UI updated for logged-in user');
+                           } else {
+                               console.log('👤 User logged out on home page, updating UI...');
+                               
+                               // Show login button
+                               const loginBtn = document.getElementById('login-btn');
+                               if (loginBtn) loginBtn.style.display = 'flex';
+                               
+                               // Hide user profile
+                               const userProfileMenu = document.getElementById('home-user-profile-menu');
+                               if (userProfileMenu) userProfileMenu.style.display = 'none';
+                               
+                               // Show theme circle
+                               const themeCircle = document.getElementById('theme-toggle');
+                               if (themeCircle) themeCircle.style.display = 'flex';
+                               
+                               console.log('✅ Home page UI updated for logged-out user');
+                           }
+                       });
+                   }
+                   
                    // Wait a bit for authentication system to update UI
                    setTimeout(() => {
+                       console.log('🔍 Checking if user profile elements exist...');
+                       
+                       // Check if user is logged in
+                       const currentUser = firebase.auth().currentUser;
+                       const storedUID = localStorage.getItem('firebaseUID');
+                       
+                       console.log('🔍 Auth status:', {
+                           currentUser: !!currentUser,
+                           storedUID: !!storedUID,
+                           userProfileMenu: !!document.getElementById('home-user-profile-menu'),
+                           userAvatarTrigger: !!document.getElementById('home-user-avatar-trigger'),
+                           userProfileDropdown: !!document.getElementById('home-user-profile-dropdown')
+                       });
+                       
+                       // If user is logged in but profile not shown, manually update UI
+                       if ((currentUser || storedUID) && !document.getElementById('home-user-profile-menu').style.display === 'flex') {
+                           console.log('🔧 User logged in but profile not shown, manually updating UI...');
+                           
+                           // Hide login button
+                           const loginBtn = document.getElementById('login-btn');
+                           if (loginBtn) loginBtn.style.display = 'none';
+                           
+                           // Show user profile
+                           const userProfileMenu = document.getElementById('home-user-profile-menu');
+                           if (userProfileMenu) userProfileMenu.style.display = 'flex';
+                           
+                           // Hide theme circle
+                           const themeCircle = document.getElementById('theme-toggle');
+                           if (themeCircle) themeCircle.style.display = 'none';
+                           
+                           console.log('✅ Manually updated UI for logged-in user');
+                       }
+                       
                        initHomePageUserProfileDropdown();
                        initHomePageThemeToggle();
                        console.log('✅ Home page functionality initialized');
-                   }, 500);
+                   }, 1000); // Increased delay to 1 second
                });
 
         });
