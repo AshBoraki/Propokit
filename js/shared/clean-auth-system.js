@@ -169,16 +169,21 @@ function handleUserSignedOut() {
  * 🎨 Update UI for signed in user
  */
 function updateUIForSignedInUser(user) {
-    // Hide login button
+    // Change login button to sign out button
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
-        loginBtn.style.display = 'none';
-        loginBtn.innerHTML = 'Sign In'; // Reset text for when user logs out
+        loginBtn.style.display = 'flex';
+        loginBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16,17 21,12 16,7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Sign Out
+        `;
+        // Change the click handler to sign out
+        loginBtn.onclick = signOut;
     }
-    
-    // Show logout button
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) logoutBtn.style.display = 'flex';
     
     // Show user profile (only if it exists - for main app)
     const userProfile = document.getElementById('user-profile');
@@ -287,16 +292,21 @@ function updateUIForSignedInUser(user) {
  * 🎨 Update UI for signed out user
  */
 function updateUIForSignedOutUser() {
-    // Show login button
+    // Reset login button to sign in
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
         loginBtn.style.display = 'flex';
-        loginBtn.innerHTML = 'Sign In'; // Ensure it shows "Sign In"
+        loginBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10,17 15,12 10,7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            Sign In
+        `;
+        // Reset the click handler to sign in
+        loginBtn.onclick = signInWithGoogle;
     }
-    
-    // Hide logout button
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) logoutBtn.style.display = 'none';
     
     // Hide user profile (only if it exists - for main app)
     const userProfile = document.getElementById('user-profile');
