@@ -185,6 +185,10 @@ function updateUIForSignedInUser(user) {
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'block';
     
+    // Show Dashboard button (only if it exists - for home page)
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) dashboardBtn.style.display = 'flex';
+    
     // Update logo link to go to main app (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
     if (logoLink) {
@@ -203,14 +207,6 @@ function updateUIForSignedInUser(user) {
     if (userAvatar && user.photoURL) {
         userAvatar.src = user.photoURL;
     }
-    
-    // Auto-redirect to main app after successful login (only on home page)
-    setTimeout(() => {
-        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
-            console.log('🚀 Redirecting to main app after successful login...');
-            window.location.href = 'Propokit/index-product.html';
-        }
-    }, 1000); // 1 second delay to show success state
 }
 
 /**
@@ -236,6 +232,10 @@ function updateUIForSignedOutUser() {
     // Hide Dashboard navigation item (only if it exists - for home page)
     const dashboardNavItem = document.getElementById('dashboard-nav-item');
     if (dashboardNavItem) dashboardNavItem.style.display = 'none';
+    
+    // Hide Dashboard button (only if it exists - for home page)
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) dashboardBtn.style.display = 'none';
     
     // Reset logo link to home page (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
