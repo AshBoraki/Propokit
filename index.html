@@ -8202,6 +8202,39 @@
             // Initialize theme on page load
             initializeTheme();
             
+            // NEW: Homepage dropdown theme toggle functionality
+            const homepageThemeToggle = document.getElementById('homepage-theme-toggle-input');
+            if (homepageThemeToggle) {
+                homepageThemeToggle.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'dark' : 'light';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateThemeToggle(newTheme);
+                    
+                    // Sync with main theme toggle
+                    if (themeToggle) {
+                        updateThemeToggle(newTheme);
+                    }
+                    
+                    // Add smooth transition effect
+                    document.body.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        document.body.style.transition = '';
+                    }, 500);
+                });
+            }
+            
+            // Sync homepage theme toggle with current theme
+            function syncHomepageThemeToggle() {
+                if (homepageThemeToggle) {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    homepageThemeToggle.checked = currentTheme === 'dark';
+                }
+            }
+            
+            // Call sync function after theme initialization
+            setTimeout(syncHomepageThemeToggle, 100);
+            
             // NEW: Performance Monitoring
             function trackPerformance() {
                 // Track Core Web Vitals
@@ -9682,16 +9715,18 @@
                    }
                }
                
-               // Toggle dropdown function
-               function toggleDropdown(dropdown) {
-                   if (!dropdown) return;
-                   
-                   if (dropdownState.isOpen) {
-                       closeDropdown(dropdown);
-                   } else {
-                       openDropdown(dropdown);
-                   }
-               }
+                           // Toggle dropdown function
+            function toggleDropdown(dropdown) {
+                if (!dropdown) return;
+                
+                if (dropdownState.isOpen) {
+                    closeDropdown(dropdown);
+                } else {
+                    openDropdown(dropdown);
+                    // Sync theme toggle when dropdown opens
+                    syncHomepageThemeToggle();
+                }
+            }
                
                // Open dropdown function
                function openDropdown(dropdown) {
