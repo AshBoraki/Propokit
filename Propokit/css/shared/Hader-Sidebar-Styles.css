@@ -771,6 +771,31 @@ html, body {
     color: #E2E8F0;
 }
 
+/* Keep download and print buttons colored in dark mode */
+[data-theme="dark"] .header-btn-download {
+    background-color: #E67E22 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+[data-theme="dark"] .header-btn-download:hover {
+    background-color: #f39c12 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .header-btn-print {
+    background-color: #27ae60 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+[data-theme="dark"] .header-btn-print:hover {
+    background-color: #2ecc71 !important;
+    color: #ffffff !important;
+}
+
 [data-theme="dark"] .header-divider {
     background-color: rgba(255, 255, 255, 0.15);
 }
