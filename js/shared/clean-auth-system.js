@@ -47,8 +47,12 @@ function initializeCleanAuth() {
     // Set up login button if it exists
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
-        loginBtn.addEventListener('click', (e) => {
+        // Remove any existing event listeners first
+        loginBtn.replaceWith(loginBtn.cloneNode(true));
+        const newLoginBtn = document.getElementById('login-btn');
+        newLoginBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling
             signInWithGoogle();
         });
     }
@@ -183,8 +187,14 @@ function updateUIForSignedInUser(user) {
             </svg>
             Sign Out
         `;
-        // Change the click handler to sign out
-        loginBtn.onclick = signOut;
+        // Remove existing event listeners and add sign out handler
+        loginBtn.replaceWith(loginBtn.cloneNode(true));
+        const newLoginBtn = document.getElementById('login-btn');
+        newLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling
+            signOut();
+        });
     }
     
     // Show user profile (only if it exists - for main app)
@@ -281,13 +291,27 @@ function updateUIForSignedInUser(user) {
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
     // Auto-redirect to main app only on initial login (not when returning to home page)
+    console.log('🔍 Checking redirect conditions:', {
+        isInitialLogin,
+        pathname: window.location.pathname,
+        hasVisitedApp,
+        isHomepage: window.location.pathname.includes('index.html')
+    });
+    
     if (isInitialLogin && window.location.pathname.includes('index.html') && !hasVisitedApp) {
+        console.log('✅ All conditions met - redirecting to app!');
         setTimeout(() => {
             console.log('🚀 Initial login - redirecting to main app...');
             window.location.href = 'Propokit/index-product.html';
             hasVisitedApp = true; // Mark that user has visited the app
         }, 1000); // 1 second delay to show success state
         isInitialLogin = false; // Mark that initial login is done
+    } else {
+        console.log('❌ Redirect conditions not met:', {
+            isInitialLogin,
+            isHomepage: window.location.pathname.includes('index.html'),
+            hasVisitedApp
+        });
     }
 }
 
@@ -307,8 +331,14 @@ function updateUIForSignedOutUser() {
             </svg>
             Sign In
         `;
-        // Reset the click handler to sign in
-        loginBtn.onclick = signInWithGoogle;
+        // Remove existing event listeners and add sign in handler
+        loginBtn.replaceWith(loginBtn.cloneNode(true));
+        const newLoginBtn = document.getElementById('login-btn');
+        newLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling
+            signInWithGoogle();
+        });
     }
     
     // Hide user profile (only if it exists - for main app)
