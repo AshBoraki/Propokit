@@ -658,7 +658,7 @@ html, body {
 
 /* Dark theme header styles - ensure all header elements respond to dark mode */
 [data-theme="dark"] #top-application-header {
-    background-color: #1A202C; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1); /* Much darker background */
+    background-color: #1f2937; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1); /* Match theme-styles.css */
 }
 
 /* Light theme specific header element styles */
@@ -724,6 +724,62 @@ html, body {
 
 [data-theme="light"] .header-document-title-wrapper .document-icon {
     color: #6b7280;
+}
+
+/* Dark theme specific header element styles */
+[data-theme="dark"] .header-btn {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #E2E8F0;
+}
+
+[data-theme="dark"] .header-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #E2E8F0;
+}
+
+[data-theme="dark"] .header-divider {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] #header-document-title {
+    color: #E2E8F0;
+    background-color: transparent;
+}
+
+[data-theme="dark"] #header-document-title:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] #header-document-title:focus {
+    border-color: #3a8dff;
+    background-color: rgba(58, 141, 255, 0.1);
+}
+
+[data-theme="dark"] .zoom-controls {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .zoom-controls .header-btn-icon-only {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .zoom-controls .header-btn-icon-only:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] #zoom-level-display {
+    color: #E2E8F0;
+}
+
+[data-theme="dark"] #header-title-container:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .header-document-title-wrapper .document-icon {
+    color: #9ab0c9;
 }
 
 /* --- 2. Logo Styles --- */

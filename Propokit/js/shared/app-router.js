@@ -70,32 +70,29 @@ if (themeToggle) {
         console.error("Theme script could not find the header or logo element.");
     } else {
         const applyTheme = (theme) => {
+            // Set data-theme attribute on both html and body elements
+            document.documentElement.setAttribute('data-theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            
             if (theme === 'light') {
-                body.style.backgroundColor = '#F0F2F5';
-                body.style.backgroundImage = 'none';
                 themeToggle.checked = true;
-                header.style.backgroundColor = '#FFFFFF';
-                header.style.color = '#2D3748';
-                header.style.borderColor = '#E2E8F0';
-                logo.style.color = '#000000';
             } else { // 'dark'
-                body.style.backgroundColor = '#1A202C';
                 themeToggle.checked = false;
-                header.style.backgroundColor = '#2D3748';
-                header.style.color = '#E2E8F0';
-                header.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                logo.style.color = '#FFFFFF';
             }
+            
+            // Dispatch custom event for theme change
+            const themeEvent = new CustomEvent('themeChanged', { detail: { theme } });
+            document.dispatchEvent(themeEvent);
         };
 
         themeToggle.addEventListener('change', () => {
             const theme = themeToggle.checked ? 'light' : 'dark';
             applyTheme(theme);
-            localStorage.setItem('coverPageTheme', theme);
+            localStorage.setItem('theme', theme);
         });
 
         // Apply saved theme on initial load
-        const savedTheme = localStorage.getItem('coverPageTheme') || 'dark';
+        const savedTheme = localStorage.getItem('theme') || 'light';
         applyTheme(savedTheme);
     }
 }

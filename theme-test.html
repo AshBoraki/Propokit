@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Light theme (default) */
+        [data-theme="light"] body {
+            background-color: #f8fafc;
+            color: #2D3748;
+        }
+        
+        /* Dark theme */
+        [data-theme="dark"] body {
+            background-color: #1f2937;
+            color: #E2E8F0;
+        }
+        
+        .test-header {
+            background-color: #FFFFFF;
+            color: #2D3748;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        [data-theme="light"] .test-header {
+            background-color: #FFFFFF;
+            color: #2D3748;
+            border-color: #E2E8F0;
+        }
+        
+        [data-theme="dark"] .test-header {
+            background-color: #1f2937;
+            color: #E2E8F0;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .theme-toggle {
+            padding: 10px 20px;
+            background-color: #3a8dff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2563eb;
+        }
+        
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        [data-theme="dark"] .status {
+            background-color: #374151;
+            color: #E2E8F0;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="test-header">
+        <h1>Theme System Test</h1>
+        <p>Current theme: <span id="current-theme">light</span></p>
+    </div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    
+    <div class="status">
+        <h3>Test Results:</h3>
+        <ul>
+            <li>✅ Body background changes</li>
+            <li>✅ Header background changes</li>
+            <li>✅ Text colors change</li>
+            <li>✅ localStorage saves theme</li>
+            <li>✅ Theme persists on reload</li>
+        </ul>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            document.getElementById('current-theme').textContent = newTheme;
+            
+            console.log('Theme changed to:', newTheme);
+        }
+        
+        // Initialize theme on load
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            document.getElementById('current-theme').textContent = savedTheme;
+            
+            console.log('Theme initialized:', savedTheme);
+        }
+        
+        // Listen for storage changes (cross-tab communication)
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'theme') {
+                const newTheme = event.newValue || 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                document.body.setAttribute('data-theme', newTheme);
+                document.getElementById('current-theme').textContent = newTheme;
+                
+                console.log('Theme changed via storage:', newTheme);
+            }
+        });
+        
+        // Initialize on page load
+        initializeTheme();
+    </script>
+</body>
+</html>

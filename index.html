@@ -8257,6 +8257,23 @@
                 }
             });
             
+            // Listen for storage changes (cross-tab communication)
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'theme') {
+                    const newTheme = event.newValue || 'light';
+                    console.log('🔄 Homepage received storage theme change:', newTheme);
+                    
+                    // Update homepage theme
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    updateThemeToggle(newTheme);
+                    
+                    // Update homepage dropdown toggle
+                    if (homepageThemeToggle) {
+                        homepageThemeToggle.checked = newTheme === 'light';
+                    }
+                }
+            });
+            
             // Listen for localStorage changes (when other tabs/pages change theme)
             window.addEventListener('storage', function(e) {
                 if (e.key === 'theme') {
