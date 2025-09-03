@@ -185,7 +185,7 @@ function updateUIForSignedInUser(user) {
     if (userProfile) userProfile.style.display = 'flex';
     
     // Show user profile menu (only if it exists - for home page)
-    const userProfileMenu = document.getElementById('user-profile-menu');
+    const userProfileMenu = document.getElementById('home-user-profile-menu');
     if (userProfileMenu) userProfileMenu.style.display = 'flex';
     
     // Hide theme circle (only if it exists - for home page)
@@ -220,12 +220,12 @@ function updateUIForSignedInUser(user) {
     }
     
     // Update home page user profile elements
-    const homePageUserAvatarText = document.getElementById('user-avatar-text');
+    const homePageUserAvatarText = document.getElementById('home-user-avatar-text');
     if (homePageUserAvatarText) {
         homePageUserAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
     }
     
-    const homePageUserAvatarTrigger = document.getElementById('user-avatar-trigger');
+    const homePageUserAvatarTrigger = document.getElementById('home-user-avatar-trigger');
     if (homePageUserAvatarTrigger) {
         if (user.photoURL) {
             // If user has profile picture, show it
@@ -238,8 +238,8 @@ function updateUIForSignedInUser(user) {
     }
     
     // Update home page dropdown user info
-    const homePageProfileUserName = document.getElementById('profile-user-name');
-    const homePageProfileUserEmail = document.getElementById('profile-user-email');
+    const homePageProfileUserName = document.getElementById('home-profile-user-name');
+    const homePageProfileUserEmail = document.getElementById('home-profile-user-email');
     if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
@@ -273,7 +273,7 @@ function updateUIForSignedOutUser() {
     if (userProfile) userProfile.style.display = 'none';
     
     // Hide user profile menu (only if it exists - for home page)
-    const userProfileMenu = document.getElementById('user-profile-menu');
+    const userProfileMenu = document.getElementById('home-user-profile-menu');
     if (userProfileMenu) userProfileMenu.style.display = 'none';
     
     // Show theme circle (only if it exists - for home page)
