@@ -11,6 +11,7 @@
 // Global state
 let currentUser = null;
 let authInitialized = false;
+let isInitialLogin = true; // Track if this is the first login
 
 /**
  * 🔐 Initialize the clean authentication system
@@ -157,6 +158,9 @@ function handleUserSignedOut() {
     // Clear stored data
     localStorage.removeItem('firebaseUID');
     
+    // Reset initial login flag for next login
+    isInitialLogin = true;
+    
     // Update UI
     updateUIForSignedOutUser();
 }
@@ -236,13 +240,16 @@ function updateUIForSignedInUser(user) {
     if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
-    // Auto-redirect to main app after successful login (only on home page)
-    setTimeout(() => {
-        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
-            console.log('🚀 Redirecting to main app after successful login...');
-            window.location.href = 'Propokit/index-product.html';
-        }
-    }, 1000); // 1 second delay to show success state
+    // Auto-redirect to main app only on initial login (not when returning to home page)
+    if (isInitialLogin) {
+        setTimeout(() => {
+            if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+                console.log('🚀 Initial login - redirecting to main app...');
+                window.location.href = 'Propokit/index-product.html';
+            }
+        }, 1000); // 1 second delay to show success state
+        isInitialLogin = false; // Mark that initial login is done
+    }
 }
 
 /**
