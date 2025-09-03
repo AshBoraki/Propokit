@@ -1447,6 +1447,9 @@
                     console.log('🎯 Clicked outside main app dropdown, closing');
                     closeMainAppDropdown(userProfileMenu);
                 }
+                
+                // Always ensure profile visibility after any click
+                ensureProfileVisibility();
             }
             
             // Toggle main app dropdown function
@@ -1470,10 +1473,11 @@
             
             // Close main app dropdown function
             function closeMainAppDropdown(userProfileMenu) {
-                userProfileMenu.style.display = 'none';
                 userProfileMenu.classList.remove('open');
                 mainAppDropdownState.isOpen = false;
                 console.log('🎯 Main app dropdown closed');
+                // Don't hide the profile menu, just close the dropdown
+                ensureProfileVisibility();
             }
             
             // Force reinitialize main app dropdown (for auth system)
@@ -1483,10 +1487,27 @@
                 initBulletproofMainAppDropdown();
             }
             
+            // Fix for disappearing profile - ensure profile stays visible
+            function ensureProfileVisibility() {
+                const userProfileMenu = document.getElementById('user-profile-menu');
+                const currentUser = firebase.auth().currentUser;
+                
+                if (currentUser && userProfileMenu) {
+                    // Always ensure profile is visible when user is logged in
+                    userProfileMenu.style.display = 'block';
+                    console.log('🔧 Ensuring profile visibility for logged-in user');
+                }
+            }
+            
             // Initialize dropdown when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
                 initBulletproofMainAppDropdown();
                 initThemeToggle();
+                
+                // Periodic check to ensure profile visibility
+                setInterval(() => {
+                    ensureProfileVisibility();
+                }, 2000); // Check every 2 seconds
             });
             
             // =================================================================
