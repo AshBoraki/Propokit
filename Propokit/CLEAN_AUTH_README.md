@@ -8,7 +8,6 @@ This is a clean, simplified authentication system that replaces the complex prev
 
 ### Core Files
 - `Propokit/js/shared/clean-auth-system.js` - Main authentication system
-- `Propokit/clean-login.html` - Clean login page
 - `Propokit/clean-auth-test.html` - Test page for debugging
 
 ### Updated Files
@@ -19,11 +18,11 @@ This is a clean, simplified authentication system that replaces the complex prev
 
 ### 1. Simple Authentication Flow
 ```
-User clicks "Sign In" → Redirects to Google → User signs in → Redirects back → User is signed in
+User clicks "Sign In" → Popup opens → User signs in → Popup closes → User is signed in
 ```
 
 ### 2. Key Features
-- ✅ Google Sign-In with redirect (more reliable than popup)
+- ✅ Google Sign-In with popup (faster and more user-friendly)
 - ✅ Automatic UI updates when user signs in/out
 - ✅ Simple error handling
 - ✅ Clean, readable code
