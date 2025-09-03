@@ -7191,6 +7191,13 @@
                     <div class="hero-actions">
                         <a href="#pricing" class="btn btn-dark">Get Started</a>
                         <a href="#live-preview" class="btn btn-light">Watch Demo</a>
+                        <!-- Launch App Button (shown when logged in) -->
+                        <a href="Propokit/index-product.html" class="btn btn-primary" id="launch-app-btn" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                            Launch App
+                        </a>
                     </div>
                 </div>
                 <div class="hero-image fade-in-section">
@@ -9409,6 +9416,46 @@
             // The clean authentication system is now handled by clean-auth-system.js
             // This removes all the complex authentication logic and uses the simplified version
             console.log('🔐 Using clean authentication system from clean-auth-system.js');
+            
+            // =================================================================
+            // === 🚀 GET STARTED BUTTONS HANDLING
+            // =================================================================
+            
+            // Handle Get Started buttons - redirect to main app if logged in
+            document.addEventListener('DOMContentLoaded', () => {
+                // Wait for auth system to be ready
+                const checkAuthAndSetupButtons = () => {
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        console.log('✅ Setting up Get Started buttons...');
+                        
+                        // Get all Get Started buttons
+                        const getStartedButtons = document.querySelectorAll('a[href="#pricing"], .btn[href="#pricing"], .btn:contains("Start")');
+                        
+                        getStartedButtons.forEach(button => {
+                            button.addEventListener('click', function(e) {
+                                // Check if user is logged in
+                                const currentUser = firebase.auth().currentUser;
+                                const storedUID = localStorage.getItem('firebaseUID');
+                                
+                                if (currentUser || storedUID) {
+                                    e.preventDefault();
+                                    console.log('🚀 User logged in, redirecting to main app...');
+                                    window.location.href = 'Propokit/index-product.html';
+                                } else {
+                                    console.log('ℹ️ User not logged in, scrolling to pricing...');
+                                    // Let the default behavior happen (scroll to pricing)
+                                }
+                            });
+                        });
+                        
+                        console.log('✅ Get Started buttons configured');
+                    } else {
+                        setTimeout(checkAuthAndSetupButtons, 100);
+                    }
+                };
+                
+                checkAuthAndSetupButtons();
+            });
 
         });
     </script>

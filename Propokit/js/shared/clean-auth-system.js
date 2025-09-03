@@ -171,6 +171,10 @@ function updateUIForSignedInUser(user) {
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'flex';
     
+    // Show Launch App button
+    const launchAppBtn = document.getElementById('launch-app-btn');
+    if (launchAppBtn) launchAppBtn.style.display = 'inline-flex';
+    
     // Update user name
     const userName = document.getElementById('user-name');
     if (userName) {
@@ -182,6 +186,14 @@ function updateUIForSignedInUser(user) {
     if (userAvatar && user.photoURL) {
         userAvatar.src = user.photoURL;
     }
+    
+    // Auto-redirect to main app after successful login
+    setTimeout(() => {
+        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+            console.log('🚀 Redirecting to main app after successful login...');
+            window.location.href = 'Propokit/index-product.html';
+        }
+    }, 1000); // 1 second delay to show success state
 }
 
 /**
@@ -199,6 +211,10 @@ function updateUIForSignedOutUser() {
     // Hide user profile
     const userProfile = document.getElementById('user-profile');
     if (userProfile) userProfile.style.display = 'none';
+    
+    // Hide Launch App button
+    const launchAppBtn = document.getElementById('launch-app-btn');
+    if (launchAppBtn) launchAppBtn.style.display = 'none';
 }
 
 // ==================================================
