@@ -207,6 +207,38 @@ function updateUIForSignedInUser(user) {
     if (userAvatar && user.photoURL) {
         userAvatar.src = user.photoURL;
     }
+    
+    // Update home page user profile elements
+    const homePageUserAvatarText = document.getElementById('user-avatar-text');
+    if (homePageUserAvatarText) {
+        homePageUserAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+    }
+    
+    const homePageUserAvatarTrigger = document.getElementById('user-avatar-trigger');
+    if (homePageUserAvatarTrigger) {
+        if (user.photoURL) {
+            // If user has profile picture, show it
+            homePageUserAvatarTrigger.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"><div class="user-status-indicator online"></div>`;
+        } else {
+            // If no profile picture, show initials
+            const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+            homePageUserAvatarTrigger.innerHTML = `<span>${initials}</span><div class="user-status-indicator online"></div>`;
+        }
+    }
+    
+    // Update home page dropdown user info
+    const homePageProfileUserName = document.getElementById('profile-user-name');
+    const homePageProfileUserEmail = document.getElementById('profile-user-email');
+    if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
+    if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
+    
+    // Auto-redirect to main app after successful login (only on home page)
+    setTimeout(() => {
+        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+            console.log('🚀 Redirecting to main app after successful login...');
+            window.location.href = 'Propokit/index-product.html';
+        }
+    }, 1000); // 1 second delay to show success state
 }
 
 /**
