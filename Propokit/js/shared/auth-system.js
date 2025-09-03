@@ -111,7 +111,20 @@ function initializeAuthSystem() {
         } else {
             console.log('❌ User signed out');
             currentUser = null;
-            handleUserSignOut();
+            
+            // Only call handleUserSignOut if we're not on the test page and this isn't the initial load
+            const currentPath = window.location.pathname;
+            const isTestPage = currentPath.includes('test-auth.html');
+            const isInitialLoad = !window.authStateInitialized;
+            
+            if (!isTestPage && !isInitialLoad) {
+                handleUserSignOut();
+            } else {
+                console.log('🔍 Skipping handleUserSignOut (test page or initial load)');
+            }
+            
+            // Mark that auth state has been initialized
+            window.authStateInitialized = true;
         }
     });
 
