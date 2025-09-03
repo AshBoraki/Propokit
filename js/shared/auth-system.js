@@ -48,12 +48,67 @@ function initializeAuthSystem() {
     
     // Listen for authentication state changes
     firebase.auth().onAuthStateChanged((user) => {
+        console.log('🔍 Auth state changed:', user ? user.email : 'No user');
+        console.log('🔍 Current page:', window.location.pathname);
+        console.log('🔍 Full URL:', window.location.href);
+        
         if (user) {
             console.log('✅ User signed in:', user.email);
+            currentUser = user;
+            
+            // IMMEDIATE redirect check - don't wait for handleUserSignIn
+            const currentPath = window.location.pathname;
+            console.log('🔍 Checking for immediate redirect...');
+            
+            // If on login page, redirect immediately
+            if (currentPath.includes('login.html')) {
+                console.log('🚨 IMMEDIATE REDIRECT: Login page detected');
+                console.log('🔄 Redirecting to: index-product.html');
+                localStorage.setItem('firebaseUID', user.uid);
+                window.currentFirebaseUID = user.uid;
+                window.location.href = 'index-product.html';
+                return;
+            }
+            
+            // If on marketing page, redirect immediately
+            if (currentPath.includes('index.html') && !currentPath.includes('Propokit')) {
+                console.log('🚨 IMMEDIATE REDIRECT: Marketing page detected');
+                console.log('🔄 Redirecting to: Propokit/index-product.html');
+                localStorage.setItem('firebaseUID', user.uid);
+                window.currentFirebaseUID = user.uid;
+                window.location.href = 'Propokit/index-product.html';
+                return;
+            }
+            
+            // If on test page, redirect immediately
+            if (currentPath.includes('test-auth.html')) {
+                console.log('🚨 IMMEDIATE REDIRECT: Test page detected');
+                console.log('🔄 Redirecting to: index-product.html');
+                localStorage.setItem('firebaseUID', user.uid);
+                window.currentFirebaseUID = user.uid;
+                window.location.href = 'index-product.html';
+                return;
+            }
+            
+            // Otherwise, handle normally
             handleUserSignIn(user);
         } else {
             console.log('❌ User signed out');
-            handleUserSignOut();
+            currentUser = null;
+            
+            // Only call handleUserSignOut if we're not on the test page and this isn't the initial load
+            const currentPath = window.location.pathname;
+            const isTestPage = currentPath.includes('test-auth.html');
+            const isInitialLoad = !window.authStateInitialized;
+            
+            if (!isTestPage && !isInitialLoad) {
+                handleUserSignOut();
+            } else {
+                console.log('🔍 Skipping handleUserSignOut (test page or initial load)');
+            }
+            
+            // Mark that auth state has been initialized
+            window.authStateInitialized = true;
         }
     });
     
@@ -92,6 +147,9 @@ function initializeAuthSystem() {
     
     // Setup pricing buttons (for marketing page)
     setupPricingButtons();
+    
+    // Handle redirect result immediately
+    handleRedirectResult();
     
     console.log('✅ Authentication system initialized');
 }
@@ -248,6 +306,55 @@ async function signInWithGoogle() {
         showNotification(`❌ ${errorMessage}`, 'error', 5000);
     }
 }
+
+/**
+ * 🔄 Handle redirect result
+ * Checks for redirect result and handles it immediately
+ */
+async function handleRedirectResult() {
+    try {
+        console.log('🔄 Checking for redirect result...');
+        const result = await firebase.auth().getRedirectResult();
+        
+        if (result.user) {
+            console.log('✅ Redirect result found:', result.user.email);
+            console.log('🔍 Current page:', window.location.pathname);
+            
+            // Store user data immediately
+            localStorage.setItem('firebaseUID', result.user.uid);
+            window.currentFirebaseUID = result.user.uid;
+            
+            // Check current page and redirect if needed
+            const currentPath = window.location.pathname;
+            
+            if (currentPath.includes('login.html')) {
+                console.log('🚨 REDIRECT RESULT: Login page, redirecting to main app');
+                window.location.href = 'index-product.html';
+                return;
+            }
+            
+            if (currentPath.includes('index.html') && !currentPath.includes('Propokit')) {
+                console.log('🚨 REDIRECT RESULT: Marketing page, redirecting to main app');
+                window.location.href = 'Propokit/index-product.html';
+                return;
+            }
+            
+            if (currentPath.includes('test-auth.html')) {
+                console.log('🚨 REDIRECT RESULT: Test page, redirecting to main app');
+                window.location.href = 'index-product.html';
+                return;
+            }
+            
+            console.log('✅ Redirect result handled, staying on current page');
+        } else {
+            console.log('🔍 No redirect result found');
+        }
+    } catch (error) {
+        console.error('❌ Error handling redirect result:', error);
+    }
+}
+
+/**
 
 /**
  * 🔐 Sign in with local test system
