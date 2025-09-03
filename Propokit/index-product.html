@@ -1552,11 +1552,7 @@
                         document.body.setAttribute('data-theme', newTheme);
                         localStorage.setItem('theme', newTheme);
                         
-                        if (newIsLightTheme) {
-                            console.log('🌞 Switched to light theme');
-                        } else {
-                            console.log('🌙 Switched to dark theme');
-                        }
+                        console.log(`🌙 Switched to ${newTheme} theme`);
                         
                         // Dispatch custom event for other theme toggles to listen to
                         window.dispatchEvent(new CustomEvent('themeChanged', { 

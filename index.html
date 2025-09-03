@@ -8211,7 +8211,7 @@
             const homepageThemeToggle = document.getElementById('homepage-theme-toggle-input');
             if (homepageThemeToggle) {
                 homepageThemeToggle.addEventListener('change', function() {
-                    const newTheme = this.checked ? 'dark' : 'light';
+                    const newTheme = this.checked ? 'light' : 'dark'; // FIXED: checked = light mode (consistent with main app)
                     document.documentElement.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
                     updateThemeToggle(newTheme);
@@ -8245,7 +8245,7 @@
                 
                 // Update homepage dropdown toggle
                 if (homepageThemeToggle) {
-                    homepageThemeToggle.checked = newTheme === 'dark';
+                    homepageThemeToggle.checked = newTheme === 'light'; // FIXED: checked = light mode (consistent with main app)
                 }
             });
             
@@ -8253,7 +8253,7 @@
             function syncHomepageThemeToggle() {
                 if (homepageThemeToggle) {
                     const currentTheme = document.documentElement.getAttribute('data-theme');
-                    homepageThemeToggle.checked = currentTheme === 'dark';
+                    homepageThemeToggle.checked = currentTheme === 'light'; // FIXED: checked = light mode (consistent with main app)
                 }
             }
             
