@@ -184,19 +184,6 @@
             <button id="zoom-in-btn" class="header-btn header-btn-icon-only" title="Zoom In"><i class="fas fa-search-plus"></i></button>
         </div>
         <div class="header-divider"></div>
-        
-        <!-- Authentication Section -->
-        <div class="auth-section" style="display: flex; align-items: center;">
-            <!-- User Profile (shown when logged in) -->
-            <div id="user-profile" style="display: none;">
-                <div class="user-avatar" id="user-avatar-trigger">
-                    <span id="user-avatar-text">GU</span>
-                    <div class="user-status-indicator online"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="header-divider"></div>
 
         <!-- Unified PropoKit Menu System -->
         <div class="propokit-menu-controls">
@@ -326,46 +313,17 @@
             <i class="fas fa-print"></i>
         </button>
         <div class="header-divider"></div>
-        <div id="user-profile-menu" class="no-print">
-            <div class="user-avatar" id="user-avatar-trigger">
-                <span>GU</span>
-                <div class="user-status-indicator online"></div>
+        
+        <!-- Authentication Section - Moved to far right -->
+        <div class="auth-section" style="display: flex; align-items: center; margin-left: auto;">
+            <!-- User Profile (shown when logged in) -->
+            <div id="user-profile" style="display: none;">
+                <div class="user-avatar" id="user-avatar-trigger">
+                    <span id="user-avatar-text">GU</span>
+                    <div class="user-status-indicator online"></div>
+                </div>
             </div>
-          <div class="profile-dropdown">
-    <div class="dropdown-header">
-        <strong id="profile-user-name">Guest User</strong>
-        <span id="profile-user-email">Not logged in</span>
-    </div>
-    <a href="httpss://www.propokit.com/dashboard" target="_top" class="dropdown-item"><i class="fas fa-th-large"></i> Dashboard</a>
-    <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
-    <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
-    <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item"><i class="fas fa-life-ring"></i> Help Center</a>
-    <a href="#" class="dropdown-item"><i class="fas fa-gift"></i> What's New?</a>
-    <a href="#" class="dropdown-item"><i class="fas fa-comment-dots"></i> Give Feedback</a>
-    <a href="#" class="dropdown-item"><i class="fas fa-bug"></i> Report a Bug</a>
-    <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item"><i class="fas fa-credit-card"></i> Manage Subscription</a>
-    <div class="dropdown-item dropdown-item-toggle">
-        <div class="dropdown-item-label">
-            <i class="fas fa-adjust"></i>
-            <span>Theme</span>
         </div>
-        <div id="theme-switcher-dropdown">
-            <input type="checkbox" id="theme-toggle-checkbox" title="Toggle between light and dark theme">
-            <label for="theme-toggle-checkbox" class="theme-toggle-label">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-                <span class="ball"></span>
-            </label>
-        </div>
-    </div>
-
-    <div class="dropdown-divider"></div>
-    <a href="#" class="dropdown-item" id="logout-btn">
-        <i class="fas fa-sign-out-alt"></i> Log Out
-    </a>
-</div>
 </header>
  <aside id="main-sidebar">
         <div id="main-nav-wrapper">
@@ -1306,17 +1264,7 @@
                         userAvatarText.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
                     }
                     
-                    // Update profile dropdown in main app
-                    const profileUserName = document.getElementById('profile-user-name');
-                    const profileUserEmail = document.getElementById('profile-user-email');
-                    if (profileUserName) profileUserName.textContent = user.displayName || 'User';
-                    if (profileUserEmail) profileUserEmail.textContent = user.email;
-                    
-                    // Show user profile menu
-                    const userProfileMenu = document.getElementById('user-profile-menu');
-                    if (userProfileMenu) userProfileMenu.style.display = 'block';
-                    
-                    // Also update the auth section user profile
+                    // Show user profile
                     const authUserProfile = document.getElementById('user-profile');
                     if (authUserProfile) authUserProfile.style.display = 'flex';
                     
@@ -1336,10 +1284,6 @@
                     console.log('✅ Main app user profile updated:', user.email);
                 } else {
                     // Hide user profile
-                    const userProfileMenu = document.getElementById('user-profile-menu');
-                    if (userProfileMenu) userProfileMenu.style.display = 'none';
-                    
-                    // Also hide the auth section user profile
                     const authUserProfile = document.getElementById('user-profile');
                     if (authUserProfile) authUserProfile.style.display = 'none';
                     
