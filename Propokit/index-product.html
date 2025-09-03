@@ -329,12 +329,30 @@
                         <strong id="profile-user-name">Guest User</strong>
                         <span id="profile-user-email">Not logged in</span>
                     </div>
+                    <a href="https://www.propokit.com/dashboard" target="_top" class="dropdown-item"><i class="fas fa-th-large"></i> Dashboard</a>
                     <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
                     <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item"><i class="fas fa-life-ring"></i> Help Center</a>
                     <a href="#" class="dropdown-item"><i class="fas fa-gift"></i> What's New?</a>
                     <a href="#" class="dropdown-item"><i class="fas fa-comment-dots"></i> Give Feedback</a>
+                    <a href="#" class="dropdown-item"><i class="fas fa-bug"></i> Report a Bug</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item"><i class="fas fa-credit-card"></i> Manage Subscription</a>
+                    <div class="dropdown-item dropdown-item-toggle">
+                        <div class="dropdown-item-label">
+                            <i class="fas fa-adjust"></i>
+                            <span>Theme</span>
+                        </div>
+                        <div id="theme-switcher-dropdown">
+                            <input type="checkbox" id="theme-toggle-checkbox" title="Toggle between light and dark theme">
+                            <label for="theme-toggle-checkbox" class="theme-toggle-label">
+                                <i class="fas fa-moon"></i>
+                                <i class="fas fa-sun"></i>
+                                <span class="ball"></span>
+                            </label>
+                        </div>
+                    </div>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item" id="logout-btn">
                         <i class="fas fa-sign-out-alt"></i> Log Out
@@ -1428,7 +1446,40 @@
             // Initialize dropdown when DOM is loaded
             document.addEventListener('DOMContentLoaded', () => {
                 initUserProfileDropdown();
+                initThemeToggle();
             });
+            
+            // =================================================================
+            // === 🌙 THEME TOGGLE FUNCTIONALITY
+            // =================================================================
+            
+            // Initialize theme toggle functionality
+            function initThemeToggle() {
+                const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+                
+                if (themeToggleCheckbox) {
+                    // Set initial state based on current theme
+                    const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+                    themeToggleCheckbox.checked = currentTheme === 'light';
+                    
+                    // Handle theme toggle
+                    themeToggleCheckbox.addEventListener('change', (e) => {
+                        const isLightTheme = e.target.checked;
+                        
+                        if (isLightTheme) {
+                            document.body.classList.add('light-theme');
+                            localStorage.setItem('theme', 'light');
+                            console.log('🌞 Switched to light theme');
+                        } else {
+                            document.body.classList.remove('light-theme');
+                            localStorage.setItem('theme', 'dark');
+                            console.log('🌙 Switched to dark theme');
+                        }
+                    });
+                    
+                    console.log('✅ Theme toggle functionality initialized');
+                }
+            }
 
             // =================================================================
             // === ðŸš€ PAGE INITIALIZATION FUNCTIONS
