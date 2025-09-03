@@ -16,6 +16,7 @@
 let currentUser = null;
 let userSubscriptionStatus = 'free';
 let isProductionMode = true; // Set to true for production
+let redirectHandled = false; // Flag to prevent multiple redirects
 
 // DOM elements
 let loginBtn = null;
@@ -60,18 +61,22 @@ function initializeAuthSystem() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log('✅ User signed in:', user.email);
-            handleUserSignIn(user);
+            if (!redirectHandled) {
+                redirectHandled = true;
+                handleUserSignIn(user);
+            }
         } else {
             console.log('❌ User signed out');
+            redirectHandled = false; // Reset flag on sign out
             handleUserSignOut();
         }
     });
     
-    // Handle redirect result for Google sign-in
+    // Handle redirect result for Google sign-in (ONLY if not already handled by onAuthStateChanged)
     firebase.auth().getRedirectResult().then((result) => {
         if (result.user) {
             console.log('✅ Redirect sign-in successful:', result.user.email);
-            handleUserSignIn(result.user);
+            // Don't call handleUserSignIn here - let onAuthStateChanged handle it
             showNotification('🎉 Successfully signed in with Google!', 'success', 3000);
             showAuthStatusIndicator('firebase-mode', 'Firebase Mode');
         } else if (result.credential) {
@@ -388,6 +393,9 @@ function handleUserSignIn(user) {
         
         // Show success notification before redirect
         showNotification('🎉 Successfully signed in with Google!', 'success', 2000);
+        
+        // Reset redirect flag before redirecting
+        redirectHandled = false;
         
         // Redirect to main app
         window.location.href = 'index-product.html';

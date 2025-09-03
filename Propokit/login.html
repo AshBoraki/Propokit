@@ -252,7 +252,7 @@
                 authStatus.textContent = text;
             }
 
-            // Google sign-in
+                        // Google sign-in - use shared module function
             googleBtn.addEventListener('click', async function() {
                 try {
                     googleBtn.classList.add('loading');
@@ -262,26 +262,28 @@
                     console.log('🔍 Current domain:', window.location.hostname);
                     console.log('🔍 Current URL:', window.location.href);
                     
-                    // Check if Firebase is available
-                    if (typeof firebase === 'undefined' || !firebase.auth) {
-                        throw new Error('Firebase Auth not available');
+                    // Use the shared module's sign-in function
+                    if (window.PropoKitAuth && window.PropoKitAuth.signIn) {
+                        await window.PropoKitAuth.signIn();
+                    } else {
+                        // Fallback to direct Firebase call
+                        if (typeof firebase === 'undefined' || !firebase.auth) {
+                            throw new Error('Firebase Auth not available');
+                        }
+
+                        const provider = new firebase.auth.GoogleAuthProvider();
+                        provider.addScope('email');
+                        provider.addScope('profile');
+
+                        if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
+                            provider.setCustomParameters({
+                                client_id: firebaseConfig.clientId
+                            });
+                        }
+
+                        console.log('🔄 Redirecting to Google sign-in...');
+                        await firebase.auth().signInWithRedirect(provider);
                     }
-
-                    // Create provider
-                    const provider = new firebase.auth.GoogleAuthProvider();
-                    provider.addScope('email');
-                    provider.addScope('profile');
-
-                    // Set the client ID for better compatibility
-                    if (typeof firebaseConfig !== 'undefined' && firebaseConfig.clientId) {
-                        provider.setCustomParameters({
-                            client_id: firebaseConfig.clientId
-                        });
-                    }
-
-                    // Use redirect method for login page
-                    console.log('🔄 Redirecting to Google sign-in...');
-                    await firebase.auth().signInWithRedirect(provider);
                     
                 } catch (error) {
                     console.error('❌ Google sign-in failed:', error);
