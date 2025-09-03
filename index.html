@@ -73,10 +73,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
 
     <!-- Propokit Firebase Configuration -->
-    <script src="Propokit/js/shared/firebase-config.js"></script>
+    <script src="js/shared/firebase-config.js"></script>
     
     <!-- Propokit Clean Authentication System -->
-    <script src="Propokit/js/shared/clean-auth-system.js"></script>
+    <script src="js/shared/clean-auth-system.js"></script>
 
     <style>
         :root {
@@ -9671,30 +9671,52 @@
                        console.log('🧪 Manually set user profile container to display: flex');
                    }
                    
-                   // Test click event - SIMPLE FIX
-                   const avatarButton = elements['homepage-user-avatar-button'];
-                   if (avatarButton) {
-                       console.log('🧪 Adding SIMPLE click to avatar button...');
-                       avatarButton.onclick = function(e) {
-                           e.preventDefault();
-                           e.stopPropagation();
-                           console.log('🧪 AVATAR BUTTON CLICKED!');
-                           
-                           // SIMPLE: Just toggle the dropdown directly
-                           const dropdown = document.getElementById('homepage-user-dropdown-menu');
-                           if (dropdown) {
-                               if (dropdown.style.display === 'block') {
-                                   dropdown.style.display = 'none';
-                                   console.log('🧪 Hiding dropdown');
-                               } else {
-                                   dropdown.style.display = 'block';
-                                   console.log('🧪 Showing dropdown');
-                               }
-                           } else {
-                               console.log('🧪 Dropdown element not found!');
-                           }
-                       };
-                   }
+                                       // Test click event - SIMPLE FIX
+                    const avatarButton = elements['homepage-user-avatar-button'];
+                    if (avatarButton) {
+                        console.log('🧪 Adding SIMPLE click to avatar button...');
+                        avatarButton.onclick = function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🧪 AVATAR BUTTON CLICKED!');
+                            
+                            // SIMPLE: Just toggle the dropdown directly
+                            const dropdown = document.getElementById('homepage-user-dropdown-menu');
+                            if (dropdown) {
+                                if (dropdown.style.display === 'block') {
+                                    dropdown.style.display = 'none';
+                                    console.log('🧪 Hiding dropdown');
+                                } else {
+                                    dropdown.style.display = 'block';
+                                    console.log('🧪 Showing dropdown');
+                                }
+                            } else {
+                                console.log('🧪 Dropdown element not found!');
+                            }
+                        };
+                    }
+                    
+                    // ALSO ADD A DIRECT CLICK HANDLER TO THE AVATAR
+                    const directAvatar = document.getElementById('homepage-user-avatar-button');
+                    if (directAvatar) {
+                        console.log('🧪 Adding DIRECT click handler to avatar...');
+                        directAvatar.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🧪 DIRECT AVATAR CLICK!');
+                            
+                            const dropdown = document.getElementById('homepage-user-dropdown-menu');
+                            if (dropdown) {
+                                if (dropdown.style.display === 'block') {
+                                    dropdown.style.display = 'none';
+                                    console.log('🧪 DIRECT: Hiding dropdown');
+                                } else {
+                                    dropdown.style.display = 'block';
+                                    console.log('🧪 DIRECT: Showing dropdown');
+                                }
+                            }
+                        });
+                    }
                }
                
                // =================================================================
