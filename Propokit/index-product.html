@@ -1204,6 +1204,17 @@
                 const currentUser = firebase.auth().currentUser;
                 console.log('🔍 Current user on page load:', currentUser ? currentUser.email : 'None');
                 
+                // Check if user is authenticated
+                if (!currentUser) {
+                    console.log('❌ No authenticated user found, redirecting to login...');
+                    const storedUID = localStorage.getItem('firebaseUID');
+                    if (!storedUID) {
+                        console.log('🚨 No stored UID found, redirecting to login page');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                }
+                
                 // Authentication is now handled by the shared auth-system.js module
                 // This prevents duplicate listeners and conflicting redirects
             });
