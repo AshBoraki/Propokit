@@ -1,15 +1,5 @@
 ﻿/* --- 1. Global Styles & Variables --- */
-:root {
-    --primary-color: #ffc300; /* PropoKit Yellow */
-    --primary-hover: #ffd644;
-    --dark-bg: #1A202C;
-    --light-bg: #FFFFFF;
-    --text-dark: #1A202C;
-    --text-light: #E2E8F0;
-    --card-bg: #2D3748;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --container-width: 1200px;
-}
+/* CSS Variables are now defined in css-variables.css */
 .action-buttons {
     position: absolute;
     top: 5px;
@@ -57,39 +47,7 @@ section {
     color: #6c757d;
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--text-dark);
-}
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: var(--text-dark);
-    border: 2px solid #e2e8f0;
-}
-.btn-secondary:hover {
-    background-color: #f8f9fa;
-}
-
-.btn-large {
-    padding: 16px 36px;
-    font-size: 1.1rem;
-}
+/* Button styles are now defined in button-styles.css */
 
 /* Placeholder styles for development */
 .header-placeholder {

@@ -1,0 +1,202 @@
+/* ==================================================
+   🎨 PROPOKIT CSS VARIABLES - CONSOLIDATED
+   ==================================================
+   
+   This file contains ALL CSS custom properties used throughout the application.
+   All other CSS files should reference these variables instead of defining their own.
+   
+   ORGANIZATION:
+   - Brand Colors & Theme System
+   - Layout & Spacing
+   - Typography
+   - Shadows & Effects
+   - Transitions & Animations
+   - Component-Specific Variables
+   ================================================== */
+
+:root {
+    /* ==================================================
+       🎯 BRAND COLORS & THEME SYSTEM
+       ================================================== */
+    
+    /* Primary Brand Colors */
+    --primary-color: #ffc300; /* PropoKit Yellow */
+    --primary-hover: #ffd644;
+    --brand-primary: #2563eb;     /* Main brand color - used for headers, buttons */
+    --brand-secondary: #7c3aed;   /* Secondary brand color - used for accents */
+    --brand-accent: #06b6d4;      /* Accent color - used for highlights */
+    
+    /* Background Colors */
+    --dark-bg: #1A202C;
+    --light-bg: #FFFFFF;
+    --container-bg-color: #f8fafc; /* Background color for content containers */
+    --card-bg: #2D3748;
+    
+    /* Text Colors */
+    --text-dark: #1A202C;
+    --text-light: #E2E8F0;
+    
+    /* Border Colors */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --button-bg-color: #ffffff;    /* Background color for buttons */
+    
+    /* QR Code Colors */
+    --qr-border-color: #2563eb;   /* Border color for QR code containers */
+    --website-qr-color: #7c3aed;  /* Background color for website QR messages */
+    --pdf-qr-color: #2563eb;      /* Background color for PDF QR messages */
+    --custom-qr-color: #06b6d4;   /* Background color for custom QR messages */
+    
+    /* ==================================================
+       📐 LAYOUT & SPACING
+       ================================================== */
+    
+    --container-width: 1200px;
+    --sidebar-width: 260px;
+    --sidebar-padding: 15px;
+    --nav-gap: 10px;
+    --arrow-height: 44px;
+    --arrow-spacing: 10px;
+    
+    /* ==================================================
+       🎨 NEUTRAL COLOR PALETTE (Gray Scale)
+       ================================================== */
+    
+    --neutral-50: #f9fafb;        /* Lightest gray - almost white */
+    --neutral-100: #f3f4f6;       /* Very light gray */
+    --neutral-200: #e5e7eb;       /* Light gray */
+    --neutral-300: #d1d5db;       /* Medium light gray */
+    --neutral-400: #9ca3af;       /* Medium gray */
+    --neutral-500: #6b7280;       /* True medium gray */
+    --neutral-600: #4b5563;       /* Medium dark gray */
+    --neutral-700: #374151;       /* Dark gray */
+    --neutral-800: #1f2937;       /* Very dark gray */
+    --neutral-900: #111827;       /* Darkest gray - almost black */
+    
+    /* ==================================================
+       🌟 SHADOW SYSTEM (Depth & Elevation)
+       ================================================== */
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);    /* Subtle shadow */
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);  /* Medium shadow */
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Large shadow */
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1); /* Extra large shadow */
+    
+    /* ==================================================
+       ⚡ TRANSITIONS & ANIMATIONS
+       ================================================== */
+    
+    --elastic-transition: all 0.6s cubic-bezier(0.64, 0, 0.2, 1.5);
+    
+    /* ==================================================
+       🎯 COMPONENT-SPECIFIC VARIABLES
+       ================================================== */
+    
+    /* Sidebar Navigation */
+    --active-indicator-color: #FFBF23;
+    --inactive-bg-color-top: #4A5568;
+    --inactive-bg-color-bottom: #2D3748;
+    --icon-color: #E2E8F0;
+    
+    /* Mouse Tracking (for dynamic effects) */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --indicator-y: 0px;
+    
+    /* Corner Radius System */
+    --corner-radius: 0;           /* Default corner radius for elements */
+    --corner-radius-image: 0;     /* Default corner radius for images */
+}
+
+/* ==================================================
+   🎨 COLOR THEME VARIATIONS
+   ================================================== */
+
+/* Ocean Blue - Most Popular Business Color */
+body.theme-ocean-blue {
+    --brand-primary: #2563eb;
+    --brand-secondary: #1d4ed8;
+    --brand-accent: #3b82f6;
+    --brand-primary-rgb: 37, 99, 235;
+    --brand-secondary-rgb: 29, 78, 216;
+    --brand-accent-rgb: 59, 130, 246;
+    --qr-border-color: #1d4ed8;
+    --website-qr-color: #1e40af;
+    --pdf-qr-color: #1e3a8a;
+    --custom-qr-color: #3b82f6;
+    --button-bg-color: #ffffff;
+}
+
+/* Forest Green - Money & Success Color */
+body.theme-forest-green {
+    --brand-primary: #059669;
+    --brand-secondary: #047857;
+    --brand-accent: #10b981;
+    --brand-primary-rgb: 5, 150, 105;
+    --brand-secondary-rgb: 4, 120, 87;
+    --brand-accent-rgb: 16, 185, 129;
+    --qr-border-color: #047857;
+    --website-qr-color: #059669;
+    --pdf-qr-color: #065f46;
+    --custom-qr-color: #10b981;
+    --button-bg-color: #ffffff;
+}
+
+/* Royal Purple - Creative & Luxury Color */
+body.theme-royal-purple {
+    --brand-primary: #7c3aed;
+    --brand-secondary: #6d28d9;
+    --brand-accent: #8b5cf6;
+    --brand-primary-rgb: 124, 58, 237;
+    --brand-secondary-rgb: 109, 40, 217;
+    --brand-accent-rgb: 139, 92, 246;
+    --qr-border-color: #6d28d9;
+    --website-qr-color: #7c3aed;
+    --pdf-qr-color: #5b21b6;
+    --custom-qr-color: #8b5cf6;
+    --button-bg-color: #ffffff;
+}
+
+/* Sunset Orange - Energy & Innovation Color */
+body.theme-sunset-orange {
+    --brand-primary: #ea580c;
+    --brand-secondary: #dc2626;
+    --brand-accent: #f97316;
+    --brand-primary-rgb: 234, 88, 12;
+    --brand-secondary-rgb: 220, 38, 38;
+    --brand-accent-rgb: 249, 115, 22;
+    --qr-border-color: #dc2626;
+    --website-qr-color: #ea580c;
+    --pdf-qr-color: #b91c1c;
+    --custom-qr-color: #f97316;
+    --button-bg-color: #ffffff;
+}
+
+/* Midnight Black - Professional & Trust Color */
+body.theme-midnight-black {
+    --brand-primary: #111827;
+    --brand-secondary: #1f2937;
+    --brand-accent: #374151;
+    --brand-primary-rgb: 17, 24, 39;
+    --brand-secondary-rgb: 31, 41, 55;
+    --brand-accent-rgb: 55, 65, 81;
+    --qr-border-color: #1f2937;
+    --website-qr-color: #111827;
+    --pdf-qr-color: #000000;
+    --custom-qr-color: #374151;
+    --button-bg-color: #ffffff;
+}
+
+/* Rose Gold - Premium & Elegance Color */
+body.theme-rose-gold {
+    --brand-primary: #be185d;
+    --brand-secondary: #a21caf;
+    --brand-accent: #ec4899;
+    --brand-primary-rgb: 190, 24, 93;
+    --brand-secondary-rgb: 162, 28, 175;
+    --brand-accent-rgb: 236, 72, 153;
+    --qr-border-color: #a21caf;
+    --website-qr-color: #be185d;
+    --pdf-qr-color: #831843;
+    --custom-qr-color: #ec4899;
+    --button-bg-color: #ffffff;
+}
