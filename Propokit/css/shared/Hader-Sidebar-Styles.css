@@ -427,9 +427,9 @@ html, body {
 
     /* --- Dropdown Panel --- */
     .profile-dropdown {
-        position: absolute;
-        top: calc(100% + 15px);
-        right: 0;
+        position: fixed; /* Changed from absolute to fixed */
+        top: 75px; /* Position below header */
+        right: 25px; /* Position from right edge */
         width: 260px;
         background-color: #2D3748;
         border-radius: 8px;
@@ -439,7 +439,7 @@ html, body {
         visibility: hidden;
         transform: translateY(10px);
         transition: all 0.2s ease-out;
-        z-index: 9999; /* Increased to ensure it appears above FAB buttons */
+        z-index: 99999; /* Maximum z-index */
         padding: 5px 0; /* Add some padding */
     }
     #user-profile-menu.open .profile-dropdown {

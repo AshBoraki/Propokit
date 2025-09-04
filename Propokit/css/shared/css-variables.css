@@ -116,13 +116,13 @@
     --content-area-bg-image: none;
     
     /* Sidebar Navigation Colors */
-    --nav-text-color: #B0BEC5;
-    --nav-text-hover-color: #E2E8F0;
+    --nav-text-color: #E2E8F0; /* Changed to lighter color for better readability */
+    --nav-text-hover-color: #FFFFFF; /* Pure white for hover */
     --nav-icon-color: #ffffff;
     --nav-bg-hover: rgba(74, 85, 104, 0.4);
     --nav-bg-active: rgba(58, 141, 255, 0.35);
     --nav-active-indicator: #FFC300;
-    --nav-section-header: #8A9BAE;
+    --nav-section-header: #A0AEC0; /* Lighter section header for better readability */
     
     /* Active Indicator - Keep yellow for left-side indicator, yellow for icons */
     --active-indicator-color: #FFC300; /* Yellow for left-side indicator */
