@@ -176,13 +176,13 @@
     #main-nav a:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
     #main-nav a.active { 
         color: var(--nav-text-hover-color); 
-        background: rgba(16, 185, 129, 0.1); /* Subtle green background */
+        background: rgba(255, 195, 0, 0.1); /* Subtle yellow background */
         box-shadow: none; 
         border-color: transparent; 
         transform: none; 
     }
     #main-nav a.active .nav-icon { 
-        fill: var(--active-indicator-color); /* Green icon */
+        fill: var(--active-icon-color); /* Green icon */
     }
     .nav-icon { width: 20px; height: 20px; fill: var(--icon-color); transition: fill 0.3s ease, transform 0.3s ease; }
 
@@ -359,7 +359,19 @@ html, body {
 
 /* Navigation styles are defined in the original section above */
 
-/* --- Active State Indicator (ORIGINAL WORKING VERSION) --- */
+    /* Light theme adjustments for better visibility */
+    [data-theme="light"] #active-nav-indicator {
+        background: var(--light-active-indicator-color);
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+    
+    [data-theme="light"] #main-nav a.active .nav-icon {
+        fill: var(--light-active-icon-color);
+    }
+    
+    [data-theme="light"] #main-nav a.active {
+        background: rgba(59, 130, 246, 0.1); /* Light blue background */
+    }
 
 /* --- Scroll Arrows --- */
 .scroll-arrow {

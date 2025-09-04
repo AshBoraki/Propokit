@@ -124,8 +124,13 @@
     --nav-active-indicator: #FFC300;
     --nav-section-header: #8A9BAE;
     
-    /* Active Indicator - More subtle and professional */
-    --active-indicator-color: #10B981; /* Professional green instead of yellow */
+    /* Active Indicator - Keep yellow for left-side indicator, blue for icons */
+    --active-indicator-color: #FFC300; /* Yellow for left-side indicator */
+    --active-icon-color: #3B82F6; /* Blue for active icons */
+    
+    /* Light Mode Adjustments */
+    --light-active-indicator-color: #F59E0B; /* Darker yellow for light mode */
+    --light-active-icon-color: #2563EB; /* Darker blue for light mode */
     
     /* Sidebar Panel Colors */
     --panel-bg: rgba(20, 30, 45, 0.9);
