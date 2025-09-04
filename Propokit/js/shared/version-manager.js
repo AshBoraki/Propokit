@@ -50,10 +50,19 @@ class VersionManager {
     }
 
     createVersionDisplay() {
+        console.log('📋 Creating version display in sidebar...');
+        
+        // Find the sidebar
+        const sidebar = document.getElementById('main-sidebar');
+        if (!sidebar) {
+            console.error('❌ Sidebar not found');
+            return;
+        }
+
         // Create version display element
         const versionDisplay = document.createElement('div');
-        versionDisplay.id = 'version-display';
-        versionDisplay.className = 'version-display';
+        versionDisplay.id = 'sidebar-version-display';
+        versionDisplay.className = 'sidebar-version-display';
         versionDisplay.innerHTML = `
             <div class="version-content">
                 <span class="version-label">v</span>
@@ -61,8 +70,9 @@ class VersionManager {
             </div>
         `;
 
-        // Add to body
-        document.body.appendChild(versionDisplay);
+        // Add to sidebar at the bottom
+        sidebar.appendChild(versionDisplay);
+        console.log('✅ Version display added to sidebar');
     }
 
     updateVersionDisplay() {
