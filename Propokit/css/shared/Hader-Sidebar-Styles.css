@@ -139,7 +139,7 @@
     #active-nav-indicator {
         position: absolute;
         width: 4px; /* Thicker line */
-        left: 2px; /* Move more to the left */
+        left: 0px; /* Move all the way to the left edge */
         background: var(--active-indicator-color);
         border-radius: 2px; /* Curvy on top and bottom */
         z-index: 0;
@@ -149,7 +149,7 @@
         box-shadow: 0 0 8px rgba(255, 191, 35, 0.3); /* Subtle glow */
         transform: translateY(var(--indicator-y, 0px));
         height: calc(100% - 16px); /* Shorter than the button */
-        top: 4px; /* Move up more */
+        top: 2px; /* Move up even more */
     }
     @keyframes indicatorLoad {
         from { opacity: 0; transform: scale(0.9) translateY(var(--indicator-y)); }
@@ -190,7 +190,14 @@
     #main-nav a.active .nav-icon { 
         fill: var(--active-icon-color); /* Blue icon */
     }
-    .nav-icon { width: 20px; height: 20px; fill: var(--icon-color); transition: fill 0.3s ease, transform 0.3s ease; }
+    .nav-icon { 
+        width: 20px; 
+        height: 20px; 
+        fill: var(--nav-icon-color); 
+        transition: fill 0.3s ease, transform 0.3s ease; 
+        opacity: 1; /* Ensure icons are visible */
+        display: block; /* Ensure icons are displayed */
+    }
 
     /* --- 4. Sidebar Header (Command Bar) & Icon Interactivity --- */
     .sidebar-header {
