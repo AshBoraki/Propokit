@@ -142,7 +142,7 @@
         left: 6px; /* Add space between strip and button */
         background: var(--active-indicator-color);
         border-radius: 2px; /* Curvy on top and bottom */
-        z-index: 0;
+        z-index: 10; /* Higher z-index to appear above buttons */
         transition: var(--elastic-transition); /* LIQUID EFFECT */
         opacity: 0;
         border: none; /* Remove border */
