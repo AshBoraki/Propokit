@@ -9814,6 +9814,11 @@
                    console.log('🔄 Force reinitializing dropdown...');
                    dropdownState.isInitialized = false;
                    initBulletproofDropdown();
+                   
+                   // Reinitialize logout button for homepage dropdown
+                   if (typeof window.CleanAuth !== 'undefined' && window.CleanAuth.reinitializeLogoutButton) {
+                       window.CleanAuth.reinitializeLogoutButton();
+                   }
                }
                
                // Simple test function to check what's happening
@@ -9849,6 +9854,11 @@
                    
                                   // Initialize dropdown functionality
                    initBulletproofDropdown();
+                   
+                   // Reinitialize logout button for homepage dropdown
+                   if (typeof window.CleanAuth !== 'undefined' && window.CleanAuth.reinitializeLogoutButton) {
+                       window.CleanAuth.reinitializeLogoutButton();
+                   }
                }
                
                // =================================================================
@@ -10024,6 +10034,11 @@
                        // Test dropdown functionality
                        initBulletproofDropdown();
                        initHomePageThemeToggle();
+                       
+                       // Reinitialize logout button for homepage dropdown
+                       if (typeof window.CleanAuth !== 'undefined' && window.CleanAuth.reinitializeLogoutButton) {
+                           window.CleanAuth.reinitializeLogoutButton();
+                       }
                        
                        console.log('✅ Home page functionality initialized');
                    }, 1000); // Increased delay to 1 second

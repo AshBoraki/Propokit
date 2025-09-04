@@ -290,6 +290,21 @@ function updateUIForSignedInUser(user) {
     if (homePageProfileUserName) homePageProfileUserName.textContent = user.displayName || 'User';
     if (homePageProfileUserEmail) homePageProfileUserEmail.textContent = user.email;
     
+    // Set up logout button in homepage dropdown if it exists
+    const homepageLogoutBtn = document.getElementById('logout-btn');
+    if (homepageLogoutBtn) {
+        // Remove any existing event listeners first
+        homepageLogoutBtn.replaceWith(homepageLogoutBtn.cloneNode(true));
+        const newHomepageLogoutBtn = document.getElementById('logout-btn');
+        newHomepageLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🚪 Homepage dropdown logout button clicked');
+            signOut();
+        });
+        console.log('✅ Homepage dropdown logout button initialized');
+    }
+    
     // Auto-redirect to main app only on initial login (not when returning to home page)
     console.log('🔍 Checking redirect conditions:', {
         isInitialLogin,
@@ -405,7 +420,22 @@ window.CleanAuth = {
     initialize: initializeCleanAuth,
     signIn: signInWithGoogle,
     signOut: signOut,
-    getCurrentUser: () => currentUser
+    getCurrentUser: () => currentUser,
+    reinitializeLogoutButton: () => {
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            // Remove any existing event listeners first
+            logoutBtn.replaceWith(logoutBtn.cloneNode(true));
+            const newLogoutBtn = document.getElementById('logout-btn');
+            newLogoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🚪 Logout button clicked');
+                signOut();
+            });
+            console.log('✅ Logout button reinitialized');
+        }
+    }
 };
 
 console.log('📦 Clean authentication system loaded');
