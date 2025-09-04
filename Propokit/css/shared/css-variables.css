@@ -124,6 +124,9 @@
     --nav-active-indicator: #FFC300;
     --nav-section-header: #8A9BAE;
     
+    /* Active Indicator - More subtle and professional */
+    --active-indicator-color: #10B981; /* Professional green instead of yellow */
+    
     /* Sidebar Panel Colors */
     --panel-bg: rgba(20, 30, 45, 0.9);
     --panel-text: #FFFFFF;

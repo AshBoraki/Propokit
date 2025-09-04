@@ -138,15 +138,15 @@
     }
     #active-nav-indicator {
         position: absolute;
-        width: calc(100% - 2px);
-        left: 1px;
+        width: 3px; /* Thin line on the left */
+        left: 0;
         background: var(--active-indicator-color);
-        border-radius: 9px;
+        border-radius: 0 2px 2px 0; /* Rounded on right side only */
         z-index: 0;
         transition: var(--elastic-transition); /* LIQUID EFFECT */
         opacity: 0;
-        border: 1px solid rgba(0,0,0,0.2);
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 0 10px -2px var(--active-indicator-color);
+        border: none; /* Remove border */
+        box-shadow: 0 0 8px rgba(255, 191, 35, 0.3); /* Subtle glow */
         transform: translateY(var(--indicator-y, 0px));
     }
     @keyframes indicatorLoad {
@@ -174,8 +174,16 @@
     }
     #main-nav a:active { transform: translateX(0); box-shadow: inset 0 1.5px 2px rgba(0,0,0,0.2), 0 1px 2px rgba(10, 12, 20, 0.4); transition-duration: 0.1s; }
     #main-nav a:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-    #main-nav a.active { color: #000; background: transparent; box-shadow: none; border-color: transparent; transform: none; }
-    #main-nav a.active .nav-icon { fill: #000; }
+    #main-nav a.active { 
+        color: var(--nav-text-hover-color); 
+        background: rgba(16, 185, 129, 0.1); /* Subtle green background */
+        box-shadow: none; 
+        border-color: transparent; 
+        transform: none; 
+    }
+    #main-nav a.active .nav-icon { 
+        fill: var(--active-indicator-color); /* Green icon */
+    }
     .nav-icon { width: 20px; height: 20px; fill: var(--icon-color); transition: fill 0.3s ease, transform 0.3s ease; }
 
     /* --- 4. Sidebar Header (Command Bar) & Icon Interactivity --- */
