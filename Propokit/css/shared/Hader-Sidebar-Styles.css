@@ -349,66 +349,9 @@ html, body {
     padding-top: 0;
 }
 
-#main-nav a {
-    text-decoration: none;
-    color: var(--nav-text-color);
-    font-weight: 500;
-    font-size: 14px;
-    padding: 12px 15px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    border-radius: 6px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    transition: var(--smooth-transition);
-}
+/* Navigation styles are defined in the original section above */
 
-#main-nav a:hover {
-    color: var(--nav-text-hover-color);
-    background-color: var(--nav-bg-hover);
-}
-
-.nav-icon {
-    width: 20px;
-    height: 20px;
-    fill: var(--nav-icon-color);
-    transition: fill 0.25s ease-out;
-    flex-shrink: 0;
-}
-
-#main-nav a:hover .nav-icon {
-    fill: var(--nav-text-hover-color);
-}
-
-/* --- Active State Indicator (REDESIGNED) --- */
-#active-nav-indicator {
-    position: absolute;
-    width: 4px;
-    left: -5px;
-    background: var(--nav-active-indicator);
-    border-radius: 4px;
-    z-index: 0;
-    opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s ease;
-    transform: translateY(var(--indicator-y, 0px));
-}
-
-@keyframes indicatorLoad {
-    from { opacity: 0; transform: scaleY(0.5) translateY(var(--indicator-y)); }
-    to { opacity: 1; transform: scaleY(1) translateY(var(--indicator-y)); }
-}
-
-#main-nav a.active {
-    font-weight: 600; /* Bolder active link */
-    color: var(--nav-text-hover-color);
-    background-color: var(--nav-bg-active);
-}
-
-#main-nav a.active .nav-icon {
-    fill: var(--nav-active-indicator);
-}
+/* --- Active State Indicator (ORIGINAL WORKING VERSION) --- */
 
 /* --- Scroll Arrows --- */
 .scroll-arrow {
