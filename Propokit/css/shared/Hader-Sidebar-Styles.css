@@ -139,7 +139,7 @@
     #active-nav-indicator {
         position: absolute;
         width: 4px; /* Thicker line */
-        left: 8px; /* Space from the left edge */
+        left: 12px; /* More space from the left edge */
         background: var(--active-indicator-color);
         border-radius: 2px; /* Curvy on top and bottom */
         z-index: 0;
@@ -178,7 +178,7 @@
     #main-nav a:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
     #main-nav a.active { 
         color: var(--nav-text-hover-color); 
-        background: rgba(59, 130, 246, 0.2); /* Nice blue background - not too bright */
+        background: rgba(59, 130, 246, 0.4); /* Much more visible blue background */
         box-shadow: none; 
         border-color: transparent; 
         transform: none; 

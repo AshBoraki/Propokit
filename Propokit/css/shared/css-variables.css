@@ -126,7 +126,7 @@
     
     /* Active Indicator - Keep yellow for left-side indicator, blue for icons */
     --active-indicator-color: #FFC300; /* Yellow for left-side indicator */
-    --active-icon-color: #3B82F6; /* Blue for active icons */
+    --active-icon-color: #60A5FA; /* Brighter blue for active icons - more visible */
     
     /* Light Mode Adjustments */
     --light-active-indicator-color: #F59E0B; /* Darker yellow for light mode */
