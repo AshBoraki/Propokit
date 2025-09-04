@@ -595,9 +595,11 @@ html, body {
     background-color: #FFFFFF; color: #2D3748; border-color: #E2E8F0;
 }
 
-/* Dark theme header styles - DISABLED to prevent text color issues */
+/* Dark theme header styles */
 [data-theme="dark"] #top-application-header {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: #1A202C;
+    color: #E2E8F0;
+    border-color: #2D3748;
 }
 
 /* Light theme specific header element styles */
@@ -622,18 +624,26 @@ html, body {
     color: #FFD644 !important;
 }
 
-/* Dark theme specific header element styles - DISABLED */
+/* Dark theme specific header element styles */
 [data-theme="dark"] #propokit-icon-logo {
-    /* Dark theme disabled to prevent text color changes */
+    color: #E2E8F0;
 }
 
-/* Ensure logo-kit stays yellow in dark mode - DISABLED */
+/* Ensure logo-kit stays yellow in dark mode */
 [data-theme="dark"] #propokit-icon-logo .logo-kit {
-    /* Dark theme disabled to prevent text color changes */
+    background: linear-gradient(45deg, #FFC300, #FFD644) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #FFC300 !important;
 }
 
 [data-theme="dark"] #propokit-icon-logo:hover .logo-kit {
-    /* Dark theme disabled to prevent text color changes */
+    background: linear-gradient(45deg, #FFD644, #FFE066) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #FFD644 !important;
 }
 
 [data-theme="light"] .header-btn {
@@ -691,70 +701,112 @@ html, body {
     color: #6b7280;
 }
 
-/* Dark theme specific header element styles - DISABLED */
+[data-theme="light"] .auth-status-indicator {
+    color: #6b7280;
+}
+
+[data-theme="light"] .auth-status-indicator .auth-status-text {
+    color: #2D3748;
+}
+
+/* Dark theme specific header element styles */
 [data-theme="dark"] .header-btn {
-    /* Dark theme disabled to prevent text color changes */
+    border-color: rgba(226, 232, 240, 0.2);
+    color: #E2E8F0;
 }
 
 [data-theme="dark"] .header-btn:hover {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.1);
+    color: #E2E8F0;
 }
 
-/* Keep download and print buttons colored in dark mode - DISABLED */
+/* Keep download and print buttons colored in dark mode */
 [data-theme="dark"] .header-btn-download {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: #38A169;
+    color: #FFFFFF;
 }
 
 [data-theme="dark"] .header-btn-download:hover {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: #2F855A;
 }
 
 [data-theme="dark"] .header-btn-print {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: #3182CE;
+    color: #FFFFFF;
 }
 
 [data-theme="dark"] .header-btn-print:hover {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: #2C5282;
 }
 
 [data-theme="dark"] .header-divider {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.15);
 }
 
 [data-theme="dark"] #header-document-title {
-    /* Dark theme disabled to prevent text color changes */
+    color: #E2E8F0;
+    background-color: transparent;
 }
 
 [data-theme="dark"] #header-document-title:hover {
-    /* Dark theme disabled to prevent text color changes */
+    border-color: rgba(226, 232, 240, 0.2);
 }
 
 [data-theme="dark"] #header-document-title:focus {
-    /* Dark theme disabled to prevent text color changes */
+    border-color: #63B3ED;
+    background-color: rgba(99, 179, 237, 0.1);
 }
 
 [data-theme="dark"] .zoom-controls {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.15);
+    border-color: rgba(226, 232, 240, 0.2);
 }
 
 [data-theme="dark"] .zoom-controls .header-btn-icon-only {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.05);
+    border-color: rgba(226, 232, 240, 0.2);
 }
 
 [data-theme="dark"] .zoom-controls .header-btn-icon-only:hover {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.1);
+    border-color: rgba(226, 232, 240, 0.3);
 }
 
 [data-theme="dark"] #zoom-level-display {
-    /* Dark theme disabled to prevent text color changes */
+    color: #E2E8F0;
 }
 
 [data-theme="dark"] #header-title-container:hover {
-    /* Dark theme disabled to prevent text color changes */
+    background-color: rgba(226, 232, 240, 0.05);
+}
+
+[data-theme="dark"] .header-btn-tool {
+    background-color: transparent;
+    border-color: rgba(226, 232, 240, 0.2);
+    color: #E2E8F0;
+}
+
+[data-theme="dark"] .header-btn-tool {
+    background-color: transparent;
+    border-color: rgba(226, 232, 240, 0.2);
+    color: #E2E8F0;
+}
+
+[data-theme="dark"] .header-btn-tool:hover {
+    background-color: rgba(226, 232, 240, 0.1);
+    color: #E2E8F0;
 }
 
 [data-theme="dark"] .header-document-title-wrapper .document-icon {
-    /* Dark theme disabled to prevent text color changes */
+    color: #A0AEC0;
+}
+
+[data-theme="dark"] .auth-status-indicator {
+    color: #A0AEC0;
+}
+
+[data-theme="dark"] .auth-status-indicator .auth-status-text {
+    color: #E2E8F0;
 }
 
 /* --- 2. Logo Styles --- */

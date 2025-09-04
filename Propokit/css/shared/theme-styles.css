@@ -608,19 +608,4 @@ body.theme-hybrid {
     color: var(--text-secondary);
 }
 
-/* Header text elements - ONLY for dark mode */
-[data-theme="dark"] .logo-text {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .document-icon {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] #zoom-level-display {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .header-divider {
-    background-color: var(--border-color);
-}
+/* Header text elements - REMOVED to prevent conflicts with Hader-Sidebar-Styles.css */
