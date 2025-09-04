@@ -9907,9 +9907,27 @@
                            if (user) {
                                console.log('👤 User logged in on home page, updating UI...');
                                
-                               // Hide login button
+                               // Transform login button to sign out button
                                const loginBtn = document.getElementById('login-btn');
-                               if (loginBtn) loginBtn.style.display = 'none';
+                               if (loginBtn) {
+                                   loginBtn.style.display = 'flex';
+                                   loginBtn.innerHTML = `
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                           <polyline points="16,17 21,12 16,7"></polyline>
+                                           <line x1="21" y1="12" x2="9" y2="12"></line>
+                                       </svg>
+                                       Sign Out
+                                   `;
+                                   // Remove existing event listeners and add sign out handler
+                                   loginBtn.replaceWith(loginBtn.cloneNode(true));
+                                   const newLoginBtn = document.getElementById('login-btn');
+                                   newLoginBtn.addEventListener('click', (e) => {
+                                       e.preventDefault();
+                                       e.stopPropagation();
+                                       signOut();
+                                   });
+                               }
                                
                                // Show user profile
                                const userProfileMenu = document.getElementById('homepage-user-profile-container');
@@ -9949,9 +9967,27 @@
                        } else {
                                console.log('👤 User logged out on home page, updating UI...');
                                
-                               // Show login button
+                               // Transform sign out button back to sign in button
                                const loginBtn = document.getElementById('login-btn');
-                               if (loginBtn) loginBtn.style.display = 'flex';
+                               if (loginBtn) {
+                                   loginBtn.style.display = 'flex';
+                                   loginBtn.innerHTML = `
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                           <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                           <polyline points="10,17 15,12 10,7"></polyline>
+                                           <line x1="15" y1="12" x2="3" y2="12"></line>
+                                       </svg>
+                                       Sign In
+                                   `;
+                                   // Remove existing event listeners and add sign in handler
+                                   loginBtn.replaceWith(loginBtn.cloneNode(true));
+                                   const newLoginBtn = document.getElementById('login-btn');
+                                   newLoginBtn.addEventListener('click', (e) => {
+                                       e.preventDefault();
+                                       e.stopPropagation();
+                                       signInWithGoogle();
+                                   });
+                               }
                                
                                // Hide user profile
                                const userProfileMenu = document.getElementById('homepage-user-profile-container');
