@@ -139,7 +139,7 @@
     #active-nav-indicator {
         position: absolute;
         width: 4px; /* Thicker line */
-        left: 0px; /* Move all the way to the left edge */
+        left: 6px; /* Add space between strip and button */
         background: var(--active-indicator-color);
         border-radius: 2px; /* Curvy on top and bottom */
         z-index: 0;
