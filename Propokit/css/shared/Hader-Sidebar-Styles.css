@@ -139,7 +139,7 @@
     #active-nav-indicator {
         position: absolute;
         width: 4px; /* Thicker line */
-        left: 4px; /* Space from the left edge, not inside buttons */
+        left: 2px; /* Move more to the left */
         background: var(--active-indicator-color);
         border-radius: 2px; /* Curvy on top and bottom */
         z-index: 0;
@@ -149,7 +149,7 @@
         box-shadow: 0 0 8px rgba(255, 191, 35, 0.3); /* Subtle glow */
         transform: translateY(var(--indicator-y, 0px));
         height: calc(100% - 16px); /* Shorter than the button */
-        top: 8px; /* Center it vertically */
+        top: 4px; /* Move up more */
     }
     @keyframes indicatorLoad {
         from { opacity: 0; transform: scale(0.9) translateY(var(--indicator-y)); }
@@ -182,7 +182,7 @@
     #main-nav a:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
     #main-nav a.active { 
         color: var(--nav-text-hover-color); 
-        background: rgba(59, 130, 246, 0.6); /* Much more visible blue background */
+        background: #3B82F6; /* Solid blue background - very visible */
         box-shadow: none; 
         border-color: transparent; 
         transform: none; 
