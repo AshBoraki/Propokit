@@ -1121,8 +1121,14 @@
                 $('#pdfCheckbox').prop('checked', data.showPdfQr === true);
                 $('#customCheckbox').prop('checked', data.showCustomQr === true);
 
-                // Only redraw QR codes if we have actual data, otherwise keep sample placeholders
-                if (data.showWebsiteQr || data.showPdfQr || data.showCustomQr) {
+                // *** NEW USER FIX ***
+                // Hide all QR containers for new users with no data
+                if (!data.showWebsiteQr && !data.showPdfQr && !data.showCustomQr) {
+                    $('#websiteQrCodeContainer, #pdfQrCodeContainer, #customQrCodeContainer').hide();
+                    $('#qrCodePlaceholder').show();
+                    console.log('New user detected - hiding QR code containers');
+                } else {
+                    // Only redraw QR codes if we have actual data
                     generatePageQRCodes(data);
                 }
             }
@@ -1682,12 +1688,16 @@
                 }
                 if (window.coverImageRef) window.coverImageRef.once('value', snap => updateCoverImageUI(snap.val()));
 
-                            // Ensure sample QR codes are visible on first load
+                            // *** NEW USER FIX ***
+            // Only show sample QR codes if user has existing data, otherwise keep hidden
             setTimeout(() => {
+                // Check if user has any QR code data
+                const hasQrData = window.qrCodesRef ? false : true; // Will be updated by Firebase listener
+                
+                // If containers are empty AND no Firebase data exists, keep them hidden
                 if ($('#pdfQrcode').is(':empty') && $('#websiteQrcode').is(':empty') && $('#customQrcode').is(':empty')) {
-                    // Show sample QR codes if containers are empty
-                    $('#pdfQrCodeContainer, #websiteQrCodeContainer, #customQrCodeContainer').show();
-                    console.log('Sample QR codes displayed on first load');
+                    // Don't show sample QR codes for new users - let updateQrCodesUI handle visibility
+                    console.log('QR containers empty - visibility will be managed by updateQrCodesUI');
                 }
             }, 100);
 
@@ -2508,7 +2518,7 @@
             function generatePageQRCodes(data = {}) {
                 console.log('Generating QR codes with data:', data);
 
-                // Clear all existing QR code containers and hide them
+                // Clear all existing QR code containers and hide them initially
                 $('#pdfQrcode, #websiteQrcode, #customQrcode').empty();
                 $('#websiteQrCodeContainer, #pdfQrCodeContainer, #customQrCodeContainer').hide();
 

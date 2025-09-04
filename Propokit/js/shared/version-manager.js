@@ -12,10 +12,20 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "1.1.0";
+const CURRENT_VERSION = "1.1.1";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "1.1.1",
+        date: "2024-12-19",
+        changes: [
+            "Fix QR code placeholder issue for new users",
+            "Hide empty QR code containers until user generates first QR code",
+            "Improve new user experience by removing sample placeholders",
+            "Update initialization logic to prevent showing empty QR codes"
+        ]
+    },
     {
         version: "1.1.0",
         date: "2024-01-01",
