@@ -590,104 +590,15 @@ body.theme-hybrid {
 }
 
 /* ==================================================
-   🌙 DARK/LIGHT THEME SYSTEM (data-theme attribute)
+   🌙 DARK/LIGHT THEME SYSTEM - DISABLED
    ================================================== */
 
-/* Light theme (default) */
-:root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --border-color: #e5e7eb;
-    --header-bg: #ffffff;
-    --sidebar-bg: #f8fafc;
-    --dropdown-bg: #ffffff;
-    --dropdown-border: #e5e7eb;
-    --button-bg: #ffffff;
-    --button-text: #111827;
-    --button-hover: #f3f4f6;
-}
+/* ==================================================
+   🌙 DARK/LIGHT THEME SYSTEM - DISABLED
+   ================================================== */
 
-/* Dark theme */
-[data-theme="dark"] {
-    --bg-primary: #1f2937;
-    --bg-secondary: #111827;
-    --text-primary: #f9fafb;
-    --text-secondary: #d1d5db;
-    --border-color: #374151;
-    --header-bg: #1f2937;
-    --sidebar-bg: #111827;
-    --dropdown-bg: #1f2937;
-    --dropdown-border: #374151;
-    --button-bg: #374151;
-    --button-text: #f9fafb;
-    --button-hover: #4b5563;
-}
-
-/* Apply theme variables to elements - ONLY for dark/light mode */
-[data-theme="dark"] body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] #top-application-header {
-    background-color: var(--header-bg);
-    border-bottom: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] #main-sidebar {
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] .profile-dropdown {
-    background-color: var(--dropdown-bg);
-    border: 1px solid var(--dropdown-border);
-}
-
-[data-theme="dark"] .dropdown-item {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .dropdown-item:hover {
-    background-color: var(--button-hover);
-}
-
-/* Additional main app elements - ONLY for dark mode */
-[data-theme="dark"] .header-btn {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] .header-btn:hover {
-    background-color: var(--button-hover);
-}
-
-[data-theme="dark"] #header-document-title {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] .nav-link {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .nav-link:hover {
-    background-color: var(--button-hover);
-}
-
-[data-theme="dark"] #page-content {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-/* Theme toggle specific styles - ONLY for dark mode */
-[data-theme="dark"] .dropdown-item-toggle {
-    background-color: var(--dropdown-bg);
-}
+/* Dark/Light theme system has been disabled to prevent text color issues.
+   All content should remain unchanged regardless of theme. */
 
 [data-theme="dark"] .dropdown-item-label {
     color: var(--text-primary);

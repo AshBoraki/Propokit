@@ -24,12 +24,9 @@
         background-image: none;
     }
 
-    /* Dark theme body background */
+    /* Dark theme body background - DISABLED to prevent text color issues */
     [data-theme="dark"] body {
-        background-color: #1A202C;
-        background-image:
-            linear-gradient(160deg, rgba(26, 32, 44, 0.95) 20%, rgba(45, 55, 72, 0.95) 100%),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.06'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        /* Dark theme disabled to prevent text color changes */
     }
 
     @keyframes fadeInSidebar {
@@ -307,9 +304,9 @@ html, body {
     background-color: #FFFFFF;
 }
 
-/* Dark theme main content area */
+/* Dark theme main content area - DISABLED to prevent text color issues */
 [data-theme="dark"] #main-content-area {
-    background-color: #1A202C;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 
@@ -598,9 +595,9 @@ html, body {
     background-color: #FFFFFF; color: #2D3748; border-color: #E2E8F0;
 }
 
-/* Dark theme header styles - ensure all header elements respond to dark mode */
+/* Dark theme header styles - DISABLED to prevent text color issues */
 [data-theme="dark"] #top-application-header {
-    background-color: #1f2937; color: #E2E8F0; border-color: rgba(255, 255, 255, 0.1); /* Match theme-styles.css */
+    /* Dark theme disabled to prevent text color changes */
 }
 
 /* Light theme specific header element styles */
@@ -625,26 +622,18 @@ html, body {
     color: #FFD644 !important;
 }
 
-/* Dark theme specific header element styles */
+/* Dark theme specific header element styles - DISABLED */
 [data-theme="dark"] #propokit-icon-logo {
-    color: #E2E8F0;
+    /* Dark theme disabled to prevent text color changes */
 }
 
-/* Ensure logo-kit stays yellow in dark mode - more specific selector */
+/* Ensure logo-kit stays yellow in dark mode - DISABLED */
 [data-theme="dark"] #propokit-icon-logo .logo-kit {
-    background: linear-gradient(45deg, #FFC300, #FFD644) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    color: #FFC300 !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #propokit-icon-logo:hover .logo-kit {
-    background: linear-gradient(45deg, #FFD644, #FFE066) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    color: #FFD644 !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="light"] .header-btn {
@@ -702,85 +691,70 @@ html, body {
     color: #6b7280;
 }
 
-/* Dark theme specific header element styles */
+/* Dark theme specific header element styles - DISABLED */
 [data-theme="dark"] .header-btn {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #E2E8F0;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #E2E8F0;
+    /* Dark theme disabled to prevent text color changes */
 }
 
-/* Keep download and print buttons colored in dark mode */
+/* Keep download and print buttons colored in dark mode - DISABLED */
 [data-theme="dark"] .header-btn-download {
-    background-color: #E67E22 !important;
-    border-color: transparent !important;
-    color: #ffffff !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-btn-download:hover {
-    background-color: #f39c12 !important;
-    color: #ffffff !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-btn-print {
-    background-color: #27ae60 !important;
-    border-color: transparent !important;
-    color: #ffffff !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-btn-print:hover {
-    background-color: #2ecc71 !important;
-    color: #ffffff !important;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-divider {
-    background-color: rgba(255, 255, 255, 0.15);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #header-document-title {
-    color: #E2E8F0;
-    background-color: transparent;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #header-document-title:hover {
-    border-color: rgba(255, 255, 255, 0.2);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #header-document-title:focus {
-    border-color: #3a8dff;
-    background-color: rgba(58, 141, 255, 0.1);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .zoom-controls {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .zoom-controls .header-btn-icon-only {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.2);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .zoom-controls .header-btn-icon-only:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #zoom-level-display {
-    color: #E2E8F0;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] #header-title-container:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    /* Dark theme disabled to prevent text color changes */
 }
 
 [data-theme="dark"] .header-document-title-wrapper .document-icon {
-    color: #9ab0c9;
+    /* Dark theme disabled to prevent text color changes */
 }
 
 /* --- 2. Logo Styles --- */
