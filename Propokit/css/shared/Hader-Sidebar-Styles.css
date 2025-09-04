@@ -138,16 +138,18 @@
     }
     #active-nav-indicator {
         position: absolute;
-        width: 3px; /* Thin line on the left */
-        left: 0;
+        width: 4px; /* Thicker line */
+        left: 8px; /* Space from the left edge */
         background: var(--active-indicator-color);
-        border-radius: 0 2px 2px 0; /* Rounded on right side only */
+        border-radius: 2px; /* Curvy on top and bottom */
         z-index: 0;
         transition: var(--elastic-transition); /* LIQUID EFFECT */
         opacity: 0;
         border: none; /* Remove border */
         box-shadow: 0 0 8px rgba(255, 191, 35, 0.3); /* Subtle glow */
         transform: translateY(var(--indicator-y, 0px));
+        height: calc(100% - 16px); /* Shorter than the button */
+        top: 8px; /* Center it vertically */
     }
     @keyframes indicatorLoad {
         from { opacity: 0; transform: scale(0.9) translateY(var(--indicator-y)); }
@@ -176,13 +178,13 @@
     #main-nav a:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
     #main-nav a.active { 
         color: var(--nav-text-hover-color); 
-        background: rgba(255, 195, 0, 0.1); /* Subtle yellow background */
+        background: rgba(59, 130, 246, 0.2); /* Nice blue background - not too bright */
         box-shadow: none; 
         border-color: transparent; 
         transform: none; 
     }
     #main-nav a.active .nav-icon { 
-        fill: var(--active-icon-color); /* Green icon */
+        fill: var(--active-icon-color); /* Blue icon */
     }
     .nav-icon { width: 20px; height: 20px; fill: var(--icon-color); transition: fill 0.3s ease, transform 0.3s ease; }
 
@@ -359,19 +361,7 @@ html, body {
 
 /* Navigation styles are defined in the original section above */
 
-    /* Light theme adjustments for better visibility */
-    [data-theme="light"] #active-nav-indicator {
-        background: var(--light-active-indicator-color);
-        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
-    }
-    
-    [data-theme="light"] #main-nav a.active .nav-icon {
-        fill: var(--light-active-icon-color);
-    }
-    
-    [data-theme="light"] #main-nav a.active {
-        background: rgba(59, 130, 246, 0.1); /* Light blue background */
-    }
+    /* Colors work fine in both light and dark modes - no special adjustments needed */
 
 /* --- Scroll Arrows --- */
 .scroll-arrow {
