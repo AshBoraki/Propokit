@@ -9850,21 +9850,29 @@
                                   // Initialize dropdown functionality
                    initBulletproofDropdown();
                
-               // Set up sign out button
-               const signOutBtn = document.getElementById('homepage-signout-button');
-               if (signOutBtn) {
-                   signOutBtn.addEventListener('click', function(e) {
-                       e.preventDefault();
-                       console.log('🚪 Sign out button clicked');
-                       firebase.auth().signOut().then(() => {
-                           console.log('✅ User signed out successfully');
-                           showNotification('Signed out successfully', 'success');
-                       }).catch((error) => {
-                           console.error('❌ Error signing out:', error);
-                           showNotification('Error signing out', 'error');
+                   // Set up sign out button
+                   const signOutBtn = document.getElementById('homepage-signout-button');
+                   if (signOutBtn) {
+                       signOutBtn.addEventListener('click', function(e) {
+                           e.preventDefault();
+                           e.stopPropagation();
+                           console.log('🚪 Home page dropdown sign out button clicked');
+                           
+                           // Use the clean auth system's signOut function
+                           if (typeof signOut === 'function') {
+                               signOut();
+                           } else {
+                               // Fallback to direct Firebase signOut
+                               firebase.auth().signOut().then(() => {
+                                   console.log('✅ User signed out successfully');
+                                   showNotification('Signed out successfully', 'success');
+                               }).catch((error) => {
+                                   console.error('❌ Error signing out:', error);
+                                   showNotification('Error signing out', 'error');
+                               });
+                           }
                        });
-                   });
-               }
+                   }
                }
                
                // =================================================================
@@ -10040,6 +10048,31 @@
                        // Test dropdown functionality
                        initBulletproofDropdown();
                        initHomePageThemeToggle();
+                       
+                       // Set up sign out button in dropdown
+                       const signOutBtn = document.getElementById('homepage-signout-button');
+                       if (signOutBtn) {
+                           signOutBtn.addEventListener('click', function(e) {
+                               e.preventDefault();
+                               e.stopPropagation();
+                               console.log('🚪 Home page dropdown sign out button clicked');
+                               
+                               // Use the clean auth system's signOut function
+                               if (typeof signOut === 'function') {
+                                   signOut();
+                               } else {
+                                   // Fallback to direct Firebase signOut
+                                   firebase.auth().signOut().then(() => {
+                                       console.log('✅ User signed out successfully');
+                                       showNotification('Signed out successfully', 'success');
+                                   }).catch((error) => {
+                                       console.error('❌ Error signing out:', error);
+                                       showNotification('Error signing out', 'error');
+                                   });
+                               }
+                           });
+                       }
+                       
                        console.log('✅ Home page functionality initialized');
                    }, 1000); // Increased delay to 1 second
                });
