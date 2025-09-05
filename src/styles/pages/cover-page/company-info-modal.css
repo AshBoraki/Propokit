@@ -522,7 +522,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .company-field {
         border-width: 2px;
     }

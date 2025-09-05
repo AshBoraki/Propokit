@@ -679,7 +679,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .control-btn,
     .crop-controls-section,
     .upload-section {

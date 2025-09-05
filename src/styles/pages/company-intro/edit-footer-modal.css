@@ -501,7 +501,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .footer-editor-container,
     .footer-editor-container .form-group {
         border-width: 2px;

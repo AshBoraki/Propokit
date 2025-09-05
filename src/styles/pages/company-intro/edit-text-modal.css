@@ -726,7 +726,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .contact-option,
     .progress-steps {
         border-width: 2px;

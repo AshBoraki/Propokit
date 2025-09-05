@@ -550,7 +550,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .company-intro-section,
     .company-intro-footer {
         border-width: 2px;

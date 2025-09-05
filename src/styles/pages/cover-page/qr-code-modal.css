@@ -949,7 +949,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .qr-type-card,
     .url-config-section,
     .existing-qr-item {

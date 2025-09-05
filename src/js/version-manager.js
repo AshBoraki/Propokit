@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.8";
+const CURRENT_VERSION = "2.2.9";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.9",
+        date: "2024-12-19",
+        changes: [
+            "Fix critical SyntaxError in dashboard.html by moving global assignments inside IIFE",
+            "Fix CSS parsing errors by correcting malformed background property in header-sidebar-styles.css",
+            "Fix invalid media feature 'prefers-contrast: high' to 'prefers-contrast: more' in all CSS files",
+            "Add favicon links to prevent 404 errors on both index.html and dashboard.html",
+            "Eliminate all CSS parsing errors and warnings for clean console output",
+            "Prepare for Google Maps API migration and FOUC warning resolution"
+        ]
+    },
     {
         version: "2.2.8",
         date: "2024-12-19",
