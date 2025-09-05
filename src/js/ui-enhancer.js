@@ -308,8 +308,8 @@ class UIEnhancer {
         document.querySelectorAll('input, textarea, select').forEach(input => {
             input.classList.add('focus-enhanced');
             
-            // Add floating label effect
-            if (input.placeholder) {
+            // Add floating label effect (exclude header document title)
+            if (input.placeholder && input.id !== 'header-document-title') {
                 this.addFloatingLabel(input);
             }
             

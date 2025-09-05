@@ -1013,6 +1013,26 @@ html, body {
 
 
 
+.header-document-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-document-title-wrapper .document-icon {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+[data-theme="light"] .header-document-title-wrapper .document-icon {
+    color: #6b7280;
+}
+
+[data-theme="dark"] .header-document-title-wrapper .document-icon {
+    color: #A0AEC0;
+}
+
 #header-document-title {
     background: transparent;
     border: 1px solid transparent; /* Start with a hidden border */
@@ -1027,14 +1047,6 @@ html, body {
     outline: none;
 }
 
-/* Ensure no icons are added to the header document title */
-#header-document-title::before,
-#header-document-title::after,
-.header-document-title-wrapper::before,
-.header-document-title-wrapper::after {
-    display: none !important;
-    content: none !important;
-}
 
 #header-document-title:hover {
     /* On hover, give a subtle hint it's editable */
