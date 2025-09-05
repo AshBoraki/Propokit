@@ -119,12 +119,19 @@ async function signInWithGoogle() {
             loginBtn.innerHTML = 'Sign In';
         }
         
-        // Handle specific error types
+        // Handle specific error types with better error handling
         if (error.code === 'auth/popup-closed-by-user') {
-            console.log('👤 User closed popup');
+            console.log('👤 User closed popup - this is normal behavior');
+            // Don't show alert for normal popup closure
+            return;
         } else if (error.code === 'auth/popup-blocked') {
+            console.warn('⚠️ Popup was blocked by browser');
             alert('Popup was blocked. Please allow popups for this site and try again.');
+        } else if (error.code === 'auth/cancelled-popup-request') {
+            console.log('👤 User cancelled popup request - normal behavior');
+            return;
         } else {
+            console.error('🚨 Unexpected sign-in error:', error.message);
             alert('Sign-in failed. Please try again.');
         }
     }

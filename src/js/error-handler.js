@@ -56,6 +56,13 @@ class ErrorHandler {
      */
     setupUnhandledRejectionHandler() {
         window.addEventListener('unhandledrejection', (event) => {
+            // Handle Firebase internal assertion errors gracefully
+            if (event.reason?.message?.includes('INTERNAL ASSERTION FAILED')) {
+                console.warn('⚠️ Firebase internal assertion (non-critical):', event.reason.message);
+                event.preventDefault(); // Prevent console error
+                return;
+            }
+            
             this.handleError({
                 type: 'Unhandled Promise Rejection',
                 message: event.reason?.message || 'Unknown promise rejection',

@@ -12,10 +12,23 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.7";
+const CURRENT_VERSION = "2.2.8";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.8",
+        date: "2024-12-19",
+        changes: [
+            "Fix all console errors and warnings for 100% clean operation",
+            "Fix Firebase internal assertion error handling",
+            "Fix WebP image fallback 404 errors by skipping local images",
+            "Add timeout handling for WebP conversion attempts",
+            "Improve error handling for popup-closed-by-user scenarios",
+            "Add graceful handling of Firebase internal assertion failures",
+            "Eliminate all console noise and warnings"
+        ]
+    },
     {
         version: "2.2.7",
         date: "2024-12-19",

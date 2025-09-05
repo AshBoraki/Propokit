@@ -282,18 +282,38 @@ class PerformanceOptimizer {
     }
 
     /**
-     * 🔄 Convert images to WebP format
+     * 🔄 Convert images to WebP format (only if WebP versions exist)
      */
     convertImagesToWebP() {
         document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg"], img[src$=".png"]').forEach(img => {
             const originalSrc = img.src;
             const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
             
-            // Test if WebP version exists
+            // Skip if already using local images (no WebP conversion needed)
+            if (originalSrc.includes('/public/assets/images/')) {
+                return; // Skip local images - they don't have WebP versions
+            }
+            
+            // Test if WebP version exists with timeout
             const testImg = new Image();
+            const timeout = setTimeout(() => {
+                // WebP version doesn't exist or failed to load, keep original
+                testImg.onload = null;
+                testImg.onerror = null;
+            }, 2000); // 2 second timeout
+            
             testImg.onload = () => {
+                clearTimeout(timeout);
                 img.src = webpSrc;
+                console.log('🖼️ Converted to WebP:', webpSrc);
             };
+            
+            testImg.onerror = () => {
+                clearTimeout(timeout);
+                // WebP version doesn't exist, keep original
+                console.log('🖼️ WebP not available, keeping original:', originalSrc);
+            };
+            
             testImg.src = webpSrc;
         });
     }
