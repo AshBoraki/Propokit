@@ -1280,7 +1280,7 @@
                             } else {
                                 // No authenticated user - redirect to login
                                 console.log('❌ No authenticated user found, redirecting to home page...');
-                                window.location.href = '../index.html';
+                                window.location.href = '/index.html';
                             }
                         });
                         
@@ -1294,7 +1294,7 @@
                             reinitializeFirebaseRefs(currentUser.uid);
                         } else {
                             console.log('❌ No authenticated user found, redirecting to home page...');
-                            window.location.href = '../index.html';
+                            window.location.href = '/index.html';
                         }
                     } else {
                         console.log('⏳ Waiting for Firebase...');

@@ -345,7 +345,7 @@ function updateUIForSignedInUser(user) {
     // Update logo link to go to main app (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
     if (logoLink) {
-        logoLink.href = 'src/pages/dashboard.html';
+        logoLink.href = '/src/pages/dashboard.html';
         logoLink.title = 'Go to Dashboard';
     }
     
@@ -442,7 +442,7 @@ function updateUIForSignedInUser(user) {
         console.log('✅ All conditions met - redirecting to app!');
         setTimeout(() => {
             console.log('🚀 Initial login - redirecting to main app...');
-            window.location.href = 'src/pages/dashboard.html';
+            window.location.href = '/src/pages/dashboard.html';
             hasVisitedApp = true; // Mark that user has visited the app
         }, 1000); // 1 second delay to show success state
         isInitialLogin = false; // Mark that initial login is done
