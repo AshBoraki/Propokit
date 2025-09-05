@@ -4,7 +4,7 @@
 
 ### Before Every Commit:
 1. **Run the version check**: `./check-version-rules.sh`
-2. **Update version**: Edit `Propokit/js/shared/version-manager.js`
+2. **Update version**: Edit `src/js/version-manager.js`
 3. **Commit with proper format**: `[Version X.Y.Z] Description`
 
 ## 📋 Available Tools
@@ -23,7 +23,7 @@ Automatically checks commit message format before allowing commits.
 ### 3. Shell Aliases (Optional)
 Add to your `~/.zshrc` or `~/.bashrc`:
 ```bash
-source /Users/ashb/Desktop/Propokit/propokit-aliases.sh
+source /Users/ashb/Desktop/Propokit/scripts/propokit-aliases.sh
 ```
 
 Then use:
@@ -32,7 +32,7 @@ Then use:
 - `propokit-push` - Full workflow (check → commit → push)
 
 ## 📖 Full Documentation
-See `Propokit/VERSION_RULES.md` for complete rules and examples.
+See `docs/VERSION_RULES.md` for complete rules and examples.
 
 ## 🔧 How It Works
 

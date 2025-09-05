@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "1.2.1";
+const CURRENT_VERSION = "2.0.0";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.0.0",
+        date: "2024-12-19",
+        changes: [
+            "Complete project restructuring to standard web app format",
+            "Reorganize files into src/, public/, docs/, and scripts/ directories",
+            "Update all file references and links to new structure",
+            "Establish professional SaaS project organization",
+            "Improve maintainability and scalability of codebase"
+        ]
+    },
     {
         version: "1.2.1",
         date: "2024-12-19",

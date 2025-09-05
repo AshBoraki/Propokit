@@ -4,7 +4,7 @@
 
    This file contains SPECIFIC styles for the Company Information Modal
    (#infoModal) used on the cover page. It inherits base modal styles from
-   css/shared/modals.css and adds Company Info specific functionality.
+   ../shared/modals.css and adds Company Info specific functionality.
 
    IMPORTANT: This file works WITH modals.css, not instead of it!
 

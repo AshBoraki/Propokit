@@ -139,7 +139,7 @@
     color: white;
 }
 
-/* QR Code modal styles moved to: css/pages/cover-page/qr-code-modal.css */
+/* QR Code modal styles moved to: ../pages/cover-page/qr-code-modal.css */
 
 /* --- 3.9 CUSTOM MODAL ELEMENTS --- */
 /* Styles for custom elements used across different modals */
@@ -350,13 +350,13 @@
     gap: 12px;
 }
 
-/* Image management modal styles moved to: css/pages/cover-page/image-manager-modal.css */
+/* Image management modal styles moved to: ../pages/cover-page/image-manager-modal.css */
 
-/* Footer editor styles moved to: css/pages/company-intro/edit-footer-modal.css */
+/* Footer editor styles moved to: ../pages/company-intro/edit-footer-modal.css */
 
-/* QR modal responsive styles moved to: css/pages/cover-page/qr-code-modal.css */
+/* QR modal responsive styles moved to: ../pages/cover-page/qr-code-modal.css */
 
-    /* Image manager responsive styles moved to: css/pages/cover-page/image-manager-modal.css */
+    /* Image manager responsive styles moved to: ../pages/cover-page/image-manager-modal.css */
 
     .progress-steps {
         margin: 12px 16px 16px 16px;
@@ -392,9 +392,9 @@
 }
 
 @media (max-width: 576px) {
-    /* QR modal mobile styles moved to: css/pages/cover-page/qr-code-modal.css */
+    /* QR modal mobile styles moved to: ../pages/cover-page/qr-code-modal.css */
 
-    /* Small screen image manager styles moved to: css/pages/cover-page/image-manager-modal.css */
+    /* Small screen image manager styles moved to: ../pages/cover-page/image-manager-modal.css */
 
     .progress-steps {
         margin: 8px 12px 12px 12px;
@@ -435,7 +435,7 @@
 /* These rules ensure all modals appear above the header (z-index: 1000)
    and PropoKit style menu (z-index: 3000) */
 
-/* Customer Details Modal z-index styles moved to: css/pages/cover-page/#1 modele Customer Info.css */
+/* Customer Details Modal z-index styles moved to: ../pages/cover-page/customer-info-modal.css */
 
 /* Company Info Modal */
 #infoModal {
@@ -560,11 +560,11 @@ div[id="combinedImageModal"] .modal-header {
     background: #5a5d63 !important;
 }
 
-/* Text Editing Modal styles moved to: css/pages/company-intro/edit-text-modal.css */
+/* Text Editing Modal styles moved to: ../pages/company-intro/edit-text-modal.css */
 
-/* Footer Editing Modal styles moved to: css/pages/company-intro/edit-footer-modal.css */
+/* Footer Editing Modal styles moved to: ../pages/company-intro/edit-footer-modal.css */
 
-/* Company Image Manager modal styles moved to: css/pages/company-intro/company-image-manager-modal.css */
+/* Company Image Manager modal styles moved to: ../pages/company-intro/company-image-manager-modal.css */
 
 /* Delete and Rename Modals */
 #deleteModal, #renameModal {

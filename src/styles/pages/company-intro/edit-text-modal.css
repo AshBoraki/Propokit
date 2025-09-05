@@ -4,7 +4,7 @@
 
    This file contains SPECIFIC styles for the Edit Text Content Modal
    (#editTextModal) used on the company intro page. It inherits base
-   modal styles from css/shared/modals.css and adds text editing
+   modal styles from ../shared/modals.css and adds text editing
    specific functionality.
 
    IMPORTANT: This file works WITH modals.css, not instead of it!

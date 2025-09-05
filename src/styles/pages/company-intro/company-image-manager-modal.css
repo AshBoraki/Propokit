@@ -4,7 +4,7 @@
 
    This file contains SPECIFIC styles for the Company Image Manager Modal
    (#companyIntroCropModal) used on the company intro page. It inherits base
-   modal styles from css/shared/modals.css and adds Company Image Manager
+   modal styles from ../shared/modals.css and adds Company Image Manager
    specific functionality.
 
    IMPORTANT: This file works WITH modals.css, not instead of it!

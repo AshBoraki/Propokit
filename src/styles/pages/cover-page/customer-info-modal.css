@@ -3,7 +3,7 @@
    ==================================================
 
    This file contains SPECIFIC styles for the Customer Info Modal (myModal).
-   It inherits base modal styles from css/shared/modals.css and adds
+   It inherits base modal styles from ../shared/modals.css and adds
    Customer Info specific customizations on top.
 
    IMPORTANT: This file works WITH modals.css, not instead of it!
@@ -101,7 +101,7 @@
    3. MODAL BODY & FOOTER STYLING
    ================================================== */
 
-/* Basic modal body and footer styling is handled by css/shared/modals.css */
+/* Basic modal body and footer styling is handled by ../shared/modals.css */
 /* Only Customer Info specific elements are styled here */
 
 /* ==================================================
@@ -421,7 +421,7 @@
    11. BUTTON STYLING
    ================================================== */
 
-/* All button styling is now handled by css/shared/modals.css */
+/* All button styling is now handled by ../shared/modals.css */
 /* This ensures consistent button styling across ALL modals */
 
 /* ==================================================

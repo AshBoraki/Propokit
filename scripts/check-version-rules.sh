@@ -8,8 +8,8 @@ echo "=================================="
 echo ""
 
 # Display current version
-if [ -f "Propokit/js/shared/version-manager.js" ]; then
-    CURRENT_VERSION=$(grep -o 'const CURRENT_VERSION = "[^"]*"' Propokit/js/shared/version-manager.js | cut -d'"' -f2)
+if [ -f "src/js/version-manager.js" ]; then
+    CURRENT_VERSION=$(grep -o 'const CURRENT_VERSION = "[^"]*"' src/js/version-manager.js | cut -d'"' -f2)
     echo "🔢 Current Version: $CURRENT_VERSION"
 else
     echo "❌ version-manager.js not found!"
@@ -17,7 +17,7 @@ fi
 
 echo ""
 echo "📝 BEFORE EACH COMMIT, YOU MUST:"
-echo "1. Update CURRENT_VERSION in Propokit/js/shared/version-manager.js"
+echo "1. Update CURRENT_VERSION in src/js/version-manager.js"
 echo "2. Add new entry to VERSION_HISTORY array"
 echo "3. Use proper commit message format:"
 echo ""
@@ -32,7 +32,7 @@ echo "• Patch (Z): Bug fixes, styling issues, minor improvements"
 echo "• Minor (Y): New features, new pages, non-breaking changes"
 echo "• Major (X): Breaking changes, major redesigns"
 echo ""
-echo "📖 Full rules available in: Propokit/VERSION_RULES.md"
+echo "📖 Full rules available in: docs/VERSION_RULES.md"
 echo ""
 echo "✅ Checklist:"
 echo "□ Updated CURRENT_VERSION"

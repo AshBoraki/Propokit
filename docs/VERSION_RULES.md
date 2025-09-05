@@ -9,7 +9,7 @@ Use Semantic Versioning: X.Y.Z
 ## 🔄 UPDATE PROCESS
 
 ### 1. Before Each Commit:
-- Update version number in `Propokit/js/shared/version-manager.js`
+- Update version number in `src/js/version-manager.js`
 - Update `VERSION_HISTORY` array with changes
 - Update `CURRENT_VERSION` constant
 
