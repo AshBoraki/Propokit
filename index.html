@@ -66,17 +66,22 @@
     <link rel="dns-prefetch" href="//images.unsplash.com">
     <link rel="dns-prefetch" href="//cdn-icons-png.flaticon.com">
     
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    <!-- Firebase Authentication (Optimized Loading) -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js" defer></script>
 
     <!-- Propokit Firebase Configuration -->
-    <script src="src/js/firebase-config.js"></script>
+    <script src="src/js/firebase-config.js" defer></script>
     
     <!-- Propokit Clean Authentication System -->
-    <script src="src/js/clean-auth-system.js"></script>
+    <script src="src/js/clean-auth-system.js" defer></script>
+    
+    <!-- Performance & UI Enhancement Modules -->
+    <script src="src/js/performance-optimizer.js" defer></script>
+    <script src="src/js/error-handler.js" defer></script>
+    <script src="src/js/ui-enhancer.js" defer></script>
 
     <style>
         :root {

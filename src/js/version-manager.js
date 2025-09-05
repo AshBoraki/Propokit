@@ -12,10 +12,37 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.1.1";
+const CURRENT_VERSION = "2.2.0";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.0",
+        date: "2024-12-19",
+        changes: [
+            "Implement comprehensive performance optimization system",
+            "Add advanced performance optimizer with device detection",
+            "Create comprehensive error handling and recovery system",
+            "Implement modern UI enhancer with accessibility features",
+            "Optimize script loading with deferred execution",
+            "Add lazy loading, WebP support, and memory management",
+            "Implement smooth animations and interactive elements",
+            "Add real-time performance monitoring and analytics",
+            "Create comprehensive performance documentation"
+        ]
+    },
+    {
+        version: "2.1.2",
+        date: "2024-12-19",
+        changes: [
+            "Complete comprehensive security audit and fixes",
+            "Fix remaining localStorage usage for authentication data",
+            "Remove hardcoded admin credentials from security monitor",
+            "Switch all auth-related data to sessionStorage",
+            "Create comprehensive security audit documentation",
+            "Implement additional security hardening measures"
+        ]
+    },
     {
         version: "2.1.1",
         date: "2024-12-19",
