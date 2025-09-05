@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.0S";
+const CURRENT_VERSION = "2.2.1";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.1",
+        date: "2024-12-19",
+        changes: [
+            "Fix Customer Info modal Next button navigation issue",
+            "Improve validation logic to prevent cursor movement conflicts",
+            "Add debugging logs for step navigation tracking",
+            "Delay focus on invalid fields to prevent step navigation interference",
+            "Ensure proper step progression when validation passes"
+        ]
+    },
     {
         version: "2.2.0S",
         date: "2024-12-19",
