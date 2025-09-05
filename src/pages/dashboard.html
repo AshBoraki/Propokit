@@ -1537,9 +1537,11 @@
                 const currentUser = firebase.auth().currentUser;
                 
                 if (currentUser && userProfileMenu) {
-                    // Always ensure profile is visible when user is logged in
-                    userProfileMenu.style.display = 'block';
-                    console.log('🔧 Ensuring profile visibility for logged-in user');
+                    // Only log and update if profile is actually hidden
+                    if (userProfileMenu.style.display === 'none' || userProfileMenu.style.display === '') {
+                        userProfileMenu.style.display = 'block';
+                        console.log('🔧 Profile visibility restored for logged-in user');
+                    }
                 }
             }
             
@@ -1549,10 +1551,10 @@
                 initBulletproofMainAppDropdown();
                 initThemeToggle();
                 
-                // Periodic check to ensure profile visibility
+                // Periodic check to ensure profile visibility (reduced frequency)
                 setInterval(() => {
                     ensureProfileVisibility();
-                }, 2000); // Check every 2 seconds
+                }, 10000); // Check every 10 seconds instead of 2
                 
                 // Listen for theme changes from homepage
                 window.addEventListener('themeChanged', function(e) {

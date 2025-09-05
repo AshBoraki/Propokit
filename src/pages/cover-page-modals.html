@@ -4128,11 +4128,20 @@ $(document).ready(function() {
     }
   });
 
-  // Initialize modal
+  // Initialize modal with proper focus management
   $('#myModal').on('shown.bs.modal', function() {
-    showStep(1);
+    // Focus on first input when modal opens
+    $(this).find('input:first').focus();
+  });
 
-    // Set today's date as default
+  $('#myModal').on('hidden.bs.modal', function() {
+    // Clear any validation states when modal closes
+    $('.is-invalid').removeClass('is-invalid');
+    // Reset to first step
+    showStep(1);
+  });
+
+  // Set today's date as default
     if (!$('#proposalDateInput').val()) {
       const today = new Date().toISOString().split('T')[0];
       $('#proposalDateInput').val(today);
