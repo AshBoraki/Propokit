@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.4";
+const CURRENT_VERSION = "2.2.5";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.5",
+        date: "2024-12-19",
+        changes: [
+            "Add image error handling and CORS issue fixes",
+            "Add handleImageErrors method to handle CORS blocked images",
+            "Hide broken images from external sources (wixstatic.com, flaticon.com)",
+            "Add WebP fallback support for failed image loads",
+            "Reduce console noise from OpaqueResponseBlocking errors"
+        ]
+    },
     {
         version: "2.2.4",
         date: "2024-12-19",
