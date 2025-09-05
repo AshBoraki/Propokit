@@ -698,9 +698,6 @@ html, body {
     background-color: rgba(45, 55, 72, 0.1);
 }
 
-[data-theme="light"] .header-document-title-wrapper .document-icon {
-    color: #6b7280;
-}
 
 [data-theme="light"] .auth-status-indicator {
     color: #6b7280;
@@ -798,9 +795,6 @@ html, body {
     color: #E2E8F0;
 }
 
-[data-theme="dark"] .header-document-title-wrapper .document-icon {
-    color: #A0AEC0;
-}
 
 [data-theme="dark"] .auth-status-indicator {
     color: #A0AEC0;
@@ -1018,9 +1012,6 @@ html, body {
 /* Adjust the title span itself (it's no longer an input) */
 
 
-.header-document-title-wrapper .document-icon {
-    display: none !important; /* Hide the document icon completely */
-}
 
 #header-document-title {
     background: transparent;
@@ -1034,6 +1025,15 @@ html, body {
     transition: all 0.2s ease;
     /* Prevent the default browser outline on focus */
     outline: none;
+}
+
+/* Ensure no icons are added to the header document title */
+#header-document-title::before,
+#header-document-title::after,
+.header-document-title-wrapper::before,
+.header-document-title-wrapper::after {
+    display: none !important;
+    content: none !important;
 }
 
 #header-document-title:hover {
