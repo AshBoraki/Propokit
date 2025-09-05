@@ -59,7 +59,7 @@
          ================================================== -->
 
     <!-- Google Places API (Required for Autocomplete) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB28vXDucuMPk0vFycYglnFHXKzNzqpqRw&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB28vXDucuMPk0vFycYglnFHXKzNzqpqRw&libraries=places&loading=async"></script>
 
     <!-- External CSS Libraries -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
@@ -3652,11 +3652,11 @@ function resetCrop() {
 
 
             });
+            
+            // Make dropdown functions globally available
+            window.forceReinitMainAppDropdown = forceReinitMainAppDropdown;
+            window.initBulletproofMainAppDropdown = initBulletproofMainAppDropdown;
         })();
-        
-        // Make dropdown functions globally available
-        window.forceReinitMainAppDropdown = forceReinitMainAppDropdown;
-        window.initBulletproofMainAppDropdown = initBulletproofMainAppDropdown;
         
         // Manual test function for main app dropdown
         function testMainAppDropdown() {

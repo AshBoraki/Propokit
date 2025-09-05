@@ -298,7 +298,10 @@ class PerformanceOptimizer {
             duration: entry.duration
         };
 
-        console.log('📊 Performance Metric:', metric);
+        // Only log performance metrics in development mode or for significant metrics
+        if (this.isDevelopmentMode || entry.duration > 10) {
+            console.log('📊 Performance Metric:', metric);
+        }
 
         // Send to analytics if available
         if (typeof gtag !== 'undefined') {
