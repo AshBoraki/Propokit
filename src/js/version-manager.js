@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.1";
+const CURRENT_VERSION = "2.2.2";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.2",
+        date: "2024-12-19",
+        changes: [
+            "Fix performance and accessibility issues",
+            "Reduce excessive profile visibility logging",
+            "Increase profile visibility check interval from 2s to 10s",
+            "Add proper focus management to Customer Info modal",
+            "Fix aria-hidden accessibility warning",
+            "Clear validation states when modal closes"
+        ]
+    },
     {
         version: "2.2.1",
         date: "2024-12-19",
