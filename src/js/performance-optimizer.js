@@ -33,6 +33,30 @@ class PerformanceOptimizer {
     }
 
     /**
+     * 🖼️ Handle image loading errors and CORS issues
+     */
+    handleImageErrors() {
+        // Add global error handler for images
+        document.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                console.warn('🖼️ Image failed to load:', e.target.src);
+                
+                // Handle CORS blocked images
+                if (e.target.src.includes('wixstatic.com') || e.target.src.includes('flaticon.com')) {
+                    console.warn('🖼️ CORS blocked image, hiding:', e.target.src);
+                    e.target.style.display = 'none';
+                }
+                
+                // Try WebP fallback
+                if (e.target.src.includes('.webp')) {
+                    const fallbackSrc = e.target.src.replace('.webp', '.png');
+                    e.target.src = fallbackSrc;
+                }
+            }
+        }, true);
+    }
+
+    /**
      * 🚀 Initialize performance optimizations
      */
     init() {
@@ -40,6 +64,7 @@ class PerformanceOptimizer {
         this.setupIntersectionObserver();
         this.setupDebouncedEvents();
         this.optimizeImages();
+        this.handleImageErrors();
         this.setupPerformanceMonitoring();
         
         if (this.isSlowDevice) {
