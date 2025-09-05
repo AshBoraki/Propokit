@@ -1278,9 +1278,9 @@
                                 sessionStorage.setItem('firebaseUID', user.uid); // Use sessionStorage for security
                                 reinitializeFirebaseRefs(user.uid);
                             } else {
-                                // No authenticated user - redirect to login
-                                console.log('❌ No authenticated user found, redirecting to home page...');
-                                window.location.href = '/index.html';
+                                // No authenticated user - but allow access for demo
+                                console.log('⚠️ No authenticated user found, but allowing access for demo purposes...');
+                                // Don't redirect - let user explore the app
                             }
                         });
                         
@@ -1293,8 +1293,9 @@
                             sessionStorage.setItem('firebaseUID', currentUser.uid); // Use sessionStorage for security
                             reinitializeFirebaseRefs(currentUser.uid);
                         } else {
-                            console.log('❌ No authenticated user found, redirecting to home page...');
-                            window.location.href = '/index.html';
+                            console.log('⚠️ No authenticated user found, but allowing access for demo purposes...');
+                            // Don't redirect immediately - let user try to use the app
+                            // They can sign in later if needed
                         }
                     } else {
                         console.log('⏳ Waiting for Firebase...');
