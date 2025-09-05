@@ -3932,18 +3932,28 @@ $(document).ready(function() {
 
   // Show specific step
   function showStep(stepNumber) {
+    console.log('📋 Showing step:', stepNumber, 'from step:', currentStep);
     $('.form-step').removeClass('active');
     $(`.form-step[data-step="${stepNumber}"]`).addClass('active');
     currentStep = stepNumber;
     updateStepNavigation();
+    console.log('✅ Step', stepNumber, 'is now active');
   }
 
   // Navigation button handlers
   $('#nextStepBtn').click(function() {
+    console.log('🔄 Next button clicked, current step:', currentStep);
+    
     if (validateCurrentStep()) {
+      console.log('✅ Validation passed, moving to next step');
       if (currentStep < totalSteps) {
         showStep(currentStep + 1);
+        console.log('➡️ Moved to step:', currentStep);
+      } else {
+        console.log('⚠️ Already at last step');
       }
+    } else {
+      console.log('❌ Validation failed, staying on current step');
     }
   });
 
@@ -3956,6 +3966,7 @@ $(document).ready(function() {
   // Step validation
   function validateCurrentStep() {
     let isValid = true;
+    let firstInvalidField = null;
     const currentStepEl = $(`.form-step[data-step="${currentStep}"]`);
 
     // Validate required fields in current step
@@ -3963,7 +3974,10 @@ $(document).ready(function() {
       if (!$(this).val().trim()) {
         isValid = false;
         $(this).addClass('is-invalid');
-        $(this).focus();
+        // Store first invalid field but don't focus yet
+        if (!firstInvalidField) {
+          firstInvalidField = $(this);
+        }
       } else {
         $(this).removeClass('is-invalid');
       }
@@ -3979,6 +3993,9 @@ $(document).ready(function() {
         if (!$('#customerPhoneInput').val().trim()) {
           isValid = false;
           $('#customerPhoneInput').addClass('is-invalid');
+          if (!firstInvalidField) {
+            firstInvalidField = $('#customerPhoneInput');
+          }
         } else {
           $('#customerPhoneInput').removeClass('is-invalid');
         }
@@ -3989,6 +4006,9 @@ $(document).ready(function() {
         if (!$('#customerEmailInput').val().trim()) {
           isValid = false;
           $('#customerEmailInput').addClass('is-invalid');
+          if (!firstInvalidField) {
+            firstInvalidField = $('#customerEmailInput');
+          }
         } else {
           $('#customerEmailInput').removeClass('is-invalid');
         }
@@ -3997,6 +4017,12 @@ $(document).ready(function() {
 
     if (!isValid) {
       showValidationError();
+      // Focus on first invalid field after a short delay to prevent interference
+      if (firstInvalidField) {
+        setTimeout(() => {
+          firstInvalidField.focus();
+        }, 100);
+      }
     }
 
     return isValid;
