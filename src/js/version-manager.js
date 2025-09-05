@@ -12,10 +12,23 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.1.0";
+const CURRENT_VERSION = "2.1.1";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.1.1",
+        date: "2024-12-19",
+        changes: [
+            "Implement critical security improvements for professional SaaS use",
+            "Add 30-minute session timeout with activity tracking",
+            "Implement automatic token refresh every 5 minutes",
+            "Switch from localStorage to sessionStorage for authentication data",
+            "Remove dangerous fallback authentication that bypassed Firebase",
+            "Add logout on browser/tab close for sensitive sessions",
+            "Create comprehensive security documentation and status reports"
+        ]
+    },
     {
         version: "2.1.0",
         date: "2024-12-19",

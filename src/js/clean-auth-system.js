@@ -14,6 +14,13 @@ let authInitialized = false;
 let isInitialLogin = true; // Track if this is the first login
 let hasVisitedApp = false; // Track if user has visited the app after login
 
+// Security settings
+const SESSION_TIMEOUT_MINUTES = 30; // Auto-logout after 30 minutes of inactivity
+const TOKEN_REFRESH_INTERVAL = 5 * 60 * 1000; // Refresh token every 5 minutes
+let sessionTimeoutId = null;
+let tokenRefreshIntervalId = null;
+let lastActivityTime = Date.now();
+
 /**
  * 🔐 Initialize the clean authentication system
  */
@@ -30,6 +37,9 @@ function initializeCleanAuth() {
         console.error('❌ Firebase not available');
         return;
     }
+    
+    // Set up activity tracking for session timeout
+    setupActivityTracking();
     
     // Set up auth state listener
     firebase.auth().onAuthStateChanged((user) => {
@@ -142,13 +152,124 @@ async function signOut() {
 }
 
 /**
+ * 🔒 Setup activity tracking for session timeout
+ */
+function setupActivityTracking() {
+    // Track user activity
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    
+    activityEvents.forEach(event => {
+        document.addEventListener(event, () => {
+            lastActivityTime = Date.now();
+            resetSessionTimeout();
+        }, true);
+    });
+    
+    // Check for inactivity every minute
+    setInterval(() => {
+        const now = Date.now();
+        const timeSinceLastActivity = now - lastActivityTime;
+        const timeoutMs = SESSION_TIMEOUT_MINUTES * 60 * 1000;
+        
+        if (timeSinceLastActivity > timeoutMs && currentUser) {
+            console.log('⏰ Session timeout - auto logging out');
+            signOut();
+        }
+    }, 60000); // Check every minute
+}
+
+/**
+ * 🔄 Reset session timeout
+ */
+function resetSessionTimeout() {
+    if (sessionTimeoutId) {
+        clearTimeout(sessionTimeoutId);
+    }
+    
+    sessionTimeoutId = setTimeout(() => {
+        if (currentUser) {
+            console.log('⏰ Session timeout reached - logging out');
+            signOut();
+        }
+    }, SESSION_TIMEOUT_MINUTES * 60 * 1000);
+}
+
+/**
+ * 🔄 Start token refresh interval
+ */
+function startTokenRefresh() {
+    if (tokenRefreshIntervalId) {
+        clearInterval(tokenRefreshIntervalId);
+    }
+    
+    tokenRefreshIntervalId = setInterval(async () => {
+        if (currentUser) {
+            try {
+                await currentUser.getIdToken(true); // Force refresh
+                console.log('🔄 Token refreshed successfully');
+            } catch (error) {
+                console.error('❌ Token refresh failed:', error);
+                signOut();
+            }
+        }
+    }, TOKEN_REFRESH_INTERVAL);
+}
+
+/**
+ * 🛑 Stop all security timers
+ */
+function stopSecurityTimers() {
+    if (sessionTimeoutId) {
+        clearTimeout(sessionTimeoutId);
+        sessionTimeoutId = null;
+    }
+    
+    if (tokenRefreshIntervalId) {
+        clearInterval(tokenRefreshIntervalId);
+        tokenRefreshIntervalId = null;
+    }
+}
+
+/**
+ * 🚪 Setup logout on browser/tab close
+ */
+function setupLogoutOnClose() {
+    // Remove any existing beforeunload listeners
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+    
+    // Add new listener
+    window.addEventListener('beforeunload', handleBeforeUnload);
+}
+
+/**
+ * 🚪 Handle before unload (browser/tab close)
+ */
+function handleBeforeUnload(event) {
+    if (currentUser) {
+        // Clear session data when closing browser/tab
+        sessionStorage.removeItem('firebaseUID');
+        
+        // Note: We can't reliably sign out from Firebase here due to browser limitations
+        // But clearing sessionStorage ensures the session won't persist
+        console.log('🚪 Browser/tab closing - clearing session data');
+    }
+}
+
+/**
  * 👤 Handle user signed in
  */
 function handleUserSignedIn(user) {
     console.log('👤 User signed in:', user.email);
     
-    // Store user data
-    localStorage.setItem('firebaseUID', user.uid);
+    // Store user data in sessionStorage (not localStorage for security)
+    sessionStorage.setItem('firebaseUID', user.uid);
+    
+    // Start security timers
+    resetSessionTimeout();
+    startTokenRefresh();
+    
+    // Set up logout on browser/tab close for sensitive sessions
+    setupLogoutOnClose();
     
     // Update UI
     updateUIForSignedInUser(user);
@@ -160,8 +281,12 @@ function handleUserSignedIn(user) {
 function handleUserSignedOut() {
     console.log('👤 User signed out');
     
-    // Clear stored data
+    // Stop all security timers
+    stopSecurityTimers();
+    
+    // Clear stored data from both localStorage and sessionStorage
     localStorage.removeItem('firebaseUID');
+    sessionStorage.removeItem('firebaseUID');
     
     // Reset initial login flag for next login
     isInitialLogin = true;

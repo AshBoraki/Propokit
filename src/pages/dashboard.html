@@ -1270,39 +1270,23 @@
                             if (user) {
                                 console.log('✅ User authenticated:', user.email);
                                 window.currentFirebaseUID = user.uid;
-                                localStorage.setItem('firebaseUID', user.uid);
+                                sessionStorage.setItem('firebaseUID', user.uid); // Use sessionStorage for security
                                 reinitializeFirebaseRefs(user.uid);
                             } else {
-                                // Check if we have a stored UID as fallback
-                                const storedUID = localStorage.getItem('firebaseUID');
-                                if (storedUID) {
-                                    console.log('⚠️ No current user but found stored UID, using fallback');
-                                    window.currentFirebaseUID = storedUID;
-                                    reinitializeFirebaseRefs(storedUID);
-                                } else {
-                                    console.log('❌ No authenticated user found, redirecting to home page...');
-                                    window.location.href = '../index.html';
-                                }
+                                // No authenticated user - redirect to login
+                                console.log('❌ No authenticated user found, redirecting to home page...');
+                                window.location.href = '../index.html';
                             }
                         });
                         
                         // Also check current user immediately
                         const currentUser = firebase.auth().currentUser;
-                        const storedUID = localStorage.getItem('firebaseUID');
                         
-                        if (currentUser || storedUID) {
-                            console.log('✅ User authenticated (immediate check):', currentUser ? currentUser.email : 'Stored UID found');
-                            
-                            if (currentUser) {
-                                window.currentFirebaseUID = currentUser.uid;
-                                localStorage.setItem('firebaseUID', currentUser.uid);
-                            } else if (storedUID) {
-                                window.currentFirebaseUID = storedUID;
-                            }
-                            
-                            if (window.currentFirebaseUID) {
-                                reinitializeFirebaseRefs(window.currentFirebaseUID);
-                            }
+                        if (currentUser) {
+                            console.log('✅ User authenticated (immediate check):', currentUser.email);
+                            window.currentFirebaseUID = currentUser.uid;
+                            sessionStorage.setItem('firebaseUID', currentUser.uid); // Use sessionStorage for security
+                            reinitializeFirebaseRefs(currentUser.uid);
                         } else {
                             console.log('❌ No authenticated user found, redirecting to home page...');
                             window.location.href = '../index.html';
@@ -1322,7 +1306,8 @@
             window.addEventListener("message", async function(event) {
                 if (!event || !event.data) return;
                 if (event.data.clear) {
-                    localStorage.removeItem("firebaseUID");
+                    sessionStorage.removeItem("firebaseUID");
+                    localStorage.removeItem("firebaseUID"); // Clear both for security
                     await reinitializeFirebaseRefs("");
                     window.appInitialized = true;
                     return;
