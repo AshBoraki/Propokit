@@ -855,7 +855,21 @@ html, body {
 }
 .header-btn:hover { background-color: rgba(255,255,255,0.1); transform: translateY(-1px); color: #fff; text-decoration: none;}
 
-.header-btn i { font-size: 16px; }
+.header-btn i { 
+    font-size: 16px; 
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+}
+
+/* Ensure all Font Awesome icons in header display properly */
+#top-application-header .fas,
+#top-application-header .fa {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    display: inline-block !important;
+}
 
 /* Smaller icons specifically for zoom controls */
 .zoom-controls .header-btn-icon-only i {
@@ -1008,6 +1022,11 @@ html, body {
     color: #9ab0c9;
     margin-right: 10px;
     flex-shrink: 0;
+    font-size: 16px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
 }
 
 #header-document-title {
