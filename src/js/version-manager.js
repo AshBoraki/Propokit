@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.5";
+const CURRENT_VERSION = "2.2.7";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.7",
+        date: "2024-12-19",
+        changes: [
+            "Replace all external image URLs with local image paths",
+            "Update all wixstatic.com images to use public/assets/images/ structure",
+            "Update all flaticon.com images to use public/assets/images/integrations/",
+            "Organize images into logical folders: logos, features, team, integrations",
+            "Eliminate all external image dependencies and CORS issues"
+        ]
+    },
     {
         version: "2.2.5",
         date: "2024-12-19",
