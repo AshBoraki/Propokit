@@ -381,7 +381,7 @@
                         <strong id="profile-user-name">Guest User</strong>
                         <span id="profile-user-email">Not logged in</span>
                     </div>
-                    <a href="#" class="dropdown-item"><i class="fas fa-th-large"></i> Dashboard</a>
+                    <a href="#" class="dropdown-item active" onclick="event.preventDefault();"><i class="fas fa-th-large"></i> Dashboard <span class="badge">Current</span></a>
                     <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
                     <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
                     <div class="dropdown-divider"></div>
@@ -3631,7 +3631,7 @@ function resetCrop() {
                 // This keeps the main file cleaner and allows for modular modal management
 
                 // ðŸ" Load cover page modals (image management, QR codes, customer details)
-                $.get('pages/cover-page-modals.html')
+                $.get('../pages/cover-page-modals.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
                         // Initialize image modal features after HTML is loaded
@@ -3640,7 +3640,7 @@ function resetCrop() {
                     .fail(() => console.error("Failed to load external modals for the cover page."));
 
                 // ðŸ"¢ Load company intro modals (text editing, footer editing, image cropping)
-                $.get('pages/company-intro-modals.html')
+                $.get('../pages/company-intro-modals.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
                         // Any JavaScript needed to initialize these new modals will go here.
