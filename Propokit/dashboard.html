@@ -75,7 +75,7 @@
     <link rel="stylesheet" href="css\shared\button-styles.css">
     <link rel="stylesheet" href="css\shared\global.css">
     <link rel="stylesheet" href="css\shared\utilities.css">
-    <link rel="stylesheet" href="css\shared\Hader-Sidebar-Styles.css">
+    <link rel="stylesheet" href="css\shared\header-sidebar-styles.css">
     <link rel="stylesheet" href="css\shared\modals.css">
     <link rel="stylesheet" href="css\shared\theme-styles.css">
     <link rel="stylesheet" href="css\shared\style-menu.css">
@@ -3451,7 +3451,7 @@ function resetCrop() {
                     $('#infoModal').modal('hide');
                 });
 
-                // NOTE: submitBtn handler moved to pages/cover-page-Models.html for better UX with loading states
+                // NOTE: submitBtn handler moved to pages/cover-page-modals.html for better UX with loading states
 
                 // *** MODIFIED BUTTON HANDLER ***
                 $(document).on('click', '#generateQR', function() {
@@ -3641,7 +3641,7 @@ function resetCrop() {
                 // This keeps the main file cleaner and allows for modular modal management
 
                 // ðŸ" Load cover page modals (image management, QR codes, customer details)
-                $.get('pages/cover-page-Models.html')
+                $.get('pages/cover-page-modals.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
                         // Initialize image modal features after HTML is loaded
@@ -3650,7 +3650,7 @@ function resetCrop() {
                     .fail(() => console.error("Failed to load external modals for the cover page."));
 
                 // ðŸ"¢ Load company intro modals (text editing, footer editing, image cropping)
-                $.get('pages/Company-intro-Models.html')
+                $.get('pages/company-intro-modals.html')
                     .done(modalHtml => {
                         $('body').append(modalHtml);
                         // Any JavaScript needed to initialize these new modals will go here.

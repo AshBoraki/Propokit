@@ -220,7 +220,7 @@ function updateUIForSignedInUser(user) {
     // Update logo link to go to main app (only if it exists - for home page)
     const logoLink = document.getElementById('logo-link');
     if (logoLink) {
-        logoLink.href = 'Propokit/index-product.html';
+        logoLink.href = 'Propokit/dashboard.html';
         logoLink.title = 'Go to Dashboard';
     }
     
@@ -317,7 +317,7 @@ function updateUIForSignedInUser(user) {
         console.log('✅ All conditions met - redirecting to app!');
         setTimeout(() => {
             console.log('🚀 Initial login - redirecting to main app...');
-            window.location.href = 'Propokit/index-product.html';
+            window.location.href = 'Propokit/dashboard.html';
             hasVisitedApp = true; // Mark that user has visited the app
         }, 1000); // 1 second delay to show success state
         isInitialLogin = false; // Mark that initial login is done
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🔍 DOM loaded, initializing clean auth...');
     
     // Check if we're on the main app page and user is logged in
-    if (window.location.pathname.includes('index-product.html') && currentUser) {
+    if (window.location.pathname.includes('dashboard.html') && currentUser) {
         hasVisitedApp = true; // Mark that user has visited the app
         console.log('📱 User has visited the app area');
     }

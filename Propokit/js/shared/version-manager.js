@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "1.1.1";
+const CURRENT_VERSION = "1.2.0";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "1.2.0",
+        date: "2024-12-19",
+        changes: [
+            "Improve file naming conventions across the project",
+            "Rename index-product.html to dashboard.html for clarity",
+            "Rename modal files to use consistent lowercase naming",
+            "Fix typo in header-sidebar-styles.css filename",
+            "Update all internal links to reflect new file names",
+            "Establish consistent naming conventions for future development"
+        ]
+    },
     {
         version: "1.1.1",
         date: "2024-12-19",
