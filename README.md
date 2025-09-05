@@ -1,7 +1,7 @@
 # 📝 PropoKit - AI-Powered Proposal Software
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-2.2.1-brightgreen.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.3.0-brightgreen.svg" alt="Version">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-success.svg" alt="Status">
   <img src="https://img.shields.io/badge/Security-Enterprise%20Grade-green.svg" alt="Security">
