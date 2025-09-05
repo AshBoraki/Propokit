@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.0";
+const CURRENT_VERSION = "2.2.0S";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.0S",
+        date: "2024-12-19",
+        changes: [
+            "STABLE RELEASE - Header fixes and UI improvements",
+            "Fix header document icon restoration",
+            "Remove unwanted floating label from header",
+            "Improve header styling with proper theme support",
+            "Exclude header from UI enhancer floating labels",
+            "Clean header design without interference"
+        ]
+    },
     {
         version: "2.2.0",
         date: "2024-12-19",
