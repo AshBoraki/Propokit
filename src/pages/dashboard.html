@@ -1236,7 +1236,7 @@
                     return;
                 }
                 window.currentFirebaseUID = newUID;
-                localStorage.setItem("firebaseUID", window.currentFirebaseUID);
+                sessionStorage.setItem("firebaseUID", window.currentFirebaseUID); // Use sessionStorage for security
                 const userRef = firebase.database().ref(`users/${newUID}`);
                 window.companyInfoRef = userRef.child("companyInfo");
                 window.proposalDataRef = userRef.child("proposalData");
@@ -1660,8 +1660,8 @@
                 if (window.qrCodesRef) {
                     window.qrCodesRef.once('value', snap => updateQrCodesUI(snap.val()));
                 } else {
-                    // If no Firebase login, try to load from localStorage
-                    const savedQrData = localStorage.getItem('qrCodesData');
+                    // If no Firebase login, try to load from sessionStorage
+                    const savedQrData = sessionStorage.getItem('qrCodesData');
                     if (savedQrData) {
                         try {
                             const qrData = JSON.parse(savedQrData);
@@ -3489,8 +3489,8 @@ function resetCrop() {
                         window.qrCodesRef.set(qrData);
                         $('#qrModal').modal('hide');
                     } else {
-                        // If no Firebase login, save to localStorage and generate QR codes directly
-                        localStorage.setItem('qrCodesData', JSON.stringify(qrData));
+                        // If no Firebase login, save to sessionStorage and generate QR codes directly
+                        sessionStorage.setItem('qrCodesData', JSON.stringify(qrData));
                         generatePageQRCodes(qrData);
                         $('#qrModal').modal('hide');
 
@@ -3586,7 +3586,7 @@ function resetCrop() {
                 window.parent.postMessage("iframeReady", "*");
 
                 // ðŸ"¥ Load stored Firebase UID if available (for returning users)
-                const storedUID = localStorage.getItem("firebaseUID");
+                const storedUID = sessionStorage.getItem("firebaseUID");
                 if (storedUID) {
                     reinitializeFirebaseRefs(storedUID);
                 }
@@ -3692,10 +3692,10 @@ function resetCrop() {
         // localTest.init();
 
         // ðŸ"¥ Set the Firebase UID from localStorage if it exists (for returning users)
-        const savedUID = localStorage.getItem("firebaseUID");
+        const savedUID = sessionStorage.getItem("firebaseUID");
         if (savedUID && !window.currentFirebaseUID) {
             window.currentFirebaseUID = savedUID;
-            console.log("Loaded Firebase UID from localStorage:", window.currentFirebaseUID);
+            console.log("Loaded Firebase UID from sessionStorage:", window.currentFirebaseUID);
         }
     </script>
 

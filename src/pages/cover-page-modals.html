@@ -1086,7 +1086,7 @@
         restoreToggleStates();
 
         try {
-          const savedQrData = localStorage.getItem('qrCodesData');
+          const savedQrData = sessionStorage.getItem('qrCodesData');
           if (savedQrData) {
             const data = JSON.parse(savedQrData);
             $('#websiteUrlInput').val(data.websiteUrl || '');
@@ -1181,8 +1181,8 @@
         $btn.html(originalText).prop('disabled', false);
       });
     } else {
-      // If no Firebase login, save to localStorage and generate QR codes directly
-      localStorage.setItem('qrCodesData', JSON.stringify(qrData));
+      // If no Firebase login, save to sessionStorage and generate QR codes directly
+      sessionStorage.setItem('qrCodesData', JSON.stringify(qrData));
       if (typeof generatePageQRCodes === 'function') {
         generatePageQRCodes(qrData);
       }
