@@ -195,7 +195,7 @@ class PerformanceOptimizer {
                     });
                 });
                 
-                observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+                observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
             } catch (e) {
                 console.warn('Performance monitoring not available:', e);
             }
