@@ -3943,6 +3943,8 @@ $(document).ready(function() {
   // Navigation button handlers
   $('#nextStepBtn').click(function() {
     console.log('🔄 Next button clicked, current step:', currentStep);
+    console.log('🔄 Button element:', this);
+    console.log('🔄 Event target:', event.target);
     
     if (validateCurrentStep()) {
       console.log('✅ Validation passed, moving to next step');
@@ -3965,21 +3967,30 @@ $(document).ready(function() {
 
   // Step validation
   function validateCurrentStep() {
+    console.log('🔍 Validating step:', currentStep);
     let isValid = true;
     let firstInvalidField = null;
     const currentStepEl = $(`.form-step[data-step="${currentStep}"]`);
+    
+    console.log('🔍 Current step element:', currentStepEl);
+    console.log('🔍 Required fields found:', currentStepEl.find('input[required], textarea[required]').length);
 
     // Validate required fields in current step
     currentStepEl.find('input[required], textarea[required]').each(function() {
-      if (!$(this).val().trim()) {
+      const fieldValue = $(this).val();
+      console.log('🔍 Checking field:', $(this).attr('id'), 'value:', fieldValue);
+      
+      if (!fieldValue || !fieldValue.trim()) {
         isValid = false;
         $(this).addClass('is-invalid');
+        console.log('❌ Field is invalid:', $(this).attr('id'));
         // Store first invalid field but don't focus yet
         if (!firstInvalidField) {
           firstInvalidField = $(this);
         }
       } else {
         $(this).removeClass('is-invalid');
+        console.log('✅ Field is valid:', $(this).attr('id'));
       }
     });
 
@@ -4130,8 +4141,18 @@ $(document).ready(function() {
 
   // Initialize modal with proper focus management
   $('#myModal').on('shown.bs.modal', function() {
+    // Remove aria-hidden when modal is shown
+    $(this).removeAttr('aria-hidden');
+    
     // Focus on first input when modal opens
-    $(this).find('input:first').focus();
+    setTimeout(() => {
+      $(this).find('input:first').focus();
+    }, 100);
+  });
+
+  $('#myModal').on('hide.bs.modal', function() {
+    // Remove focus from any focused elements before hiding
+    $(this).find(':focus').blur();
   });
 
   $('#myModal').on('hidden.bs.modal', function() {
@@ -4139,6 +4160,8 @@ $(document).ready(function() {
     $('.is-invalid').removeClass('is-invalid');
     // Reset to first step
     showStep(1);
+    // Set aria-hidden back when modal is fully hidden
+    $(this).attr('aria-hidden', 'true');
   });
 
   // Set today's date as default
