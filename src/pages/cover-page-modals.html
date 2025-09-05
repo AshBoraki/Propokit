@@ -4165,19 +4165,18 @@ $(document).ready(function() {
   });
 
   // Set today's date as default
-    if (!$('#proposalDateInput').val()) {
-      const today = new Date().toISOString().split('T')[0];
-      $('#proposalDateInput').val(today);
-    }
+  if (!$('#proposalDateInput').val()) {
+    const today = new Date().toISOString().split('T')[0];
+    $('#proposalDateInput').val(today);
+  }
 
-    // Initialize contact field visibility
-    $('#phoneInputGroup').toggle($('#selectPhone').is(':checked'));
-    $('#phoneParent').toggle($('#selectPhone').is(':checked'));
-    $('#emailInputGroup').toggle($('#selectEmail').is(':checked'));
-    $('#emailParent').toggle($('#selectEmail').is(':checked'));
-    $('#addressInputGroup').toggle($('#selectAddress').is(':checked'));
-    $('#addressParent').toggle($('#selectAddress').is(':checked'));
-  });
+  // Initialize contact field visibility
+  $('#phoneInputGroup').toggle($('#selectPhone').is(':checked'));
+  $('#phoneParent').toggle($('#selectPhone').is(':checked'));
+  $('#emailInputGroup').toggle($('#selectEmail').is(':checked'));
+  $('#emailParent').toggle($('#selectEmail').is(':checked'));
+  $('#addressInputGroup').toggle($('#selectAddress').is(':checked'));
+  $('#addressParent').toggle($('#selectAddress').is(':checked'));
 
   // Reset modal state when closed
   $('#myModal').on('hidden.bs.modal', function() {
