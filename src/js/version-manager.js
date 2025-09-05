@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.3";
+const CURRENT_VERSION = "2.2.4";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.4",
+        date: "2024-12-19",
+        changes: [
+            "Fix critical JavaScript errors and performance issues",
+            "Fix undefined function forceReinitMainAppDropdown by moving assignment inside IIFE",
+            "Reduce excessive performance metric logging (only log in dev mode or >10ms)",
+            "Fix Google Maps API loading warning by adding loading=async parameter",
+            "Resolve JavaScript syntax error that was causing appendChild failures"
+        ]
+    },
     {
         version: "2.2.3",
         date: "2024-12-19",
