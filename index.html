@@ -7287,7 +7287,7 @@
                                     <strong id="homepage-user-display-name">Guest User</strong>
                                     <span id="homepage-user-email-address">Not logged in</span>
                                 </div>
-                                <a href="src/pages/dashboard.html" class="dropdown-item"><i class="fas fa-th-large"></i> Go to Dashboard</a>
+                                <a href="src/pages/dashboard.html" class="dropdown-item" onclick="navigateToDashboard(event)"><i class="fas fa-th-large"></i> Go to Dashboard</a>
                                 <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> My Account</a>
                                 <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
                                 <div class="dropdown-divider"></div>
@@ -7344,7 +7344,7 @@
                     <h1>Create Professional Proposals Easily with PropoKit</h1>
                     <p>The all-in-one AI-powered platform to build stunning proposals, streamline your sales process, and impress your clients.</p>
                     <div class="hero-actions">
-                        <a href="#pricing" class="btn btn-dark">Get Started</a>
+                        <a href="#" class="btn btn-dark" onclick="navigateToDashboard(event)">Get Started</a>
                         <a href="#live-preview" class="btn btn-light">Watch Demo</a>
                     </div>
                 </div>
@@ -7800,7 +7800,7 @@
                             <h3>Starter</h3>
                             <div class="price">Free</div>
                             <p class="card-description">For freelancers trying out the basics.</p>
-                            <a href="#" class="btn btn-dark">Start for Free</a>
+                            <a href="#" class="btn btn-dark" onclick="navigateToDashboard(event)">Start for Free</a>
                             <ul>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>3 Proposals / Month</li>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>10 Product Library Items</li>
@@ -7812,7 +7812,7 @@
                             <h3>Pro</h3>
                             <div class="price">$29<span>/month</span></div>
                             <p class="card-description">The complete arsenal for growing businesses.</p>
-                            <a href="#" class="btn btn-dark">Start Your Free Trial</a>
+                            <a href="#" class="btn btn-dark" onclick="navigateToDashboard(event)">Start Your Free Trial</a>
                             <ul>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Unlimited Proposals</li>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Unlimited Product Library</li>
@@ -7827,7 +7827,7 @@
                             <h3>Pro+ AI</h3>
                             <div class="price">$39<span>/month</span></div>
                             <p class="card-description">For professionals who want to automate their workflow.</p>
-                            <a href="#" class="btn btn-light">Start Your Free Trial</a>
+                            <a href="#" class="btn btn-light" onclick="navigateToDashboard(event)">Start Your Free Trial</a>
                             <ul>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Everything in Pro, plus:</li>
                                 <li><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>AI Image & Description Generation</li>
@@ -8444,6 +8444,31 @@
             
             // NEW: Security Features Functionality
             initializeSecurityFeatures();
+            
+            // Dashboard Navigation Function
+            window.navigateToDashboard = function(event) {
+                event.preventDefault();
+                
+                // Check if user is logged in
+                if (typeof firebase !== 'undefined' && firebase.auth) {
+                    const currentUser = firebase.auth().currentUser;
+                    if (currentUser) {
+                        // User is logged in, navigate to dashboard
+                        window.location.href = 'src/pages/dashboard.html';
+                    } else {
+                        // User not logged in, show login prompt
+                        alert('Please sign in first to access the dashboard.');
+                        // Trigger login
+                        const loginBtn = document.getElementById('login-btn');
+                        if (loginBtn) {
+                            loginBtn.click();
+                        }
+                    }
+                } else {
+                    // Firebase not loaded yet, try direct navigation
+                    window.location.href = 'src/pages/dashboard.html';
+                }
+            };
             
             // ULTRA-OPTIMIZED: Performance detection for slow devices
             let isSlowDevice = false;
