@@ -1019,14 +1019,7 @@ html, body {
 
 
 .header-document-title-wrapper .document-icon {
-    color: #9ab0c9;
-    margin-right: 10px;
-    flex-shrink: 0;
-    font-size: 16px;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    text-align: center;
+    display: none !important; /* Hide the document icon completely */
 }
 
 #header-document-title {
