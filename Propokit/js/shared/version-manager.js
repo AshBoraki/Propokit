@@ -12,10 +12,19 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "1.2.0";
+const CURRENT_VERSION = "1.2.1";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "1.2.1",
+        date: "2024-12-19",
+        changes: [
+            "Fix dashboard navigation link in dropdown menu",
+            "Remove external redirect to propokit.com/dashboard",
+            "Ensure consistent navigation within the application"
+        ]
+    },
     {
         version: "1.2.0",
         date: "2024-12-19",
