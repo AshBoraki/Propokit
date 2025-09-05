@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.0.0";
+const CURRENT_VERSION = "2.1.0";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.1.0",
+        date: "2024-12-19",
+        changes: [
+            "Add professional security monitoring system",
+            "Create security/monitor.html with glassmorphism design",
+            "Implement website monitoring with uptime and performance tracking",
+            "Add library management with version checking and copy functionality",
+            "Include real-time system logs and status monitoring",
+            "Provide copy-to-clipboard functionality for library update information"
+        ]
+    },
     {
         version: "2.0.0",
         date: "2024-12-19",
