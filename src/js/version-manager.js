@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.2.2";
+const CURRENT_VERSION = "2.2.3";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.2.3",
+        date: "2024-12-19",
+        changes: [
+            "Enhanced debugging and accessibility fixes",
+            "Improve modal focus management to fix aria-hidden warnings",
+            "Add comprehensive debugging to Next button and validation",
+            "Remove aria-hidden when modal is shown, restore when hidden",
+            "Add blur() to focused elements before modal hides",
+            "Enhanced validation logging to identify field issues"
+        ]
+    },
     {
         version: "2.2.2",
         date: "2024-12-19",
