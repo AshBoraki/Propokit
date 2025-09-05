@@ -54,6 +54,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropoKit Application</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23667eea'/%3E%3Ctext x='50' y='55' font-family='Arial,sans-serif' font-size='18' fill='white' text-anchor='middle'%3EPK%3C/text%3E%3C/svg%3E">
+    
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <style>
+        /* Hide content until styles are loaded */
+        body { visibility: hidden; opacity: 0; transition: opacity 0.1s; }
+        body.styles-loaded { visibility: visible; opacity: 1; }
+    </style>
 
     <!-- ==================================================
          EXTERNAL LIBRARIES & DEPENDENCIES
@@ -69,7 +76,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
     <!-- PropoKit Shared CSS -->
     <link rel="stylesheet" href="../styles/shared/css-variables.css">
@@ -2192,6 +2200,10 @@
 
             function initAutocomplete() {
                 console.log('Initializing Google Places Autocomplete...');
+                
+                // Note: google.maps.places.Autocomplete is deprecated as of March 1st, 2025
+                // TODO: Migrate to google.maps.places.PlaceAutocompleteElement for new projects
+                // This is a legacy implementation that still works for existing projects
 
                 // Check if Google Maps API is loaded
                 if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
@@ -3969,6 +3981,51 @@ function resetCrop() {
     </div>
   </div>
 </div>
+
+        <!-- Prevent FOUC by showing content once styles are loaded -->
+        <script>
+            // Show content once all stylesheets are loaded
+            function showContentWhenReady() {
+                // Check if all stylesheets are loaded
+                const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+                let loadedCount = 0;
+                
+                if (stylesheets.length === 0) {
+                    // No external stylesheets, show content immediately
+                    document.body.classList.add('styles-loaded');
+                    return;
+                }
+                
+                stylesheets.forEach(stylesheet => {
+                    if (stylesheet.sheet) {
+                        loadedCount++;
+                    } else {
+                        stylesheet.addEventListener('load', () => {
+                            loadedCount++;
+                            if (loadedCount === stylesheets.length) {
+                                document.body.classList.add('styles-loaded');
+                            }
+                        });
+                    }
+                });
+                
+                if (loadedCount === stylesheets.length) {
+                    document.body.classList.add('styles-loaded');
+                }
+                
+                // Fallback: show content after 100ms regardless
+                setTimeout(() => {
+                    document.body.classList.add('styles-loaded');
+                }, 100);
+            }
+            
+            // Run when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', showContentWhenReady);
+            } else {
+                showContentWhenReady();
+            }
+        </script>
 
 </body>
 </html>
