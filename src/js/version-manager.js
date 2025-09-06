@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.3";
+const CURRENT_VERSION = "2.3.4";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.4",
+        date: "2024-12-19",
+        changes: [
+            "Fix CSS selector parsing errors on lines 1449 and 1455",
+            "Optimize linear-gradient syntax by removing percentage values for better browser compatibility",
+            "Fix 'Ruleset ignored due to bad selector' warnings in dark mode CSS",
+            "Improve CSS parsing reliability across different browsers",
+            "Clean up gradient syntax in feature-showcase and body background rules"
+        ]
+    },
     {
         version: "2.3.3",
         date: "2024-12-19",
