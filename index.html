@@ -8420,28 +8420,8 @@
                     }
                 });
                 
-                // Add intersection observer for better animations
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                    });
-                }, observerOptions);
-                
-                // Observe all sections for smooth animations
-                document.querySelectorAll('section').forEach(section => {
-                    section.style.opacity = '0';
-                    section.style.transform = 'translateY(30px)';
-                    section.style.transition = 'all 0.8s ease-out';
-                    observer.observe(section);
-                });
+                // REMOVED: Duplicate intersection observer that was causing will-change memory issues
+                // All section animations are now handled by the optimized observer below
             }
             
             // Initialize enhanced user experience
@@ -9143,7 +9123,7 @@
             // ULTRA-ENHANCED: Smooth reveal animations on scroll with optimized will-change management
             const revealElements = document.querySelectorAll('.fade-in-section');
             let activeAnimations = 0;
-            const maxConcurrentAnimations = 3; // Limit concurrent animations to prevent memory issues
+            const maxConcurrentAnimations = 5; // Limit concurrent animations to prevent memory issues
             
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {

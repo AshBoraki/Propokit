@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.2";
+const CURRENT_VERSION = "2.3.3";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.3",
+        date: "2024-12-19",
+        changes: [
+            "Fix remaining will-change memory consumption by removing duplicate intersection observer",
+            "Remove problematic observer that was applying styles to all sections simultaneously",
+            "Increase concurrent animation limit from 3 to 5 for better performance balance",
+            "Consolidate all animation logic into single optimized intersection observer",
+            "Eliminate browser auto-optimization conflicts causing memory budget overflow"
+        ]
+    },
     {
         version: "2.3.2",
         date: "2024-12-19",
