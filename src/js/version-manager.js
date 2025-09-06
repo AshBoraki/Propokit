@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.0";
+const CURRENT_VERSION = "2.3.1";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.1",
+        date: "2024-12-19",
+        changes: [
+            "Fix PerformanceObserver layout-shift warning by removing unsupported entryType",
+            "Fix will-change memory consumption warning by optimizing CSS properties",
+            "Implement dynamic will-change management in intersection observer",
+            "Remove static will-change from CSS and apply only when needed",
+            "Reset will-change to 'auto' after animations complete",
+            "Improve performance by reducing memory consumption"
+        ]
+    },
     {
         version: "2.3.0",
         date: "2024-12-19",
