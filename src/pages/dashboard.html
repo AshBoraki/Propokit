@@ -71,7 +71,19 @@
 
     <!-- External CSS Libraries -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Prevent font loading errors from breaking layout */
+        .fa, .fas, .far, .fab {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands", sans-serif !important;
+        }
+        /* Fallback for missing icons */
+        .fa-solid:before, .fa-regular:before, .fa-brands:before {
+            content: "?" !important;
+            font-family: sans-serif !important;
+        }
+    </style>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

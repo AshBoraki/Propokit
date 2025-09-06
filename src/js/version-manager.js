@@ -12,10 +12,20 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.7";
+const CURRENT_VERSION = "2.3.8";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.8",
+        date: "2024-12-19",
+        changes: [
+            "Fix Font Awesome glyph bbox error in dashboard navigation",
+            "Update Font Awesome from 6.1.1 to 6.4.0 for better stability",
+            "Add font loading fallback CSS to prevent layout breaks",
+            "Resolve downloadable font errors when clicking 'Go to Dashboard'"
+        ]
+    },
     {
         version: "2.3.7",
         date: "2024-12-19",
