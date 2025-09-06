@@ -3941,7 +3941,11 @@ $(document).ready(function() {
   }
 
   // Navigation button handlers
-  $('#nextStepBtn').click(function() {
+  $('#nextStepBtn').click(function(event) {
+    // Prevent any default behavior that might cause page movement
+    event.preventDefault();
+    event.stopPropagation();
+    
     console.log('🔄 Next button clicked, current step:', currentStep);
     console.log('🔄 Button element:', this);
     console.log('🔄 Event target:', event.target);
@@ -3959,7 +3963,11 @@ $(document).ready(function() {
     }
   });
 
-  $('#prevStepBtn').click(function() {
+  $('#prevStepBtn').click(function(event) {
+    // Prevent any default behavior that might cause page movement
+    event.preventDefault();
+    event.stopPropagation();
+    
     if (currentStep > 1) {
       showStep(currentStep - 1);
     }
@@ -4029,9 +4037,19 @@ $(document).ready(function() {
     if (!isValid) {
       showValidationError();
       // Focus on first invalid field after a short delay to prevent interference
+      // BUT prevent page scrolling by using preventDefault and stopPropagation
       if (firstInvalidField) {
         setTimeout(() => {
+          // Prevent the focus from causing page scroll
+          const originalScrollTo = window.scrollTo;
+          window.scrollTo = function() { /* prevent scroll */ };
+          
           firstInvalidField.focus();
+          
+          // Restore scrollTo after focus
+          setTimeout(() => {
+            window.scrollTo = originalScrollTo;
+          }, 50);
         }, 100);
       }
     }

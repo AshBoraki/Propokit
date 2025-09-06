@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.17";
+const CURRENT_VERSION = "2.3.18";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.18",
+        date: "2024-12-19",
+        changes: [
+            "Fix customer info modal Next button navigation issue",
+            "Prevent main page container from moving when clicking Next",
+            "Add event.preventDefault() and event.stopPropagation() to navigation buttons",
+            "Prevent focus() from causing page scroll in validation",
+            "Add CSS rules to prevent page movement when modals are active",
+            "Improve modal focus management and step navigation"
+        ]
+    },
     {
         version: "2.3.17",
         date: "2024-12-19",
