@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.8";
+const CURRENT_VERSION = "2.3.9";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.9",
+        date: "2024-12-19",
+        changes: [
+            "Fix remaining CSS selector errors on homepage (lines 1449, 1455)",
+            "Fix invalid media feature error on line 147 - blur() function syntax",
+            "Correct CSS custom properties for blur effects",
+            "Update all blur filter usage to proper blur() function syntax",
+            "Eliminate all CSS parsing errors for clean console output"
+        ]
+    },
     {
         version: "2.3.8",
         date: "2024-12-19",
