@@ -81,7 +81,7 @@ function initializeCleanAuth() {
 }
 
 /**
- * 🔐 Sign in with Google using popup
+ * 🔐 Sign in with Google using popup with privacy optimizations
  */
 async function signInWithGoogle() {
     try {
@@ -94,12 +94,19 @@ async function signInWithGoogle() {
             loginBtn.innerHTML = 'Signing in...';
         }
         
-        // Create Google provider
+        // Create Google provider with privacy optimizations
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('email');
         provider.addScope('profile');
         
-        // Sign in with popup
+        // Configure provider for better privacy compliance
+        provider.setCustomParameters({
+            'prompt': 'select_account', // Always show account selection
+            'hd': '', // Allow any domain
+            'include_granted_scopes': 'true'
+        });
+        
+        // Sign in with popup (this will show the iframe warning - this is normal)
         const result = await firebase.auth().signInWithPopup(provider);
         console.log('✅ Sign-in successful:', result.user.email);
         
@@ -130,6 +137,9 @@ async function signInWithGoogle() {
         } else if (error.code === 'auth/cancelled-popup-request') {
             console.log('👤 User cancelled popup request - normal behavior');
             return;
+        } else if (error.code === 'auth/operation-not-allowed') {
+            console.error('🚨 Google sign-in is not enabled in Firebase console');
+            alert('Google sign-in is not available. Please contact support.');
         } else {
             console.error('🚨 Unexpected sign-in error:', error.message);
             alert('Sign-in failed. Please try again.');

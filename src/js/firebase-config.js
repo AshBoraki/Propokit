@@ -16,6 +16,10 @@
 /**
  * 🔥 Firebase Configuration Object
  * Contains all the necessary keys and URLs for Firebase services
+ * 
+ * NOTE: The iframe warning you see during sign-in is normal behavior.
+ * Firebase uses iframes for authentication, and browsers show privacy
+ * warnings about partitioned cookies. This is expected and safe.
  */
 const firebaseConfig = {
     apiKey: "AIzaSyD4KPxRXHK4phJVyiLsaU6CLb9pBfZygjw",           // API key for Firebase access

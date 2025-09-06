@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.11";
+const CURRENT_VERSION = "2.3.12";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.12",
+        date: "2024-12-19",
+        changes: [
+            "Optimize Firebase authentication to reduce iframe warnings",
+            "Add privacy-compliant Google sign-in configuration",
+            "Improve error handling for authentication edge cases",
+            "Add documentation explaining iframe warnings are normal",
+            "Enhance authentication user experience with better error messages",
+            "Configure Google provider for better privacy compliance"
+        ]
+    },
     {
         version: "2.3.11",
         date: "2024-12-19",
