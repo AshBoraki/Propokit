@@ -67,21 +67,30 @@
          ================================================== -->
 
     <!-- Google Places API (Required for Autocomplete) -->
+    <!-- Note: Using legacy Autocomplete API - will migrate to PlaceAutocompleteElement in future update -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB28vXDucuMPk0vFycYglnFHXKzNzqpqRw&libraries=places&loading=async"></script>
 
     <!-- External CSS Libraries -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Font Awesome 6.5.0 (Latest Stable) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <!-- Font Awesome fallback -->
     <style>
         /* Prevent font loading errors from breaking layout */
-        .fa, .fas, .far, .fab {
+        .fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands {
             font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands", sans-serif !important;
         }
         /* Fallback for missing icons */
         .fa-solid:before, .fa-regular:before, .fa-brands:before {
             content: "?" !important;
             font-family: sans-serif !important;
+        }
+        /* Ensure icons display properly */
+        .fa-solid, .fa-regular, .fa-brands {
+            font-style: normal !important;
+            font-variant: normal !important;
+            text-rendering: auto !important;
+            line-height: 1 !important;
         }
     </style>
     
@@ -2216,6 +2225,16 @@
                 // Note: google.maps.places.Autocomplete is deprecated as of March 1st, 2025
                 // TODO: Migrate to google.maps.places.PlaceAutocompleteElement for new projects
                 // This is a legacy implementation that still works for existing projects
+                
+                // Suppress deprecation warnings for cleaner console output
+                const originalWarn = console.warn;
+                console.warn = function(message) {
+                    if (typeof message === 'string' && message.includes('google.maps.places.Autocomplete')) {
+                        // Suppress deprecation warning
+                        return;
+                    }
+                    originalWarn.apply(console, arguments);
+                };
 
                 // Check if Google Maps API is loaded
                 if (typeof google === 'undefined' || !google.maps || !google.maps.places) {

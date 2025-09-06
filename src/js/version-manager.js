@@ -12,10 +12,23 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.12";
+const CURRENT_VERSION = "2.3.13";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.13",
+        date: "2024-12-19",
+        changes: [
+            "Fix Font Awesome glyph bbox errors in dashboard",
+            "Update Font Awesome to 6.5.0 for better stability",
+            "Improve Font Awesome fallback CSS for missing icons",
+            "Suppress Google Maps Places API deprecation warnings",
+            "Fix image loading error in performance optimizer",
+            "Add better error handling for invalid image sources",
+            "Clean up console output for better debugging experience"
+        ]
+    },
     {
         version: "2.3.12",
         date: "2024-12-19",

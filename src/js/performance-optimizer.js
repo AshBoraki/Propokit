@@ -39,6 +39,13 @@ class PerformanceOptimizer {
         // Add global error handler for images
         document.addEventListener('error', (e) => {
             if (e.target.tagName === 'IMG') {
+                // Skip logging errors for invalid URLs (like dashboard.html as image src)
+                if (e.target.src.includes('.html') || e.target.src.includes('dashboard.html')) {
+                    console.warn('🖼️ Invalid image source detected, hiding:', e.target.src);
+                    e.target.style.display = 'none';
+                    return;
+                }
+                
                 console.warn('🖼️ Image failed to load:', e.target.src);
                 
                 // Handle CORS blocked images
