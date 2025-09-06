@@ -12,10 +12,20 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.6";
+const CURRENT_VERSION = "2.3.7";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.7",
+        date: "2024-12-19",
+        changes: [
+            "Add rule to VERSION_RULES.md for updating visible date in footer",
+            "Include detailed instructions for updating Last updated date in homepage footer",
+            "Add visible date update to version management checklist",
+            "Ensure developers remember to update footer date with each change"
+        ]
+    },
     {
         version: "2.3.6",
         date: "2024-12-19",

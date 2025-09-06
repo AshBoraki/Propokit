@@ -12,6 +12,17 @@ Use Semantic Versioning: X.Y.Z
 - Update version number in `src/js/version-manager.js`
 - Update `VERSION_HISTORY` array with changes
 - Update `CURRENT_VERSION` constant
+- Update visible date in homepage footer
+
+### 1.1. Updating the Visible Date:
+When making changes, update the footer date in `index.html`:
+```html
+<!-- Last Updated Date -->
+<div class="last-updated">
+    <p>Last updated: December 19, 2024</p>
+</div>
+```
+**Location**: Footer section, around line 8083 in index.html
 
 ### 2. Commit Message Format:
 ```
@@ -75,6 +86,7 @@ Use Semantic Versioning: X.Y.Z
 ## ✅ CHECKLIST
 - [ ] Updated `CURRENT_VERSION` in version-manager.js
 - [ ] Added entry to `VERSION_HISTORY`
+- [ ] Updated visible date in homepage footer (Last updated: MM/DD/YYYY)
 - [ ] Used proper commit message format
 - [ ] Tested the version display
 - [ ] Committed and pushed to git
