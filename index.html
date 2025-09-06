@@ -4437,9 +4437,6 @@
                 height: 30px;
                 font-size: 1.8rem;
             }
-            .faq-item:hover {
-                /* Removed jumping transform */
-            }
         }
 
         @media (max-width: 480px) {
@@ -6996,7 +6993,6 @@
         .fade-in-section.is-visible {
             opacity: 1;
             transform: translateY(0);
-            will-change: auto; /* Reset will-change after animation */
         }
 
         .proposal-popup {
@@ -9144,18 +9140,24 @@
                 }
             });
             
-            // ULTRA-ENHANCED: Smooth reveal animations on scroll
+            // ULTRA-ENHANCED: Smooth reveal animations on scroll with optimized will-change management
             const revealElements = document.querySelectorAll('.fade-in-section');
+            let activeAnimations = 0;
+            const maxConcurrentAnimations = 3; // Limit concurrent animations to prevent memory issues
+            
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Apply will-change before animation starts
+                    if (entry.isIntersecting && activeAnimations < maxConcurrentAnimations) {
+                        // Only apply will-change if we're under the limit
                         entry.target.style.willChange = 'opacity, transform';
+                        activeAnimations++;
+                        
                         entry.target.classList.add('is-visible');
                         
                         // Reset will-change after animation completes
                         setTimeout(() => {
                             entry.target.style.willChange = 'auto';
+                            activeAnimations--;
                         }, 1000); // Match the CSS transition duration
                         
                         // Add staggered animation for child elements
@@ -9165,9 +9167,19 @@
                                 child.classList.add('is-visible');
                             }, index * 100);
                         });
+                        
+                        // Unobserve after animation starts to prevent re-triggering
+                        revealObserver.unobserve(entry.target);
+                    } else if (entry.isIntersecting) {
+                        // If we're at the limit, just add the class without will-change
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
             
             revealElements.forEach(element => {
                 revealObserver.observe(element);

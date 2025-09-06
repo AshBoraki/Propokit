@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.1";
+const CURRENT_VERSION = "2.3.2";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.2",
+        date: "2024-12-19",
+        changes: [
+            "Optimize will-change memory consumption with concurrent animation limits",
+            "Implement proper will-change lifecycle management with counter system",
+            "Add fallback behavior for elements when animation limit is reached",
+            "Remove empty CSS rules to eliminate linting warnings",
+            "Improve intersection observer efficiency with unobserve calls",
+            "Ensure memory consumption stays within browser budget limits"
+        ]
+    },
     {
         version: "2.3.1",
         date: "2024-12-19",
