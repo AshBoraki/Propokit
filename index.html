@@ -143,18 +143,26 @@
             --space-2xl: 4rem;
             --space-3xl: 6rem;
             
-            /* ULTRA-ENHANCED: Premium blur effects */
-            --blur-soft: 8px;
-            --blur-medium: 16px;
-            --blur-heavy: 32px;
-            
-            /* ULTRA-ENHANCED: Premium animation durations */
-            --duration-fast: 0.2s;
-            --duration-normal: 0.4s;
-            --duration-slow: 0.8s;
-            --duration-slower: 1.2s;
-            
-                    /* ULTRA-ENHANCED: Premium color palette */
+        /* ULTRA-ENHANCED: Premium blur effects */
+        --blur-soft: 8px;
+        --blur-medium: 16px;
+        --blur-heavy: 32px;
+        
+        /* ULTRA-ENHANCED: Will-change optimization */
+        --will-change-disabled: auto;
+        
+        /* ULTRA-ENHANCED: Premium animation durations */
+        --duration-fast: 0.2s;
+        --duration-normal: 0.4s;
+        --duration-slow: 0.8s;
+        --duration-slower: 1.2s;
+        
+        /* ULTRA-ENHANCED: Global will-change optimization */
+        * {
+            will-change: auto !important;
+        }
+        
+        /* ULTRA-ENHANCED: Premium color palette */
         --color-success: #10B981;
         --color-warning: #F59E0B;
         --color-error: #EF4444;
@@ -2882,11 +2890,7 @@
             cursor: pointer;
         }
 
-        /* NEW: Enhanced bounce effect on click */
-        .hero-image:active img {
-            /* Removed jumping transform */
-            transition: transform 0.1s ease;
-        }
+        /* NEW: Enhanced bounce effect on click - managed by JavaScript */
 
         /* NEW: Enhanced interactive effects for hero image */
         .hero-image.interactive {
@@ -6621,7 +6625,7 @@
         .fade-in-section {
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
+            /* Transition managed by JavaScript for will-change optimization */
         }
         .fade-in-section.is-visible {
             opacity: 1;
@@ -7155,7 +7159,7 @@
             content: " →";
             color: var(--color-primary);
             font-weight: 600;
-            transition: transform 0.2s ease;
+            /* Transition managed by JavaScript for will-change optimization */
         }
 
         .pdf-preview:hover .pdf-action::after {
@@ -9145,7 +9149,7 @@
             // ULTRA-ENHANCED: Smooth reveal animations on scroll with optimized will-change management
             const revealElements = document.querySelectorAll('.fade-in-section');
             let activeAnimations = 0;
-            const maxConcurrentAnimations = 5; // Limit concurrent animations to prevent memory issues
+            const maxConcurrentAnimations = 8; // Increased limit since we're managing transitions more efficiently
             
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {

@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.9";
+const CURRENT_VERSION = "2.3.10";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.10",
+        date: "2024-12-19",
+        changes: [
+            "Fix will-change memory consumption at end of page scroll",
+            "Remove CSS transitions that trigger automatic will-change",
+            "Add global will-change optimization to prevent browser auto-optimization",
+            "Increase maxConcurrentAnimations limit to 8 for better performance",
+            "Manage all transitions via JavaScript for precise will-change control",
+            "Eliminate will-change memory budget overflow during slow scrolling"
+        ]
+    },
     {
         version: "2.3.9",
         date: "2024-12-19",
