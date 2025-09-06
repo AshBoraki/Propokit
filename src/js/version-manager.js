@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.16";
+const CURRENT_VERSION = "2.3.17";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.17",
+        date: "2024-12-19",
+        changes: [
+            "Fix image validation to allow Unsplash URLs",
+            "Allow Firebase Storage URLs and data URLs",
+            "Prevent false positives for valid image sources",
+            "Only warn about truly invalid URLs (HTML files)",
+            "Improve image URL validation logic"
+        ]
+    },
     {
         version: "2.3.16",
         date: "2024-12-19",

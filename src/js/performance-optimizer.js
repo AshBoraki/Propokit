@@ -186,11 +186,14 @@ class PerformanceOptimizer {
             return false;
         }
         
-        // Check for other invalid image sources
+        // Only warn about truly invalid URLs, not valid ones without extensions
         if (src && !this.isValidImageUrl(src)) {
-            console.warn('🖼️ Invalid image URL detected:', src);
-            img.style.display = 'none';
-            return false;
+            // Only log if it's clearly not an image (like a page URL)
+            if (src.includes('/dashboard') || src.includes('/index') || src.includes('.html')) {
+                console.warn('🖼️ Invalid image URL detected:', src);
+                img.style.display = 'none';
+                return false;
+            }
         }
         
         return true;
@@ -212,7 +215,16 @@ class PerformanceOptimizer {
         // Check if URL is not a page URL
         const isNotPage = !url.includes('/dashboard') && !url.includes('/index');
         
-        return hasValidExtension && isNotHtml && isNotPage;
+        // Allow Unsplash URLs (they don't have traditional extensions)
+        const isUnsplashUrl = url.includes('images.unsplash.com') || url.includes('unsplash.com');
+        
+        // Allow data URLs (base64 images)
+        const isDataUrl = url.startsWith('data:image/');
+        
+        // Allow Firebase Storage URLs
+        const isFirebaseUrl = url.includes('firebasestorage.googleapis.com');
+        
+        return (hasValidExtension || isUnsplashUrl || isDataUrl || isFirebaseUrl) && isNotHtml && isNotPage;
     }
 
     /**
