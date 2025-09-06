@@ -6985,7 +6985,6 @@
         .fade-in-section {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
             backface-visibility: hidden;
             perspective: 1000px;
         }
@@ -9130,6 +9129,7 @@
                     if (entry.isIntersecting && activeAnimations < maxConcurrentAnimations) {
                         // Only apply will-change if we're under the limit
                         entry.target.style.willChange = 'opacity, transform';
+                        entry.target.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
                         activeAnimations++;
                         
                         entry.target.classList.add('is-visible');
@@ -9137,8 +9137,9 @@
                         // Reset will-change after animation completes
                         setTimeout(() => {
                             entry.target.style.willChange = 'auto';
+                            entry.target.style.transition = '';
                             activeAnimations--;
-                        }, 1000); // Match the CSS transition duration
+                        }, 1000); // Match the animation duration
                         
                         // Add staggered animation for child elements
                         const children = entry.target.querySelectorAll('.fade-in-child');
@@ -9152,6 +9153,7 @@
                         revealObserver.unobserve(entry.target);
                     } else if (entry.isIntersecting) {
                         // If we're at the limit, just add the class without will-change
+                        entry.target.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
                         entry.target.classList.add('is-visible');
                         revealObserver.unobserve(entry.target);
                     }

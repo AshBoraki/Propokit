@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.4";
+const CURRENT_VERSION = "2.3.5";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.5",
+        date: "2024-12-19",
+        changes: [
+            "Completely eliminate will-change memory consumption warnings",
+            "Remove CSS transitions from fade-in-section to prevent browser auto-optimization",
+            "Implement dynamic transition management in JavaScript intersection observer",
+            "Fix pricing and FAQ sections causing memory budget overflow",
+            "Ensure only 5 elements maximum have will-change active at any time",
+            "Add proper transition cleanup after animations complete"
+        ]
+    },
     {
         version: "2.3.4",
         date: "2024-12-19",
