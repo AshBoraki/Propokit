@@ -582,6 +582,24 @@ div[id="combinedImageModal"] .modal-header {
 /* Override Bootstrap modal-dialog-centered conflicts */
 .modal-dialog-centered {
     z-index: inherit !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: calc(100% - 3.5rem) !important;
+    margin: 1.75rem auto !important;
+}
+
+/* Ensure all modal dialogs are properly centered */
+.modal-dialog {
+    margin: 1.75rem auto !important;
+    position: relative !important;
+    width: auto !important;
+    pointer-events: none !important;
+}
+
+/* Force proper centering for all modals */
+.modal.show .modal-dialog {
+    transform: none !important;
+    margin: 1.75rem auto !important;
 }
 
 /* Ensure all modals have proper backdrop z-index */

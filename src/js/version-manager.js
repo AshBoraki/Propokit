@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.19";
+const CURRENT_VERSION = "2.3.20";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.20",
+        date: "2024-12-19",
+        changes: [
+            "Fix modal centering issue - prevent shifting to left",
+            "Add proper Bootstrap modal-dialog-centered CSS",
+            "Ensure modal stays centered on all screen sizes",
+            "Force proper centering for all modals with !important rules",
+            "Fix modal positioning and margin auto centering",
+            "Improve modal display and alignment consistency"
+        ]
+    },
     {
         version: "2.3.19",
         date: "2024-12-19",

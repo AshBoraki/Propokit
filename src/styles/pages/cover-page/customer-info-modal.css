@@ -15,9 +15,33 @@
    1. CUSTOMER INFO MODAL Z-INDEX (Required for proper layering)
    ================================================== */
 
-/* Modal dialog sizing */
+/* Modal dialog sizing and centering */
 #myModal .modal-dialog {
     max-width: 500px;
+    margin: 1.75rem auto;
+    position: relative;
+    width: auto;
+    pointer-events: none;
+}
+
+#myModal .modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 3.5rem);
+    margin: 1.75rem auto;
+}
+
+#myModal .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
 }
 
 #myModal {
@@ -481,6 +505,35 @@
     .footer-right {
         width: 100%;
         justify-content: center;
+    }
+}
+
+/* Ensure modal stays centered on all screen sizes */
+@media (min-width: 576px) {
+    #myModal .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+}
+
+@media (min-width: 768px) {
+    #myModal .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+}
+
+@media (min-width: 992px) {
+    #myModal .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    #myModal .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
     }
 }
 
