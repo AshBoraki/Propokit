@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.10";
+const CURRENT_VERSION = "2.3.11";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.11",
+        date: "2024-12-19",
+        changes: [
+            "Remove Hotjar tracking script to eliminate Enhanced Tracking Protection warnings",
+            "Remove DNS prefetch for Hotjar to improve privacy compliance",
+            "Eliminate placeholder Hotjar implementation (ID: 1234567890)",
+            "Improve site privacy and reduce tracking script conflicts",
+            "Clean up unnecessary analytics dependencies"
+        ]
+    },
     {
         version: "2.3.10",
         date: "2024-12-19",
