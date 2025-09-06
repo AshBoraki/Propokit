@@ -39,9 +39,9 @@ class PerformanceOptimizer {
         // Add global error handler for images
         document.addEventListener('error', (e) => {
             if (e.target.tagName === 'IMG') {
-                // Skip logging errors for invalid URLs (like dashboard.html as image src)
+                // Skip logging errors for invalid URLs (like HTML files as image src)
                 if (e.target.src.includes('.html') || e.target.src.includes('dashboard.html')) {
-                    console.warn('🖼️ Invalid image source detected, hiding:', e.target.src);
+                    // Silently hide invalid image sources without logging
                     e.target.style.display = 'none';
                     return;
                 }
@@ -162,12 +162,57 @@ class PerformanceOptimizer {
         // Add loading="lazy" to all images
         document.querySelectorAll('img:not([loading])').forEach(img => {
             img.loading = 'lazy';
+            
+            // Validate image sources and fix invalid ones
+            this.validateImageSource(img);
         });
 
         // Optimize image formats based on browser support
         if (this.supportsWebP()) {
             this.convertImagesToWebP();
         }
+    }
+
+    /**
+     * 🔍 Validate image source and fix invalid URLs
+     */
+    validateImageSource(img) {
+        const src = img.src || img.getAttribute('src');
+        
+        // Check if the source is an HTML file or invalid
+        if (src && (src.includes('.html') || src.includes('dashboard.html') || src.includes('index.html'))) {
+            console.warn('🖼️ Preventing HTML file from being used as image source:', src);
+            img.style.display = 'none';
+            return false;
+        }
+        
+        // Check for other invalid image sources
+        if (src && !this.isValidImageUrl(src)) {
+            console.warn('🖼️ Invalid image URL detected:', src);
+            img.style.display = 'none';
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * ✅ Check if URL is a valid image source
+     */
+    isValidImageUrl(url) {
+        // Valid image extensions
+        const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+        
+        // Check if URL has valid image extension
+        const hasValidExtension = validExtensions.some(ext => url.toLowerCase().includes(ext));
+        
+        // Check if URL is not an HTML file
+        const isNotHtml = !url.includes('.html') && !url.includes('.htm');
+        
+        // Check if URL is not a page URL
+        const isNotPage = !url.includes('/dashboard') && !url.includes('/index');
+        
+        return hasValidExtension && isNotHtml && isNotPage;
     }
 
     /**

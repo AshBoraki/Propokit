@@ -12,10 +12,31 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.14";
+const CURRENT_VERSION = "2.3.16";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.16",
+        date: "2024-12-19",
+        changes: [
+            "Fix invalid image source validation in performance optimizer",
+            "Prevent HTML files from being used as image sources",
+            "Add proactive image URL validation",
+            "Silently handle invalid image sources without console warnings",
+            "Improve image loading error handling"
+        ]
+    },
+    {
+        version: "2.3.15",
+        date: "2024-12-19",
+        changes: [
+            "Add cache-busting parameters to JavaScript files",
+            "Prevent browser caching issues for faster updates",
+            "Ensure users see changes immediately after deployment",
+            "Improve development and testing experience"
+        ]
+    },
     {
         version: "2.3.14",
         date: "2024-12-19",
