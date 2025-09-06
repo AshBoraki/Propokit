@@ -12,10 +12,22 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.18";
+const CURRENT_VERSION = "2.3.19";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.19",
+        date: "2024-12-19",
+        changes: [
+            "Fix customer info modal Next button in dashboard.html",
+            "Add missing JavaScript handlers for dashboard modal navigation",
+            "Resolve duplicate modal ID conflicts between dashboard and cover-page-modals",
+            "Implement proper step navigation for dashboard customer info modal",
+            "Add validation and focus management to dashboard modal",
+            "Ensure consistent modal behavior across all pages"
+        ]
+    },
     {
         version: "2.3.18",
         date: "2024-12-19",

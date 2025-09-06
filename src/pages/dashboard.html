@@ -4013,6 +4013,204 @@ function resetCrop() {
   </div>
 </div>
 
+        <!-- Customer Info Modal JavaScript -->
+        <script>
+            // Customer Info Modal Step Navigation
+            let currentStep = 1;
+            const totalSteps = 3;
+
+            // Initialize step navigation
+            function updateStepNavigation() {
+                $('#currentStep').text(currentStep);
+                $('#totalSteps').text(totalSteps);
+
+                // Update step indicators
+                $('.step').removeClass('active completed');
+                for (let i = 1; i <= currentStep; i++) {
+                    if (i < currentStep) {
+                        $(`.step[data-step="${i}"]`).addClass('completed');
+                    } else {
+                        $(`.step[data-step="${i}"]`).addClass('active');
+                    }
+                }
+
+                // Show/hide navigation buttons
+                if (currentStep === 1) {
+                    $('#prevStepBtn').hide();
+                    $('#nextStepBtn').show();
+                    $('#submitBtn').hide();
+                } else if (currentStep === totalSteps) {
+                    $('#prevStepBtn').show();
+                    $('#nextStepBtn').hide();
+                    $('#submitBtn').show();
+                } else {
+                    $('#prevStepBtn').show();
+                    $('#nextStepBtn').show();
+                    $('#submitBtn').hide();
+                }
+            }
+
+            function showStep(stepNumber) {
+                console.log('📋 Showing step:', stepNumber, 'from step:', currentStep);
+                $('.form-step').removeClass('active');
+                $(`.form-step[data-step="${stepNumber}"]`).addClass('active');
+                currentStep = stepNumber;
+                updateStepNavigation();
+                console.log('✅ Step', stepNumber, 'is now active');
+            }
+
+            // Navigation button handlers
+            $('#nextStepBtn').click(function(event) {
+                // Prevent any default behavior that might cause page movement
+                event.preventDefault();
+                event.stopPropagation();
+                
+                console.log('🔄 Next button clicked, current step:', currentStep);
+                
+                if (validateCurrentStep()) {
+                    console.log('✅ Validation passed, moving to next step');
+                    if (currentStep < totalSteps) {
+                        showStep(currentStep + 1);
+                        console.log('➡️ Moved to step:', currentStep);
+                    } else {
+                        console.log('⚠️ Already at last step');
+                    }
+                } else {
+                    console.log('❌ Validation failed, staying on current step');
+                }
+            });
+
+            $('#prevStepBtn').click(function(event) {
+                // Prevent any default behavior that might cause page movement
+                event.preventDefault();
+                event.stopPropagation();
+                
+                if (currentStep > 1) {
+                    showStep(currentStep - 1);
+                }
+            });
+
+            // Step validation
+            function validateCurrentStep() {
+                console.log('🔍 Validating step:', currentStep);
+                let isValid = true;
+                let firstInvalidField = null;
+                const currentStepEl = $(`.form-step[data-step="${currentStep}"]`);
+                
+                console.log('🔍 Current step element:', currentStepEl);
+                console.log('🔍 Required fields found:', currentStepEl.find('input[required], textarea[required]').length);
+
+                // Validate required fields in current step
+                currentStepEl.find('input[required], textarea[required]').each(function() {
+                    const fieldValue = $(this).val();
+                    console.log('🔍 Checking field:', $(this).attr('id'), 'value:', fieldValue);
+                    
+                    if (!fieldValue || !fieldValue.trim()) {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
+                        console.log('❌ Field is invalid:', $(this).attr('id'));
+                        // Store first invalid field but don't focus yet
+                        if (!firstInvalidField) {
+                            firstInvalidField = $(this);
+                        }
+                    } else {
+                        $(this).removeClass('is-invalid');
+                        console.log('✅ Field is valid:', $(this).attr('id'));
+                    }
+                });
+
+                // Special validation for contact options
+                if (currentStep === 2) {
+                    const phoneChecked = $('#selectPhone').is(':checked');
+                    const emailChecked = $('#selectEmail').is(':checked');
+
+                    // Only validate phone if checkbox is checked
+                    if (phoneChecked) {
+                        if (!$('#customerPhoneInput').val().trim()) {
+                            isValid = false;
+                            $('#customerPhoneInput').addClass('is-invalid');
+                            if (!firstInvalidField) {
+                                firstInvalidField = $('#customerPhoneInput');
+                            }
+                        } else {
+                            $('#customerPhoneInput').removeClass('is-invalid');
+                        }
+                    }
+
+                    // Only validate email if checkbox is checked
+                    if (emailChecked) {
+                        if (!$('#customerEmailInput').val().trim()) {
+                            isValid = false;
+                            $('#customerEmailInput').addClass('is-invalid');
+                            if (!firstInvalidField) {
+                                firstInvalidField = $('#customerEmailInput');
+                            }
+                        } else {
+                            $('#customerEmailInput').removeClass('is-invalid');
+                        }
+                    }
+                }
+
+                if (!isValid) {
+                    showValidationError();
+                    // Focus on first invalid field after a short delay to prevent interference
+                    // BUT prevent page scrolling by using preventDefault and stopPropagation
+                    if (firstInvalidField) {
+                        setTimeout(() => {
+                            // Prevent the focus from causing page scroll
+                            const originalScrollTo = window.scrollTo;
+                            window.scrollTo = function() { /* prevent scroll */ };
+                            
+                            firstInvalidField.focus();
+                            
+                            // Restore scrollTo after focus
+                            setTimeout(() => {
+                                window.scrollTo = originalScrollTo;
+                            }, 50);
+                        }, 100);
+                    }
+                }
+
+                return isValid;
+            }
+
+            function showValidationError() {
+                // Create and show a toast notification
+                const toast = $(`
+                    <div class="validation-toast">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Please complete all required fields before continuing.
+                    </div>
+                `);
+
+                $('body').append(toast);
+
+                setTimeout(() => {
+                    toast.fadeOut(() => toast.remove());
+                }, 4000);
+            }
+
+            // Initialize modal when shown
+            $('#myModal').on('shown.bs.modal', function() {
+                showStep(1);
+                updateStepNavigation();
+            });
+
+            $('#myModal').on('hide.bs.modal', function() {
+                // Remove focus from any focused elements before hiding
+                $(this).find(':focus').blur();
+            });
+
+            $('#myModal').on('hidden.bs.modal', function() {
+                // Clear any validation states when modal closes
+                $('.is-invalid').removeClass('is-invalid');
+                // Reset to first step
+                showStep(1);
+                // Set aria-hidden back when modal is fully hidden
+                $(this).attr('aria-hidden', 'true');
+            });
+        </script>
+
         <!-- Prevent FOUC by showing content once styles are loaded -->
         <script>
             // Show content once all stylesheets are loaded
