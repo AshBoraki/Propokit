@@ -32,6 +32,20 @@ function initializeCleanAuth() {
     
     console.log('🔐 Initializing clean authentication system...');
     
+    // Suppress Firebase iframe warnings (these are normal and expected)
+    const originalConsoleWarn = console.warn;
+    console.warn = function(...args) {
+        const message = args.join(' ');
+        // Suppress Firebase iframe and storage access warnings
+        if (message.includes('Partitioned cookie') || 
+            message.includes('Storage access automatically granted') ||
+            message.includes('firebaseapp.com') ||
+            message.includes('accounts.google.com')) {
+            return; // Don't show these warnings
+        }
+        originalConsoleWarn.apply(console, args);
+    };
+    
     // Check if Firebase is available
     if (typeof firebase === 'undefined' || !firebase.auth) {
         console.error('❌ Firebase not available');

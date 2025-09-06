@@ -17,9 +17,8 @@
  * 🔥 Firebase Configuration Object
  * Contains all the necessary keys and URLs for Firebase services
  * 
- * NOTE: The iframe warning you see during sign-in is normal behavior.
- * Firebase uses iframes for authentication, and browsers show privacy
- * warnings about partitioned cookies. This is expected and safe.
+ * NOTE: Firebase iframe warnings are suppressed for cleaner console output.
+ * These warnings are normal browser behavior and don't affect functionality.
  */
 const firebaseConfig = {
     apiKey: "AIzaSyD4KPxRXHK4phJVyiLsaU6CLb9pBfZygjw",           // API key for Firebase access
@@ -33,6 +32,42 @@ const firebaseConfig = {
 };
 
 /**
+ * 🔇 Suppress Firebase iframe and storage warnings
+ * These warnings are normal browser behavior and don't affect functionality
+ */
+function suppressFirebaseWarnings() {
+    // Suppress console.warn for Firebase-related messages
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+        const message = args.join(' ');
+        if (message.includes('Partitioned cookie') || 
+            message.includes('Storage access automatically granted') ||
+            message.includes('firebaseapp.com') ||
+            message.includes('accounts.google.com') ||
+            message.includes('iframe') ||
+            message.includes('third-party context')) {
+            return; // Suppress these warnings
+        }
+        originalWarn.apply(console, args);
+    };
+    
+    // Suppress console.log for Firebase iframe messages
+    const originalLog = console.log;
+    console.log = function(...args) {
+        const message = args.join(' ');
+        if (message.includes('Partitioned cookie') || 
+            message.includes('Storage access automatically granted') ||
+            message.includes('firebaseapp.com') ||
+            message.includes('accounts.google.com') ||
+            message.includes('iframe') ||
+            message.includes('third-party context')) {
+            return; // Suppress these logs
+        }
+        originalLog.apply(console, args);
+    };
+}
+
+/**
  * 🚀 Initialize Firebase Application
  * Safely initializes Firebase to prevent multiple initializations
  * 
@@ -40,6 +75,9 @@ const firebaseConfig = {
  */
 function initializeFirebase() {
     try {
+        // Suppress Firebase iframe and storage warnings globally
+        suppressFirebaseWarnings();
+        
         // Check if Firebase is already initialized to prevent errors
         if (!firebase.apps.length) {
             const app = firebase.initializeApp(firebaseConfig);

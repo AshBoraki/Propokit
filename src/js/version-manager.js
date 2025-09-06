@@ -12,10 +12,21 @@
    ================================================== */
 
 // Current version - UPDATE THIS WITH EACH COMMIT
-const CURRENT_VERSION = "2.3.13";
+const CURRENT_VERSION = "2.3.14";
 
 // Version history for reference
 const VERSION_HISTORY = [
+    {
+        version: "2.3.14",
+        date: "2024-12-19",
+        changes: [
+            "Suppress Firebase iframe and storage access warnings",
+            "Add comprehensive warning suppression for cleaner console output",
+            "Eliminate 'Partitioned cookie' and 'Storage access automatically granted' messages",
+            "Maintain full Firebase authentication functionality",
+            "Improve user experience by removing unnecessary console noise"
+        ]
+    },
     {
         version: "2.3.13",
         date: "2024-12-19",
